@@ -106,9 +106,12 @@ namespace Accounting_System.Controllers
 
                 sales.CreatedBy = _userManager.GetUserName(this.User);
                 sales.SerialNo = lastSerialNo;
+                if (sales.CustomerType == "Vatable")
+                {
+                    sales.VatableSales = sales.Amount / (decimal)1.12;
+                    sales.VatAmount = sales.Amount - sales.VatableSales;
+                }
                 sales.Amount = sales.Quantity * sales.UnitPrice;
-                sales.VatableSales = sales.Amount / (decimal)1.12;
-                sales.VatAmount = sales.Amount - sales.VatableSales;
                 _dbContext.Add(sales);
 
                 //Implementation of Audit trail
