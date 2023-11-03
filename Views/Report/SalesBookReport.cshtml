@@ -12,14 +12,14 @@
     if (DateTime.TryParse(dateFrom, out dateFromFormatted))
     {
         // Format the DateTime objects in the desired format
-        dateFrom = dateFromFormatted.ToString("MM/dd/yy");
+        dateFrom = dateFromFormatted.ToString("MM/dd/yyyy");
     }
 
     DateTime dateToFormatted;
     if (DateTime.TryParse(dateTo, out dateToFormatted))
     {
         // Format the DateTime objects in the desired format
-        dateTo = dateToFormatted.ToString("MM/dd/yy");
+        dateTo = dateToFormatted.ToString("MM/dd/yyyy");
     }
     DateTime now = DateTime.Now;
 
@@ -48,11 +48,11 @@
 @if (dateFrom == dateTo)
 {
 <p style="line-height:1px; margin-top:20px; margin-bottom:-10px;">
-    Period: from @dateFrom
+    Period: @dateFrom
 </p>
 }else{
     <p style="line-height:1px; margin-top:20px; margin-bottom:-10px;">
-        Period: from @dateFrom to @dateTo
+        Period: From @dateFrom To @dateTo
     </p>
 }
 <div class="table-responsive" style="margin-top:20px;">
@@ -155,14 +155,14 @@
     </p>
 </div>
 
-<div class="text-end">
+@* <div class="text-end">
     <p><em>Printed by: @UserManager.GetUserName(User)</em></p>
-</div>
+</div> *@
 
 <br />
 <div class="text-center w-100" style="margin-top:20px;">
     <p style="line-height: 1;">
-        Acknowledgement Certificate No:<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>Date Issued:<u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> Series from:<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br />
+        Acknowledgement Certificate No:<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>Date Issued:<u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> Series from: 00000001 - 99999999<br />
         Date and Time Printed: @DateTime.Now.ToString("MM/dd/yy hh:mm tt")
     </p>
 </div>
