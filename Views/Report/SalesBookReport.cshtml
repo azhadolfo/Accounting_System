@@ -42,8 +42,6 @@
     </p>
 
     <h3><span style="display: inline-block;"><b>SALES BOOK</b></span></h3>
-
-
 </div>
 @if (dateFrom == dateTo)
 {
@@ -92,7 +90,7 @@
             </tr>
         </thead>
         <tbody>
-            
+
             @foreach (var invoice in Model)
             {
                 <tr class="align-text-bottom">
@@ -132,7 +130,7 @@
                 totalQuantity += invoice.Quantity;
                 totalVatableSales += invoice.VatableSales;
                 totalVatableAmount += invoice.VatAmount;
-            }   
+            }
             <tr class="align-text-bottom" style="border: 1px solid black;">
                 <td></td>
                 <td></td>
@@ -153,10 +151,6 @@
     <p>
         <i>This is a system generated invoice, no signature required.</i>
     </p>
-</div>
-
-<div class="text-end">
-    <p><em>Printed by: @UserManager.GetUserName(User)</em></p>
 </div>
 
 <br />
