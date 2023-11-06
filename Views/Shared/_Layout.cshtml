@@ -25,8 +25,14 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="SalesInvoice" asp-action="Index">Sales Invoice</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Sales Invoice
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="SalesInvoice" asp-action="Index">List</a></li>
+                                <li><a class="dropdown-item" asp-controller="SalesInvoice" asp-action="Create">Create New</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Index">Customer</a>
@@ -44,8 +50,8 @@
                                 Receipt
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-controller="Receipt" asp-action="OfficialReceipt">Offical Receipt</a></li>
-                                <li><a class="dropdown-item" asp-controller="Receipt" asp-action="CollectionReceipt">Collection Receipt</a></li>
+                                <li><a class="dropdown-item" asp-controller="Receipt" asp-action="OfficialReceipt">Offical</a></li>
+                                <li><a class="dropdown-item" asp-controller="Receipt" asp-action="CollectionReceipt">Collection</a></li>
                             </ul>
                         </li>
                     </ul>

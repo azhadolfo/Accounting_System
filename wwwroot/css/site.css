@@ -64,7 +64,11 @@ body {
 }
 
 
-/* Uncomment this code for debugging purposes */
+ /*Uncomment this code for debugging purposes */
 /**{
     border: 1px solid red;
 }*/
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
