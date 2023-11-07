@@ -4,10 +4,10 @@ namespace Accounting_System.Models
 {
     public class Inventory : BaseEntity
     {
-        [ForeignKey("Product")]
         public int ProductId { get; set; }
 
-        public Product Product { get; }
+        [ForeignKey("ProductId")]
+        public Product Product { get; set; }
 
         public string PO { get; set; }
         public decimal Quantity { get; set; }
