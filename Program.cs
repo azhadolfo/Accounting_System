@@ -24,6 +24,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddScoped<SalesInvoiceRepo>();
 builder.Services.AddScoped<CustomerRepo>();
 builder.Services.AddScoped<ReportRepo>();
+builder.Services.AddScoped<InventoryRepo>();
 
 var app = builder.Build();
 

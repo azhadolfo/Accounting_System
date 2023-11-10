@@ -17,5 +17,6 @@ namespace Accounting_System.Data
         public DbSet<ChartOfAccount> ChartOfAccounts { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<AuditTrail> AuditTrails { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
     }
 }

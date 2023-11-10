@@ -20,15 +20,13 @@
 
                   @*   column 1 *@
        <div class="col">
-                <label asp-for="CustomerId" class="control-label"></label>
+                <label class="control-label">Customer Name</label>
                 <select asp-for="CustomerId" asp-items="@Model.Customers" class="form-control js-select2">
                     <option></option>
                 </select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
 
-                <label asp-for="SoldTo" class="control-label"></label>
-                <input asp-for="SoldTo" id="soldTo" class="form-control" readonly />
-                <span asp-validation-for="SoldTo" class="text-danger"></span>
+                <input type="hidden" asp-for="SoldTo" id="soldTo" class="form-control" readonly />
 
                 <label asp-for="TinNo" class="control-label"></label>
                 <input asp-for="TinNo" id="tinNo" class="form-control" readonly />
@@ -55,15 +53,13 @@
 
             @*   column 2 *@
        <div class="col">
-                <label asp-for="ProductNo" class="control-label"></label>
+                <label class="control-label">Produuct Name</label>
                 <select asp-for="ProductNo" asp-items="@Model.Products" class="form-control js-select2">
                     <option></option>
                 </select>
                 <span asp-validation-for="ProductNo" class="text-danger"></span>
 
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" id="productName" class="form-control" readonly />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
+                <input type="hidden" asp-for="ProductName" id="productName" class="form-control" readonly />
 
                   <label asp-for="ProductUnit" class="control-label"></label>
                 <input asp-for="ProductUnit" id="productUnit" class="form-control" readonly />
