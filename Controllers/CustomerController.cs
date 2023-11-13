@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Accounting_System.Controllers
 {
@@ -17,11 +18,14 @@ namespace Accounting_System.Controllers
 
         private readonly UserManager<IdentityUser> _userManager;
 
-        public CustomerController(ApplicationDbContext dbContext, CustomerRepo customerRepo, UserManager<IdentityUser> userManager)
+        private readonly SalesOrderRepo _salesOrderRepo;
+
+        public CustomerController(ApplicationDbContext dbContext, CustomerRepo customerRepo, UserManager<IdentityUser> userManager, SalesOrderRepo salesOrderRepo)
         {
             _dbContext = dbContext;
             _customerRepo = customerRepo;
             this._userManager = userManager;
+            _salesOrderRepo = salesOrderRepo;
         }
 
         public async Task<IActionResult> Index()
@@ -159,6 +163,146 @@ namespace Accounting_System.Controllers
             }
 
             return View(customer);
+        }
+
+        public async Task<IActionResult> OrderSlip()
+        {
+            var salesOrder = await _salesOrderRepo.GetSalesOrderAsync();
+
+            return View(salesOrder);
+        }
+
+        [HttpGet]
+        public IActionResult CreateCOS()
+        {
+            var viewModel = new SalesOrder();
+            viewModel.Customers = _dbContext.Customers
+                .Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
+                })
+                .ToList();
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCOS(SalesOrder model)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                var generateCosNo = await _salesOrderRepo.GenerateCOSNo();
+                
+                
+                model.COSNo = generateCosNo;
+                model.Status = "Pending";
+                model.Balance = model.Quantity;
+                if (model.QuantityServe != 0)
+                {
+                    model.Balance = model.Quantity - model.QuantityServe;
+                }
+                model.CreatedBy = _userManager.GetUserName(this.User);
+                _dbContext.Add(model);
+                await _dbContext.SaveChangesAsync();
+                TempData["success"] = "Sales Order created successfully";
+                return RedirectToAction("OrderSlip");  
+            }
+            else {
+                    ModelState.AddModelError("", "The information you submitted is not valid!");
+                    return View(model);
+                }
+            }
+
+        public IActionResult PrintOrderSlip()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditOrderSlip(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var salesOrder = await _salesOrderRepo.FindSalesOrderAsync(id);
+            salesOrder.Customers = _dbContext.Customers
+                .Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
+                })
+                .ToList();
+
+            return View(salesOrder);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditOrderSlip(int id, SalesOrder salesOrder)
+        {
+            if (id != salesOrder.Id)
+            {
+                return NotFound();
+            }
+            var existingModel = await _salesOrderRepo.FindSalesOrderAsync(id);
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    existingModel.CustomerId = salesOrder.CustomerId;
+                    existingModel.PO = salesOrder.PO;
+                    existingModel.Quantity = salesOrder.Quantity;
+                    existingModel.OrderAmount = salesOrder.OrderAmount;
+                    existingModel.DeliveryDate = salesOrder.DeliveryDate;
+                    existingModel.TransactionDate = salesOrder.TransactionDate;
+                    existingModel.Remarks = salesOrder.Remarks;
+
+                    _dbContext.Update(existingModel);
+                    TempData["success"] = "Sales Order updated successfully";
+                    await _dbContext.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                        throw;
+                }
+                return RedirectToAction(nameof(OrderSlip));
+            }
+            return View(salesOrder);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteSalesOrder(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _salesOrderRepo.FindSalesOrderAsync(id);
+
+            return View(order);
+        }
+
+        [HttpPost, ActionName("DeleteSalesOrder")]
+        public async Task<IActionResult> ConfirmDelete(int id)
+        {
+            if (_dbContext.SalesOrders == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Customers'  is null.");
+            }
+
+            var order = await _dbContext.SalesOrders.FindAsync(id);
+            if (order != null)
+            {
+                _dbContext.SalesOrders.Remove(order);
+            }
+
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(OrderSlip));
         }
     }
 }

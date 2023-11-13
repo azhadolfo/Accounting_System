@@ -18,5 +18,6 @@ namespace Accounting_System.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<AuditTrail> AuditTrails { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<SalesOrder> SalesOrders { get; set; }
     }
 }

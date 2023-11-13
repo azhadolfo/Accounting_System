@@ -71,23 +71,31 @@ namespace Accounting_System.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var viewModel = new SalesInvoice();
-            viewModel.Customers = _dbContext.Customers
+            viewModel.Customers = await _dbContext.Customers
                 .Select(c => new SelectListItem
                 {
                     Value = c.Id.ToString(),
                     Text = c.Name
                 })
-                .ToList();
-            viewModel.Products = _dbContext.Products
+                .ToListAsync();
+            viewModel.Products = await _dbContext.Products
                 .Select(p => new SelectListItem
                 {
                     Value = p.Id.ToString(),
                     Text = p.Name
                 })
-                .ToList();
+                .ToListAsync();
+            viewModel.COSNo = await _dbContext.SalesOrders
+                .Where(order => order.Status == "Approved")
+                .Select(c => new SelectListItem
+                {
+                    Value = c.COSNo,
+                    Text = c.COSNo
+                })
+                .ToListAsync();
 
             return View(viewModel);
         }

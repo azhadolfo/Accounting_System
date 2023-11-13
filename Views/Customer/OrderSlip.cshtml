@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Accounting_System.Models.SalesOrder>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Customer Order Slip</h1>
+<partial name="_Notification">
+<p>
+    <a asp-action="CreateCOS" class="btn btn-primary rounded-3">Create New</a>
+</p>
+<div class="table-responsive">
+<table class="table table-hover text-nowrap" id="myTable">
+    <thead>
+        <tr class="text-primary">
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerId)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.PO)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.OrderAmount)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.DeliveryDate)
+            </th>
+            <th>
+               Transaction Date
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.ApprovedDate)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.Remarks)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model){
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PO)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeliveryDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ApprovedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                <td>
+                    <a asp-action="EditOrderSlip" asp-route-id="@item.Id" class="btn btn-light">Edit</a> | 
+                    <a asp-action="MarkStatusAs" asp-route-id="@item.Id" class="btn btn-light">Mark Status As</a> |
+                    <a asp-action="PrintOrderSlip" asp-route-id="@item.Id" class="btn btn-light">Print Order Slip</a> |
+                    <a asp-action="DeleteSalesOrder" asp-route-id="@item.Id" class="btn btn-light">Delete</a>
+                </td>
+            </tr>
+            }
+    </tbody>
+</table>
+    </div>

@@ -85,7 +85,9 @@
                 <span asp-validation-for="PoNo" class="text-danger"></span>
 
                 <label asp-for="OtherRefNo" class="control-label"></label>
-                <input asp-for="OtherRefNo" class="form-control" />
+                <select asp-for="OtherRefNo" asp-items="@Model.COSNo" class="form-control js-select2">
+                    <option></option>
+                </select>
                 <span asp-validation-for="OtherRefNo" class="text-danger"></span>
                     </div>
                 </div>
