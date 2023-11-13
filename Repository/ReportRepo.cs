@@ -39,5 +39,12 @@ namespace Accounting_System.Repository
                 .Customers
                 .ToListAsync();
         }
+
+        public async Task<List<Product>> GetProductsAsync()
+        {
+            return await _dbContext
+                .Products
+                .ToListAsync();
+        }
     }
 }

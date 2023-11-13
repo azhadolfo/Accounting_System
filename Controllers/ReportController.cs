@@ -49,5 +49,12 @@ namespace Accounting_System.Controllers
 
             return View(customers);
         }
+
+        public async Task<IActionResult> ProductList()
+        {
+            var products = await _reportRepo.GetProductsAsync();
+
+            return View(products);
+        }
     }
 }
