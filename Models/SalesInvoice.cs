@@ -14,7 +14,7 @@ namespace Accounting_System.Models
         {
             get
             {
-                return "SI" + SerialNo.ToString("D8"); 
+                return "SI" + SerialNo.ToString("D10"); 
             }
         }
 

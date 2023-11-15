@@ -41,11 +41,11 @@ namespace Accounting_System.Repository
             if (officialReceipt != null)
             {
                 var generatedCR = officialReceipt.Id + 1;
-                return $"CR{generatedCR.ToString("D10")}";
+                return $"OR{generatedCR.ToString("D10")}";
             }
             else
             {
-                return $"CR{1.ToString("D10")}";
+                return $"OR{1.ToString("D10")}";
             }
         }
 

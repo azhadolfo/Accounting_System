@@ -172,9 +172,13 @@ else if (Model.Customer.CustomerType == "Zero Rated")
 }
 <br />
 <div class="text-center w-100" style="margin-top:20px;">
-    <p style="line-height: 1;">
-        Acknowledgement Certificate No:&nbsp;&nbsp;AC_124_022023_000062&nbsp;&nbsp;Date Issued:&nbsp;&nbsp;02-22-2023 &nbsp;&nbsp;<br />Series from: SOA0000000001 - SOA9999999999
-        Date and Time Created:@Html.DisplayFor(model => model.CreatedDate)
+    <p @* style="line-height: 1;" *@>
+        <span>Acknowledgement Certificate No:</span>
+        <span class="underline" style="display: inline-block; width: 30%;"></span>
+        <span>Date Issued:</span>
+        <span class="underline" style="display: inline-block; width: 15%;"></span><br />
+        Series from: SOA0000000001 - SOA9999999999
+        Date and Time Created:&nbsp;@Html.DisplayFor(model => model.CreatedDate)
     </p>
 </div>
 <br />
