@@ -43,6 +43,33 @@ namespace Accounting_System.Controllers
             return View(model);
         }
 
+        public IActionResult CollectionReceiptBook()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> CollectionReceiptBookReport(CollectionReceiptBook model)
+        {
+            ViewBag.DateFrom = model.DateFrom;
+            ViewBag.DateTo = model.DateTo;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var collectionReceipts = await _reportRepo.GetCollectionReceiptBookAsync(model.DateFrom, model.DateTo);
+
+                    return View(collectionReceipts);
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                    return RedirectToAction(nameof(CollectionReceiptBook));
+                }
+            }
+
+            return View(model);
+        }
+
         public async Task<IActionResult> CustomerProfile()
         {
             var customers = await _reportRepo.GetCustomersAsync();

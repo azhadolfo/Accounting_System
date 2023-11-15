@@ -33,6 +33,27 @@ namespace Accounting_System.Repository
             return salesBooks;
         }
 
+        public async Task<List<CollectionReceipt>> GetCollectionReceiptBookAsync(string dateFrom, string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+
+            if (fromDate > toDate)
+            {
+                throw new ArgumentException("Date From must be greater than Date To !");
+            }
+
+            var crBook = _dbContext
+             .CollectionReceipts
+             .Include(c => c.SalesInvoice)
+             .AsEnumerable()
+             .Where(s => DateTime.Parse(s.Date) >= fromDate && DateTime.Parse(s.Date) <= toDate)
+             .OrderBy(s => s.Id)
+             .ToList();
+
+            return crBook;
+        }
+
         public async Task<List<Customer>> GetCustomersAsync()
         {
             return await _dbContext
