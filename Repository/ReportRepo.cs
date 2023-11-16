@@ -33,7 +33,7 @@ namespace Accounting_System.Repository
             return salesBooks;
         }
 
-        public async Task<List<CollectionReceipt>> GetCollectionReceiptBookAsync(string dateFrom, string dateTo)
+        public async Task<List<CashReceiptBook>> GetCashReceiptBookAsync(string dateFrom, string dateTo)
         {
             var fromDate = DateTime.Parse(dateFrom);
             var toDate = DateTime.Parse(dateTo);
@@ -43,15 +43,34 @@ namespace Accounting_System.Repository
                 throw new ArgumentException("Date From must be greater than Date To !");
             }
 
-            var crBook = _dbContext
-             .CollectionReceipts
-             .Include(c => c.SalesInvoice)
+            var cashReceiptBooks = _dbContext
+             .CashReceiptBooks
              .AsEnumerable()
-             .Where(s => DateTime.Parse(s.Date) >= fromDate && DateTime.Parse(s.Date) <= toDate)
+             .Where(cr => DateTime.Parse(cr.ORDate) >= fromDate && DateTime.Parse(cr.ORDate) <= toDate)
              .OrderBy(s => s.Id)
              .ToList();
 
-            return crBook;
+            return cashReceiptBooks;
+        }
+
+        public async Task<List<PurchaseOrder>> GetPurchaseBookAsync(string dateFrom, string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+
+            if (fromDate > toDate)
+            {
+                throw new ArgumentException("Date From must be greater than Date To !");
+            }
+
+            var cashReceiptBooks = _dbContext
+             .PurchaseOrders
+             .AsEnumerable()
+             .Where(p => DateTime.Parse(p.Date) >= fromDate && DateTime.Parse(p.Date) <= toDate)
+             .OrderBy(s => s.Id)
+             .ToList();
+
+            return cashReceiptBooks;
         }
 
         public async Task<List<Customer>> GetCustomersAsync()

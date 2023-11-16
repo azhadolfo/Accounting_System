@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Accounting_System.Models.CollectionReceipt>
+﻿@model IEnumerable<Accounting_System.Models.PurchaseOrder>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @{
-    ViewData["Title"] = "Collection Receipt Book";
+    ViewData["Title"] = "Purchase Book";
     var dateFrom = ViewBag.DateFrom;
     var dateTo = ViewBag.DateTo;
 
@@ -24,6 +24,10 @@
     DateTime now = DateTime.Now;
 
     decimal totalAmount = 0;
+    decimal totalVatableAmount = 0;
+    decimal totalDefAmount = 0;
+    decimal totalWthAmount = 0;
+    decimal totalNetPurchases = 0;
 
     int numberOfRecords = 0;
     decimal amountFieldControlTotal = 0;
@@ -41,14 +45,14 @@
         VAT Reg. TIN: 000-216-589-00000
     </p>
 
-    <h3><span style="display: inline-block;"><b>COLLECTION RECEIPT BOOK</b></span></h3>
+    <h3><span style="display: inline-block;"><b>PURCHASE BOOK</b></span></h3>
 
 
 </div>
 <div>
     <pre id="resultPre">
 Accounting Books File Attributes/Layout Definition
-File Name: Collection Receipt Book
+File Name: Purchase Book Report
 File Type: PDF File
 Number of Records:              @numberOfRecords
 Amount Field Control Total:     @amountFieldControlTotal
@@ -66,83 +70,111 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CRNo)
+                    @Html.DisplayNameFor(model => model.SupplierName)
                 </th>
                 <th>
-                    SI No
+                    @Html.DisplayNameFor(model => model.SupplierTin)
                 </th>
                 <th>
-                    Customer
-                </th>
-                <th class="text-end px-3">
-                    SI Amount
+                    @Html.DisplayNameFor(model => model.SupplierAddress)
                 </th>
                 <th>
-                    Reference Receipt No
+                    @Html.DisplayNameFor(model => model.FormmatedNumber)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FormOfPayment)
+                    @Html.DisplayNameFor(model => model.DocumentNo)
                 </th>
                 <th>
-                    Collection Date
+                    @Html.DisplayNameFor(model => model.Description)
                 </th>
                 <th class="text-end">
-                    @Html.DisplayNameFor(model => model.Amount)
+                    Amount
                 </th>
-
-
+                <th class="text-end">
+                    Vat Amount
+                </th>
+                <th class="text-end">
+                    Def VAT Amount
+                </th>
+                <th class="text-end">
+                    @Html.DisplayNameFor(model => model.WhtAmount)
+                </th>
+                <th class="text-end">
+                    Net Purchases
+                </th>
             </tr>
         </thead>
         <tbody>
 
-            @foreach (var collectionReceipt in Model)
+            @foreach (var order in Model)
             {
                 <tr class="align-text-bottom">
                     <td>
-                        @Html.DisplayFor(model => collectionReceipt.Date)
+                        @Html.DisplayFor(model => order.Date)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => collectionReceipt.CRNo)
+                        @Html.DisplayFor(model => order.SupplierName)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => collectionReceipt.SalesInvoice.FormattedSerialNo)
+                        @Html.DisplayFor(model => order.SupplierTin)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => collectionReceipt.SalesInvoice.SoldTo)
-                    </td>
-                    <td class="text-end px-3">
-                        @Html.DisplayFor(model => collectionReceipt.SalesInvoice.Amount)
+                        @Html.DisplayFor(model => order.SupplierAddress)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => collectionReceipt.ReferenceNo)
+                        @Html.DisplayFor(model => order.FormmatedNumber)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => collectionReceipt.FormOfPayment)
+                        @Html.DisplayFor(model => order.DocumentNo)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => collectionReceipt.CheckDate)
+                        @Html.DisplayFor(model => order.Description)
                     </td>
                     <td class="text-end">
-                        @Html.DisplayFor(model => collectionReceipt.Amount)
+                        @Html.DisplayFor(model => order.Amount)
                     </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(model => order.VatAmount)
+                    </td>
+                    <td class="text-end">
+                        0.00
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(model => order.WhtAmount)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(model => order.NetPurchases)
+                    </td>
+
                 </tr>
 
-                totalAmount += collectionReceipt.Amount;
+                totalAmount += order.Amount;
+                totalVatableAmount += order.VatAmount;
+                totalDefAmount += order.Discount;
+                totalWthAmount += order.WhtAmount;
+                totalNetPurchases += order.NetPurchases;
             }
             <tr class="align-text-bottom" style="border-top: 2px solid black;">
                 @{
                     var formattedTotalAmount = String.Format("{0:n}", totalAmount);
+                    var formattedTotalVatAmount = String.Format("{0:n}", totalVatableAmount);
+                    var formattedTotalDefAmount = String.Format("{0:n}", totalDefAmount);
+                    var formattedTotalWthAmount = String.Format("{0:n}", totalWthAmount);
+                    var formattedTotalNetPurchases = String.Format("{0:n}", totalNetPurchases);
 
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td class="text-center"><b>TOTAL:</b></td>
                     // <td class="text-end">@totalQuantities</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td class="text-end">@formattedTotalAmount</td>
+                    <td class="text-end">@formattedTotalVatAmount</td>
+                    <td class="text-end">@formattedTotalDefAmount</td>
+                    <td class="text-end">@formattedTotalWthAmount</td>
+                    <td class="text-end"><div>@formattedTotalNetPurchases</div></td>
                 }
             </tr>
         </tbody>
@@ -264,76 +296,100 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
             // Append the result to the pre tag based on the row index
             switch (index) {
                 case 0: // Transaction Date
-                    resultPre.textContent += padToLength('TransactionDate', 20) +
-                        padToLength('Transaction Date', 20) +
+                    resultPre.textContent += padToLength('Date', 20) +
+                        padToLength('Date', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
-                        '2023-11-13\n';
+                        '11/10/2023\n';
                     break;
                 case 1: // Serial No
-                    resultPre.textContent += padToLength('SerialNo', 20) +
-                        padToLength('Serial Number', 20) +
+                    resultPre.textContent += padToLength('SupplierName', 20) +
+                        padToLength('Supplier Name', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
-                        'SI0000000001\n';
+                        'INSULAR OIL CORP\n';
                     break;
                 case 2: // Sold To
-                    resultPre.textContent += padToLength('SoldTo', 20) +
-                        padToLength('Customer Name', 20) +
+                    resultPre.textContent += padToLength('SupplierTin', 20) +
+                        padToLength('Supplier TIN', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
-                        'Customer A Vatable\n';
+                        '001-235-846-000\n';
                     break;
                 case 3: // Tin#
-                    resultPre.textContent += padToLength('TinNo', 20) +
-                        padToLength('Tin#', 20) +
+                    resultPre.textContent += padToLength('SupplierAddress', 20) +
+                        padToLength('Supplier Address', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
-                        '776-123-401-45684\n';
+                        'Bagumbayan, Quezon City\n';
                     break;
                 case 4: // Amount
+                    resultPre.textContent += padToLength('PONo', 20) +
+                        padToLength('PO No.', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        'PO0000000001\n';
+                    break;
+                case 5: // Vat Amount
+                    resultPre.textContent += padToLength('DocumentNo', 20) +
+                        padToLength('Document No', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        '1234567\n';
+                    break;
+                case 6: // Vatable Sales
+                    resultPre.textContent += padToLength('Description', 20) +
+                        padToLength('Description', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        'BUYING PRODUCTS\n';
+                    break;
+                case 7: // VAT Exempt Sales
                     resultPre.textContent += padToLength('Amount', 20) +
                         padToLength('Amount', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
-                        '481,000.00\n';
+                        '100,000.00\n';
                     break;
-                case 5: // Vat Amount
+                case 8: // Zero Rated
                     resultPre.textContent += padToLength('VatAmount', 20) +
                         padToLength('Vat Amount', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
-                        '51,535.71\n';
+                        '10,714.00\n';
                     break;
-                case 6: // Vatable Sales
-                    resultPre.textContent += padToLength('VatableSales', 20) +
-                        padToLength('Vatable Sales', 20) +
-                        padToLength(startChar.toString(), 9) +
-                        padToLength(endChar.toString(), 7) +
-                        padToLength((endChar - startChar + 1).toString(), 12) +
-                        '429,464.29\n';
-                    break;
-                case 7: // VAT Exempt Sales
-                    resultPre.textContent += padToLength('VatExemptSales', 20) +
-                        padToLength('VAT Exempt Sales', 20) +
+                case 9: // Zero Rated
+                    resultPre.textContent += padToLength('DefAmount', 20) +
+                        padToLength('Def VAT Amount', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         '0.00\n';
                     break;
-                case 8: // Zero Rated
-                    resultPre.textContent += padToLength('ZeroRated', 20) +
-                        padToLength('Zero Rated', 20) +
+                case 10: // Zero Rated
+                    resultPre.textContent += padToLength('WhtAmount', 20) +
+                        padToLength('WHT Amount', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
-                        '0.00\n';
+                        '1.00\n';
+                    break;
+                case 11: // Zero Rated
+                    resultPre.textContent += padToLength('NetPurchases', 20) +
+                        padToLength('Net Purchases', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        '89,286.00\n';
                     break;
             }
         });

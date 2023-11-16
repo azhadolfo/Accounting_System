@@ -1,7 +1,7 @@
-﻿@model Accounting_System.Models.CollectionReceiptBook
+﻿@model Accounting_System.Models.ViewModelBook
 
 @{
-    ViewData["Title"] = "Collection Receipt Book";
+    ViewData["Title"] = "Purchase Book";
     var dateFrom = ViewBag.DateFrom;
     var dateTo = ViewBag.DateTo;
 }
@@ -10,7 +10,7 @@
 
 <partial name="_Notification">
 
-    <form asp-action="CollectionReceiptBookReport" method="post">
+    <form asp-action="PurchaseBookReport" method="post">
         <div class="row">
             <div class="col-md-4">
                 <div class="mb-3">
@@ -35,3 +35,4 @@
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
     }
+
