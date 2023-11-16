@@ -88,6 +88,8 @@ namespace Accounting_System.Repository
                 .OfficialReceipts
                 .Include(s => s.StatementOfAccount)
                 .ThenInclude(soa => soa.Customer)
+                .Include(s => s.StatementOfAccount)
+                .ThenInclude(soa => soa.Service)
                 .FirstOrDefaultAsync(collectionReceipt => collectionReceipt.Id == id);
 
             if (officialReceipt != null)

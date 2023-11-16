@@ -133,12 +133,17 @@
                 <td></td>
             </tr>
             <tr>
+                @{
+                    decimal EWT = Model.SalesInvoice.VatableSales * (decimal)0.01;
+                    decimal amount = Model.Amount - EWT;
+                    decimal total = EWT + amount;
+                }
                 <td style="padding-left:20px;">Check</td>
                 <td class="text-center">@Html.DisplayFor(model => model.CheckDate)</td>
                 <td class="text-center">@Html.DisplayFor(model => model.CheckNo)</td>
                 <td class="text-center">@Html.DisplayFor(model => model.Bank)</td>
                 <td class="text-center">@Html.DisplayFor(model => model.Branch)</td>
-                <td class="text-center">@Html.DisplayFor(model => model.Amount)</td>
+                <td class="text-center">@Html.DisplayFor(model => amount)</td>
             </tr>
             <tr>
                 <td style="padding-left:20px;">Manager's Check</td>
@@ -154,7 +159,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
+                <td class="text-center">@Html.DisplayFor(model => EWT)</td>
             </tr>
             <tr>
                 <td style="padding-left:20px;">TOTAL</td>
@@ -162,7 +167,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="text-center">@Html.DisplayFor(model => model.Amount)</td>
+                <td class="text-center">@Html.DisplayFor(model => total)</td>
             </tr>
         </tbody>
     </table>
