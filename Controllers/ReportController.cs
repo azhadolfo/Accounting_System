@@ -124,6 +124,33 @@ namespace Accounting_System.Controllers
             return View(model);
         }
 
+        public IActionResult GeneralLedgerBook()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GeneralLedgerBookReport(ViewModelBook model)
+        {
+            ViewBag.DateFrom = model.DateFrom;
+            ViewBag.DateTo = model.DateTo;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var inventoryBooks = await _reportRepo.GetGeneralLedgerBookAsync(model.DateFrom, model.DateTo);
+
+                    return View(inventoryBooks);
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                    return RedirectToAction(nameof(InventoryBook));
+                }
+            }
+
+            return View(model);
+        }
+
         public async Task<IActionResult> CustomerProfile()
         {
             var customers = await _reportRepo.GetCustomersAsync();

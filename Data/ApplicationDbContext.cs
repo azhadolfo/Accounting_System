@@ -29,5 +29,6 @@ namespace Accounting_System.Data
         public DbSet<CashReceiptBook> CashReceiptBooks { get; set; }
 
         public DbSet<InventoryBook> InventoryBooks { get; set; }
+        public DbSet<GeneralLedgerBook> GeneralLedgerBooks { get; set; }
     }
 }
