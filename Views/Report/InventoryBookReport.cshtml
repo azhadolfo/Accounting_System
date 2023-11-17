@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Accounting_System.Models.PurchaseOrder>
+﻿@model IEnumerable<Accounting_System.Models.InventoryBook>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @{
-    ViewData["Title"] = "Purchase Book";
+    ViewData["Title"] = "Inventory Book";
     var dateFrom = ViewBag.DateFrom;
     var dateTo = ViewBag.DateTo;
 
@@ -23,11 +23,9 @@
     }
     DateTime now = DateTime.Now;
 
+    decimal totalQuantity = 0;
+    decimal totalPriceUnitAmount = 0;
     decimal totalAmount = 0;
-    decimal totalVatableAmount = 0;
-    decimal totalDefAmount = 0;
-    decimal totalWthAmount = 0;
-    decimal totalNetPurchases = 0;
 
     int numberOfRecords = 0;
     decimal amountFieldControlTotal = 0;
@@ -45,14 +43,14 @@
         VAT Reg. TIN: 000-216-589-00000
     </p>
 
-    <h3><span style="display: inline-block;"><b>PURCHASE BOOK</b></span></h3>
+    <h3><span style="display: inline-block;"><b>INVENTORY BOOK</b></span></h3>
 
 
 </div>
 <div>
     <pre id="resultPre">
 Accounting Books File Attributes/Layout Definition
-File Name: Purchase Book Report
+File Name: Inventory Book Report
 File Type: PDF File
 Number of Records:              @numberOfRecords
 Amount Field Control Total:     @amountFieldControlTotal
@@ -70,111 +68,63 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.SupplierName)
+                    @Html.DisplayNameFor(model => model.ProductName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.SupplierTin)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SupplierAddress)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FormmatedNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DocumentNo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
+                    @Html.DisplayNameFor(model => model.Unit)
                 </th>
                 <th class="text-end">
-                    Amount
+                    @Html.DisplayNameFor(model => model.Quantity)
                 </th>
                 <th class="text-end">
-                    Vat Amount
+                    @Html.DisplayNameFor(model => model.Price)
                 </th>
                 <th class="text-end">
-                    Def VAT Amount
-                </th>
-                <th class="text-end">
-                    @Html.DisplayNameFor(model => model.WhtAmount)
-                </th>
-                <th class="text-end">
-                    Net Purchases
+                    @Html.DisplayNameFor(model => model.Amount)
                 </th>
             </tr>
         </thead>
         <tbody>
 
-            @foreach (var order in Model)
+            @foreach (var cashReceipt in Model)
             {
                 <tr class="align-text-bottom">
                     <td>
-                        @Html.DisplayFor(model => order.Date)
+                        @Html.DisplayFor(model => cashReceipt.Date)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => order.SupplierName)
+                        @Html.DisplayFor(model => cashReceipt.ProductName)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => order.SupplierTin)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => order.SupplierAddress)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => order.FormmatedNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => order.DocumentNo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => order.Description)
+                        @Html.DisplayFor(model => cashReceipt.Unit)
                     </td>
                     <td class="text-end">
-                        @Html.DisplayFor(model => order.Amount)
+                        @Html.DisplayFor(model => cashReceipt.Quantity)
                     </td>
                     <td class="text-end">
-                        @Html.DisplayFor(model => order.VatAmount)
+                        @Html.DisplayFor(model => cashReceipt.Price)
                     </td>
                     <td class="text-end">
-                        0.00
+                        @Html.DisplayFor(model => cashReceipt.Amount)
                     </td>
-                    <td class="text-end">
-                        @Html.DisplayFor(model => order.WhtAmount)
-                    </td>
-                    <td class="text-end">
-                        @Html.DisplayFor(model => order.NetPurchases)
-                    </td>
-
                 </tr>
 
-                totalAmount += order.Amount;
-                totalVatableAmount += order.VatAmount;
-                totalDefAmount += order.Discount;
-                totalWthAmount += order.WhtAmount;
-                totalNetPurchases += order.NetPurchases;
+                totalQuantity += cashReceipt.Quantity;
+                totalPriceUnitAmount += cashReceipt.Price;
+                totalAmount += cashReceipt.Amount;
             }
             <tr class="align-text-bottom" style="border-top: 2px solid black;">
                 @{
+                    var formattedTotalQuantity = String.Format("{0:n}", totalQuantity);
+                    var formattedTotalPriceUnitAmount = String.Format("{0:n}", totalPriceUnitAmount);
                     var formattedTotalAmount = String.Format("{0:n}", totalAmount);
-                    var formattedTotalVatAmount = String.Format("{0:n}", totalVatableAmount);
-                    var formattedTotalDefAmount = String.Format("{0:n}", totalDefAmount);
-                    var formattedTotalWthAmount = String.Format("{0:n}", totalWthAmount);
-                    var formattedTotalNetPurchases = String.Format("{0:n}", totalNetPurchases);
 
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td class="text-center"><b>TOTAL:</b></td>
-                    // <td class="text-end">@totalQuantities</td>
+                    <td class="text-end">@formattedTotalQuantity</td>
+                    <td class="text-end">@formattedTotalPriceUnitAmount</td>
                     <td class="text-end">@formattedTotalAmount</td>
-                    <td class="text-end">@formattedTotalVatAmount</td>
-                    <td class="text-end">@formattedTotalDefAmount</td>
-                    <td class="text-end">@formattedTotalWthAmount</td>
-                    <td class="text-end"><div>@formattedTotalNetPurchases</div></td>
                 }
             </tr>
         </tbody>
@@ -306,88 +256,40 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         content + '\n';
                     break;
                 case 1: // Serial No
-                    resultPre.textContent += padToLength('SupplierName', 20) +
-                        padToLength('Supplier Name', 20) +
+                    resultPre.textContent += padToLength('ProductName', 20) +
+                        padToLength('Product Name', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
                 case 2: // Sold To
-                    resultPre.textContent += padToLength('SupplierTin', 20) +
-                        padToLength('Supplier TIN', 20) +
+                    resultPre.textContent += padToLength('Unit', 20) +
+                        padToLength('Unit', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
                 case 3: // Tin#
-                    resultPre.textContent += padToLength('SupplierAddress', 20) +
-                        padToLength('Supplier Address', 20) +
+                    resultPre.textContent += padToLength('Quantity', 20) +
+                        padToLength('Quantity', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
                 case 4: // Amount
-                    resultPre.textContent += padToLength('PONo', 20) +
-                        padToLength('PO No.', 20) +
+                    resultPre.textContent += padToLength('Price', 20) +
+                        padToLength('Price Per Unit', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
                 case 5: // Vat Amount
-                    resultPre.textContent += padToLength('DocumentNo', 20) +
-                        padToLength('Document No', 20) +
-                        padToLength(startChar.toString(), 9) +
-                        padToLength(endChar.toString(), 7) +
-                        padToLength((endChar - startChar + 1).toString(), 12) +
-                        content + '\n';
-                    break;
-                case 6: // Vatable Sales
-                    resultPre.textContent += padToLength('Description', 20) +
-                        padToLength('Description', 20) +
-                        padToLength(startChar.toString(), 9) +
-                        padToLength(endChar.toString(), 7) +
-                        padToLength((endChar - startChar + 1).toString(), 12) +
-                        content + '\n';
-                    break;
-                case 7: // VAT Exempt Sales
                     resultPre.textContent += padToLength('Amount', 20) +
                         padToLength('Amount', 20) +
-                        padToLength(startChar.toString(), 9) +
-                        padToLength(endChar.toString(), 7) +
-                        padToLength((endChar - startChar + 1).toString(), 12) +
-                        content + '\n';
-                    break;
-                case 8: // Zero Rated
-                    resultPre.textContent += padToLength('VatAmount', 20) +
-                        padToLength('Vat Amount', 20) +
-                        padToLength(startChar.toString(), 9) +
-                        padToLength(endChar.toString(), 7) +
-                        padToLength((endChar - startChar + 1).toString(), 12) +
-                        content + '\n';
-                    break;
-                case 9: // Zero Rated
-                    resultPre.textContent += padToLength('DefAmount', 20) +
-                        padToLength('Def VAT Amount', 20) +
-                        padToLength(startChar.toString(), 9) +
-                        padToLength(endChar.toString(), 7) +
-                        padToLength((endChar - startChar + 1).toString(), 12) +
-                        content + '\n';
-                    break;
-                case 10: // Zero Rated
-                    resultPre.textContent += padToLength('WhtAmount', 20) +
-                        padToLength('WHT Amount', 20) +
-                        padToLength(startChar.toString(), 9) +
-                        padToLength(endChar.toString(), 7) +
-                        padToLength((endChar - startChar + 1).toString(), 12) +
-                        content + '\n';
-                    break;
-                case 11: // Zero Rated
-                    resultPre.textContent += padToLength('NetPurchases', 20) +
-                        padToLength('Net Purchases', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +

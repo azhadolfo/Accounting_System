@@ -73,6 +73,46 @@ namespace Accounting_System.Repository
             return cashReceiptBooks;
         }
 
+        public async Task<List<InventoryBook>> GetInventoryBookAsync(string dateFrom, string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+
+            if (fromDate > toDate)
+            {
+                throw new ArgumentException("Date From must be greater than Date To !");
+            }
+
+            var inventoryBooks = _dbContext
+             .InventoryBooks
+             .AsEnumerable()
+             .Where(i => DateTime.Parse(i.Date) >= fromDate && DateTime.Parse(i.Date) <= toDate)
+             .OrderBy(i => i.Id)
+             .ToList();
+
+            return inventoryBooks;
+        }
+
+        public async Task<List<GeneralLedgerBook>> GetGeneralLedgerBookAsync(string dateFrom, string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+
+            if (fromDate > toDate)
+            {
+                throw new ArgumentException("Date From must be greater than Date To !");
+            }
+
+            var generalLedgerBooks = _dbContext
+             .GeneralLedgerBooks
+             .AsEnumerable()
+             .Where(i => DateTime.Parse(i.Date) >= fromDate && DateTime.Parse(i.Date) <= toDate)
+             .OrderBy(i => i.Id)
+             .ToList();
+
+            return generalLedgerBooks;
+        }
+
         public async Task<List<Customer>> GetCustomersAsync()
         {
             return await _dbContext

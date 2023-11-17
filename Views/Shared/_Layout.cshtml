@@ -49,6 +49,8 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" asp-controller="Report" asp-action="CashReceiptBook">Cash Receipt Book</a></li>
+                                <li><a class="dropdown-item" asp-controller="Report" asp-action="GeneralLedgerBook">General Ledger Book</a></li>
+                                <li><a class="dropdown-item" asp-controller="Report" asp-action="InventoryBook">Inventory Book</a></li>
                                 <li><a class="dropdown-item" asp-controller="Report" asp-action="PurchaseBook">Purchase Book</a></li>
                                 <li><a class="dropdown-item" asp-controller="Report" asp-action="SalesBook">Sales Book</a></li>
                                 <li><a class="dropdown-item" asp-controller="Report" asp-action="CustomerProfile">Customer Profile</a></li>
@@ -67,6 +69,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="StatementOfAccount" asp-action="Index">Statement Of Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="ReceivingReport" asp-action="Index">Receiving Report</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="PurchaseOrder" asp-action="Index">Purchase Order</a>
                         </li>
                     </ul>
                 </div>
