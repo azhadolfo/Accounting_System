@@ -1,0 +1,227 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Credit Memo";
+}
+
+<br />
+<div class="text-end">
+    <img src="~/img/Filpride.jpg" height="" width="130px" />
+</div>
+<div class="text-center">
+    <h2><u><b>&nbsp;FILPRIDE RESOURCES INC.&nbsp;</b></u></h2>
+    <p style="line-height: 1; margin-top:-7px;">
+        57 Westgate Offices, Sampson RO CBD, Subic Bay, Freeport Zone,<br />
+        Kalaklan Olongapo City, 2000 Zambales Philippines<br />
+        VAT Reg. TIN: 000-216-589-00000
+    </p>
+
+    <h3><span style="display: inline-block;"><b>CREDIT MEMO</b></span></h3>
+    <div class="text-end" style="margin-top:-60px;">
+        <h6><b>@* No. *@&nbsp;</b></h6>
+    </div>
+
+</div>
+<br />
+<div class="table-responsive">
+    <table class="w-100" style="margin-top:20px;">
+        <tbody>
+            <tr>
+                <td>
+                    <span><b>Sold to:</b></span>
+                    &nbsp; Customer A Vatable &nbsp;<br />
+
+                    <span><b>Address:</b></span>
+                    &nbsp; Quezon City &nbsp;<br />
+
+                    <span><b>TIN:</b></span>
+                    &nbsp; 776-123-401-45684 &nbsp;<br />
+
+                    <span><b>Business Style:</b></span>
+                    &nbsp; CC Trading &nbsp;
+                </td>
+
+                <td class="w-25 text-nowrap">
+
+                    <b>DM/CM #: 0000000001</b>
+                    &nbsp; <span id="invoiceDate"></span>
+                    <br />
+                    <b>@* Terms: *@</b>&nbsp;<span id="terms"></span>&nbsp;<br />
+                    <b>@* Due Date: *@</b>&nbsp; <span id="dueDate"></span><br />
+
+                    <b>@* Other Ref No.: *@</b>&nbsp;&nbsp;
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="table-responsive" style="margin-top:20px;">
+    <table class="table-bordered w-100 text-center">
+        <thead>
+            <tr>
+                <th>INVOICE/SOA NO.</th>
+                <th>INVOICE/SOA DATE</th>
+                <th>PRODUCT</th>
+                <th>DESCRIPTION</th>
+                <th>AMOUNT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="height:80px;">
+                <td>SI0000000001</td>
+                <td>11/16/2023</td>
+                <td>BIODIESEL</td>
+                <td>Price Adjusment from 20.00 to 20.50</td>
+                <td>1,025.00</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div style="margin-top:20px;">
+    <table class="w-100">
+        <tbody>
+            <tr>
+                <td>
+                </td>
+                <td style="width:40%;">
+                    <div>
+                        <table class="w-100">
+                            <tbody class="text-nowrap">
+                                <tr>
+                                    <td class="w-50"><p style="height: 9px; margin-left:8%;"><b>Vatable Sales: </b></p></td>
+                                    <td class="w-50 text-end">892.86</td>
+
+                                </tr>
+                                <tr>
+                                    <td><p style="height: 9px; margin-left:8%;"><b>Zero-Rated Sales: </b></p></td>
+
+                                    <td class="text-end"></td>
+                                </tr>
+                                <tr>
+                                    <td><p style="height: 9px; margin-left:8%;"><b>VAT-exempt Sales: </b></p></td>
+
+                                    <td class="text-end"></td>
+                                </tr>
+                                <tr>
+                                    <td><p style="height: 9px; margin-left:8%;"><b>VAT Amount: </b></p></td>
+
+                                    <td class="text-end">107.14</td>
+                                </tr>
+                                <tr>
+                                    <td><p style="height: 9px; margin-left:8%;"><b>TOTAL SALES: </b></p></td>
+                                    <td class="text-end">1,000.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div style="margin-top:20px;">
+    <p>
+        <i>This is a system generated invoice, no signature required.</i>
+    </p>
+</div>
+
+
+<br />
+<div class="text-center w-100" style="margin-top:20px;">
+    <p @* style="line-height: 1;" *@>
+        <em><strong>"THIS DOCUMENT IS NOT VALID FOR CLAIM OF INPUT TAX"</strong></em><br />
+        <span>Acknowledgement Certificate No:</span>
+        <span style="display: inline-block; width: 30%;"></span>
+        <span>Date Issued:</span>
+        <span style="display: inline-block; width: 15%;"></span><br />
+        Series from: SI0000000001 - SI9999999999
+        Date and Time Created:&nbsp;
+    </p>
+</div>
+<br />
+
+<div class="text-end">
+    ORIGINAL COPY
+</div>
+
+@* <div class="text-end">
+    REPRINT COPY
+</div> *@
+
+<div>
+    <a class="btn btn-success" onclick="printPage()" id="printButton">Print</a>
+    <a asp-action="OrderSlip" class="btn" id="otherButton">Back</a>
+</div>
+
+@section Scripts{
+    <script>
+        var originalFontSizes = [];
+        function printPage() {
+            var printButton = document.getElementById("printButton");
+            var otherButton = document.getElementById("otherButton");
+
+            // Hide the header and footer
+            document.querySelector("header").style.display = "none";
+            document.querySelector("footer").style.display = "none";
+
+            // Hide the buttons before printing
+            if (printButton) {
+                printButton.style.visibility = "hidden";
+            }
+            if (otherButton) {
+                otherButton.style.visibility = "hidden";
+            }
+
+            // Get all paragraph elements
+            var paragraphs = document.querySelectorAll("p");
+
+            // Store the original font sizes
+            for (var i = 0; i < paragraphs.length; i++) {
+                originalFontSizes[i] = paragraphs[i].style.fontSize;
+                // Set the font size of all paragraph elements to 12px for printing
+                paragraphs[i].style.fontSize = "12px";
+            }
+
+            // Get all table text elements
+            var mytable = document.querySelectorAll("table");
+
+            // Store the original font sizes
+            for (var i = 0; i < mytable.length; i++) {
+                originalFontSizes[i] = mytable[i].style.fontSize;
+                // Set the font size of all paragraph elements to 12px for printing
+                mytable[i].style.fontSize = "12px";
+            }
+
+            // Call the print function
+            window.print();
+
+            // Restore the font sizes
+            for (var i = 0; i < paragraphs.length; i++) {
+                paragraphs[i].style.fontSize = originalFontSizes[i];
+            }
+
+            // Restore the font sizes
+            for (var i = 0; i < mytable.length; i++) {
+                mytable[i].style.fontSize = originalFontSizes[i];
+            }
+
+            // Restore the buttons' visibility after printing (optional)
+            if (printButton) {
+                printButton.style.visibility = "visible";
+            }
+            if (otherButton) {
+                otherButton.style.visibility = "visible";
+            }
+
+            // Restore the header and footer's visibility after printing (optional)
+            document.querySelector("header").style.display = "";
+            document.querySelector("footer").style.display = "";
+        }
+    </script>
+}

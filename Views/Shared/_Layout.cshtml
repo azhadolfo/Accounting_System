@@ -84,6 +84,16 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="JournalVoucher" asp-action="Index">Journal Voucher</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                DMCM
+                            </a>
+                            <ul class="dropdown-menu">
+
+                                <li><a class="dropdown-item" asp-controller="DMCM" asp-action="DebitMemo">Debit Memo</a></li>
+                                <li><a class="dropdown-item" asp-controller="DMCM" asp-action="CreditMemo">Credit Memo</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <partial name="_LoginPartial" />
