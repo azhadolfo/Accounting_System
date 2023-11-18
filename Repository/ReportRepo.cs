@@ -53,7 +53,7 @@ namespace Accounting_System.Repository
             return cashReceiptBooks;
         }
 
-        public async Task<List<PurchaseOrder>> GetPurchaseBookAsync(string dateFrom, string dateTo)
+        public async Task<List<PurchaseJournalBook>> GetPurchaseBookAsync(string dateFrom, string dateTo)
         {
             var fromDate = DateTime.Parse(dateFrom);
             var toDate = DateTime.Parse(dateTo);
@@ -64,7 +64,7 @@ namespace Accounting_System.Repository
             }
 
             var cashReceiptBooks = _dbContext
-             .PurchaseOrders
+             .PurchaseJournalBooks
              .AsEnumerable()
              .Where(p => DateTime.Parse(p.Date) >= fromDate && DateTime.Parse(p.Date) <= toDate)
              .OrderBy(s => s.Id)

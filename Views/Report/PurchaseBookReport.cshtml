@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Accounting_System.Models.PurchaseOrder>
+﻿@model IEnumerable<Accounting_System.Models.PurchaseJournalBook>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @{
-    ViewData["Title"] = "Purchase Book";
+    ViewData["Title"] = "Purchase Journal Book";
     var dateFrom = ViewBag.DateFrom;
     var dateTo = ViewBag.DateTo;
 
@@ -52,7 +52,7 @@
 <div>
     <pre id="resultPre">
 Accounting Books File Attributes/Layout Definition
-File Name: Purchase Book Report
+File Name: Purchase Journal Book Report
 File Type: PDF File
 Number of Records:              @numberOfRecords
 Amount Field Control Total:     @amountFieldControlTotal
