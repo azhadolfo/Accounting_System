@@ -144,7 +144,61 @@ namespace Accounting_System.Controllers
                 catch (Exception ex)
                 {
                     TempData["error"] = ex.Message;
-                    return RedirectToAction(nameof(InventoryBook));
+                    return RedirectToAction(nameof(GeneralLedgerBook));
+                }
+            }
+
+            return View(model);
+        }
+
+        public IActionResult DisbursementBook()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> DisbursementBookReport(ViewModelBook model)
+        {
+            ViewBag.DateFrom = model.DateFrom;
+            ViewBag.DateTo = model.DateTo;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var disbursementBooks = await _reportRepo.GetDisbursementBookAsync(model.DateFrom, model.DateTo);
+
+                    return View(disbursementBooks);
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                    return RedirectToAction(nameof(DisbursementBook));
+                }
+            }
+
+            return View(model);
+        }
+
+        public IActionResult AuditTrail()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> AuditTrailReport(ViewModelBook model)
+        {
+            ViewBag.DateFrom = model.DateFrom;
+            ViewBag.DateTo = model.DateTo;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var disbursementBooks = await _reportRepo.GetAuditTrailAsync(model.DateFrom, model.DateTo);
+
+                    return View(disbursementBooks);
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                    return RedirectToAction(nameof(AuditTrail));
                 }
             }
 

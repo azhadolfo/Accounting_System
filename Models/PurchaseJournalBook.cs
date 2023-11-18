@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Accounting_System.Models
 {
-    public class PurchaseOrder : BaseEntity
+    public class PurchaseJournalBook : BaseEntity
     {
         public int Number { get; set; }
 

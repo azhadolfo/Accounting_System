@@ -82,9 +82,9 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                 <th>
                     @Html.DisplayNameFor(model => model.Address)
                 </th>
-                @* <th class="text-end">
-                    @Html.DisplayNameFor(model => model.Quantity)
-                </th> *@
+                <th>
+                    Description
+                </th>
                 <th class="text-end">
                     @Html.DisplayNameFor(model => model.Amount)
                 </th>
@@ -100,9 +100,6 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                 <th class="text-end">
                     <div>Zero Rated</div>
                 </th>
-              @*   <th>
-                    @Html.DisplayNameFor(model => model.Remarks)
-                </th> *@
             </tr>
         </thead>
         <tbody>
@@ -125,9 +122,9 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                     <td>
                         @Html.DisplayFor(model => invoice.Address)
                     </td>
-                    @* <td class="text-end">
-                        @Html.DisplayFor(model => invoice.Quantity)
-                    </td> *@
+                    <td>
+                        @Html.DisplayFor(model => invoice.ProductName)
+                    </td>
                     <td class="text-end">
                         @Html.DisplayFor(model => invoice.Amount)
                     </td>
@@ -192,6 +189,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
                 <td class="text-center"><b>TOTAL:</b></td>
                 // <td class="text-end">@totalQuantities</td>
                 <td class="text-end">@formattedTotalAmount</td>
@@ -205,7 +203,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
     </table>
 </div>
 
-<div class="text-start" style="margin-top:50px;">
+<div class="text-start" style="margin-top:25px;">
     <p style="line-height: 1;">
         <em>
         <strong>Software Name :</strong> Accounting Administration System (AAS)
@@ -369,7 +367,15 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
-                case 6: // Vat Amount
+                case 6: // Address
+                    resultPre.textContent += padToLength('ProductDescription', 20) +
+                        padToLength('Description', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 7: // Vat Amount
                     resultPre.textContent += padToLength('VatAmount', 20) +
                         padToLength('Vat Amount', 20) +
                         padToLength(startChar.toString(), 9) +
@@ -377,7 +383,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
-                case 7: // Vatable Sales
+                case 8: // Vatable Sales
                     resultPre.textContent += padToLength('VatableSales', 20) +
                         padToLength('Vatable Sales', 20) +
                         padToLength(startChar.toString(), 9) +
@@ -385,7 +391,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
-                case 8: // VAT Exempt Sales
+                case 9: // VAT Exempt Sales
                     resultPre.textContent += padToLength('VatExemptSales', 20) +
                         padToLength('VAT Exempt Sales', 20) +
                         padToLength(startChar.toString(), 9) +
@@ -393,7 +399,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
-                case 9: // Zero Rated
+                case 10: // Zero Rated
                     resultPre.textContent += padToLength('ZeroRated', 20) +
                         padToLength('Zero Rated', 20) +
                         padToLength(startChar.toString(), 9) +
