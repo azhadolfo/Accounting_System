@@ -68,6 +68,9 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.ProductCode)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.ProductName)
                 </th>
                 <th>
@@ -86,32 +89,35 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
         </thead>
         <tbody>
 
-            @foreach (var cashReceipt in Model)
+            @foreach (var inventory in Model)
             {
                 <tr class="align-text-bottom">
                     <td>
-                        @Html.DisplayFor(model => cashReceipt.Date)
+                        @Html.DisplayFor(model => inventory.Date)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => cashReceipt.ProductName)
+                        @Html.DisplayFor(model => inventory.ProductCode)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => cashReceipt.Unit)
+                        @Html.DisplayFor(model => inventory.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => inventory.Unit)
                     </td>
                     <td class="text-end">
-                        @Html.DisplayFor(model => cashReceipt.Quantity)
+                        @Html.DisplayFor(model => inventory.Quantity)
                     </td>
                     <td class="text-end">
-                        @Html.DisplayFor(model => cashReceipt.Price)
+                        @Html.DisplayFor(model => inventory.Price)
                     </td>
                     <td class="text-end">
-                        @Html.DisplayFor(model => cashReceipt.Amount)
+                        @Html.DisplayFor(model => inventory.Amount)
                     </td>
                 </tr>
 
-                totalQuantity += cashReceipt.Quantity;
-                totalPriceUnitAmount += cashReceipt.Price;
-                totalAmount += cashReceipt.Amount;
+                totalQuantity += inventory.Quantity;
+                totalPriceUnitAmount += inventory.Price;
+                totalAmount += inventory.Amount;
             }
             <tr class="align-text-bottom" style="border-top: 2px solid black;">
                 @{
@@ -119,6 +125,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                     var formattedTotalPriceUnitAmount = String.Format("{0:n}", totalPriceUnitAmount);
                     var formattedTotalAmount = String.Format("{0:n}", totalAmount);
 
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td class="text-center"><b>TOTAL:</b></td>
