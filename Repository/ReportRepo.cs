@@ -113,6 +113,45 @@ namespace Accounting_System.Repository
             return generalLedgerBooks;
         }
 
+        public async Task<List<DisbursementBook>> GetDisbursementBookAsync(string dateFrom, string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+
+            if (fromDate > toDate)
+            {
+                throw new ArgumentException("Date From must be greater than Date To !");
+            }
+
+            var disbursementBooks = _dbContext
+             .DisbursementBooks
+             .AsEnumerable()
+             .Where(d => DateTime.Parse(d.Date) >= fromDate && DateTime.Parse(d.Date) <= toDate)
+             .OrderBy(d => d.Id)
+             .ToList();
+
+            return disbursementBooks;
+        }
+
+        public async Task<List<AuditTrail>> GetAuditTrailAsync(string dateFrom, string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+
+            if (fromDate > toDate)
+            {
+                throw new ArgumentException("Date From must be greater than Date To !");
+            }
+
+            var auditTrail = _dbContext
+             .AuditTrails
+             .AsEnumerable()
+             .OrderBy(d => d.Date)
+             .ToList();
+
+            return auditTrail;
+        }
+
         public async Task<List<Customer>> GetCustomersAsync()
         {
             return await _dbContext
