@@ -26,8 +26,8 @@ namespace Accounting_System.Data
         public DbSet<Services> Services { get; set; }
 
         // Book Context
-
         public DbSet<CashReceiptBook> CashReceiptBooks { get; set; }
+
         public DbSet<InventoryBook> InventoryBooks { get; set; }
         public DbSet<GeneralLedgerBook> GeneralLedgerBooks { get; set; }
         public DbSet<DisbursementBook> DisbursementBooks { get; set; }
