@@ -53,7 +53,7 @@ namespace Accounting_System.Repository
             return cashReceiptBooks;
         }
 
-        public async Task<List<PurchaseOrder>> GetPurchaseBookAsync(string dateFrom, string dateTo)
+        public async Task<List<PurchaseJournalBook>> GetPurchaseBookAsync(string dateFrom, string dateTo)
         {
             var fromDate = DateTime.Parse(dateFrom);
             var toDate = DateTime.Parse(dateTo);
@@ -64,7 +64,7 @@ namespace Accounting_System.Repository
             }
 
             var cashReceiptBooks = _dbContext
-             .PurchaseOrders
+             .PurchaseJournalBooks
              .AsEnumerable()
              .Where(p => DateTime.Parse(p.Date) >= fromDate && DateTime.Parse(p.Date) <= toDate)
              .OrderBy(s => s.Id)
@@ -111,6 +111,45 @@ namespace Accounting_System.Repository
              .ToList();
 
             return generalLedgerBooks;
+        }
+
+        public async Task<List<DisbursementBook>> GetDisbursementBookAsync(string dateFrom, string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+
+            if (fromDate > toDate)
+            {
+                throw new ArgumentException("Date From must be greater than Date To !");
+            }
+
+            var disbursementBooks = _dbContext
+             .DisbursementBooks
+             .AsEnumerable()
+             .Where(d => DateTime.Parse(d.Date) >= fromDate && DateTime.Parse(d.Date) <= toDate)
+             .OrderBy(d => d.Id)
+             .ToList();
+
+            return disbursementBooks;
+        }
+
+        public async Task<List<AuditTrail>> GetAuditTrailAsync(string dateFrom, string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+
+            if (fromDate > toDate)
+            {
+                throw new ArgumentException("Date From must be greater than Date To !");
+            }
+
+            var auditTrail = _dbContext
+             .AuditTrails
+             .AsEnumerable()
+             .OrderBy(d => d.Date)
+             .ToList();
+
+            return auditTrail;
         }
 
         public async Task<List<Customer>> GetCustomersAsync()
