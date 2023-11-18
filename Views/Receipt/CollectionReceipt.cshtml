@@ -1,4 +1,13 @@
-﻿
+﻿@model Accounting_System.Models.CollectionReceipt
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+    @{
+    string SI = Model.SalesInvoice.SerialNo.ToString("D10");
+    string formattedSerialNo = "SI" + SI;
+    }
 <br />
 <div class="text-end">
     <img src="~/img/Filpride.jpg" height="" width="130px" />
@@ -14,55 +23,57 @@
 
 <h3><span style="display: inline-block;"><b>COLLECTION RECEIPT</b></span></h3>
 <div class="text-end" style="margin-top:-50px;">
-    <h5><b>Collection Receipt No.&nbsp;CR00000001</b></h5>
+    <h6><b>Collection Receipt No.&nbsp;@Html.DisplayFor(model => model.CRNo)</b></h6>
 </div>
 <br />
 
-<div class="w-100 text-end">
+<div class="w-100 text-end" style="margin-top:-20px; padding-bottom:10px;">
     <span><b>Date:</b></span>
-    <span class="underline" style="display: inline-block; width: 30%;"></span><br />
+    <span class="underline" style="display: inline-block; width: 20%; text-align:center;">@Html.DisplayFor(model => model.Date)</span><br />
 </div>
 
 <div>
     <table class="table-bordered w-100">
         <tbody>
             <tr>
-                <td colspan="2" style="padding-left:10px;">Received from:</td>
+                <td colspan="2" style="padding-left:10px;">Received from: &nbsp;@Html.DisplayFor(model => model.SalesInvoice.SoldTo)</td>
             </tr>
             <tr>
-                <td colspan="2" class="w-50" style="padding-left:10px;">Address:</td>
+                <td colspan="2" class="w-50" style="padding-left:10px;">Address: &nbsp;@Html.DisplayFor(model => model.SalesInvoice.Address)</td>
             </tr>
             <tr>
-                <td style="padding-left:10px;">TIN:</td>
-                <td style="padding-left:10px;">Buss. Style:</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td style="padding-left:10px;">The sum of Pesos:</td>
-                <td></td>
+                <td style="padding-left:10px;">TIN: &nbsp;@Html.DisplayFor(model => model.SalesInvoice.TinNo)</td>
+                <td style="padding-left:10px;">Buss. Style: &nbsp;@Html.DisplayFor(model => model.SalesInvoice.BusinessStyle)</td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
                 <td></td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
-                <td style="padding-left:10px;">(₱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+                <td style="padding-left:10px;">The sum of Pesos:&nbsp; One Thousand Pesos Only</td>
+                <td></td>
             </tr>
             <tr>
-                <td colspan="2" style="padding-left:10px;">IN FULL/PARTIAL payment of:</td>
+                <td>&nbsp;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td style="padding-left:10px;">(₱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  @Html.DisplayFor(model => model.SalesInvoice.Amount))</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-left:10px;">IN FULL/PARTIAL payment of: @Html.DisplayFor(model => model.SalesInvoice.FormattedSerialNo)</td>
             </tr>
             <tr>
                 <td colspan="2">&nbsp;</td>
             </tr>
+            <tr>
+                <td colspan="2" style="padding-left:10px;">Reference Receipt No.&nbsp; @Html.DisplayFor(model => model.ReferenceNo)</td>
+            </tr>
         </tbody>
     </table>
 </div>
-
-<div style="margin-top:20px;">
+<div style="margin-top:10px;">
     <table class="table-bordered w-100">
         <tbody>
             <tr>
@@ -70,10 +81,10 @@
                 <td class="text-center" style="width:33%">INVOICE #</td>
                 <td class="text-center" style="width:33%">AMOUNT</td>
             </tr>
-            <tr>
-                <td style="width:33%">&nbsp;</td>
-                <td style="width:33%"></td>
-                <td style="width:33%"></td>
+            <tr class="text-center">
+                <td style="width:33%">@Html.DisplayFor(model => model.SalesInvoice.TransactionDate)</td>
+                <td style="width:33%">@Html.DisplayFor(model => formattedSerialNo)</td>
+                <td style="width:33%">@Html.DisplayFor(model => model.SalesInvoice.Amount)</td>
             </tr>
             <tr>
                 <td style="width:33%">&nbsp;</td>
@@ -99,7 +110,7 @@
     </table>
 </div>
 
-<div style="margin-top:20px;">
+<div style="margin-top:10px;">
     <table class="table-bordered w-100">
         <tbody>
             <tr>
@@ -122,12 +133,17 @@
                 <td></td>
             </tr>
             <tr>
+                @{
+                    decimal EWT = Model.SalesInvoice.VatableSales * (decimal)0.01;
+                    decimal amount = Model.Amount - EWT;
+                    decimal total = EWT + amount;
+                }
                 <td style="padding-left:20px;">Check</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="text-center">@Html.DisplayFor(model => model.CheckDate)</td>
+                <td class="text-center">@Html.DisplayFor(model => model.CheckNo)</td>
+                <td class="text-center">@Html.DisplayFor(model => model.Bank)</td>
+                <td class="text-center">@Html.DisplayFor(model => model.Branch)</td>
+                <td class="text-center">@Html.DisplayFor(model => amount)</td>
             </tr>
             <tr>
                 <td style="padding-left:20px;">Manager's Check</td>
@@ -143,7 +159,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
+                <td class="text-center">@Html.DisplayFor(model => EWT)</td>
             </tr>
             <tr>
                 <td style="padding-left:20px;">TOTAL</td>
@@ -151,31 +167,56 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
+                <td class="text-center">@Html.DisplayFor(model => total)</td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div class="w-100 text-end" style="margin-top:20px;">
-    <span>By:</span>
-    <span class="underline" style="display: inline-block; width: 30%;"></span><br />
-    <h6 style="margin-right:15px;">Authorized Representative</h6>
-    <p style="line-height:1px;">Accreditation No. ___</p>
-    <p style="line-height:1px;">Accreditation Date:___* Valid up to:___</p>
-</div>
-<div class="text-center w-100" style="margin-top:20px;">
-    <p style="line-height: 1;">
-        <em>"This document is not valid for claiming input taxes"<br /></em>
-        Acknowledgement Certificate No:<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>Date Issued:<u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> Series from: 00000001 - 99999999<br />
-        Date and Time Created:@* @Html.DisplayFor(model => model.CreatedDate) *@
+<div class="text-center w-100" style="margin-top:10px;">
+    <p @* style="line-height: 1;" *@>
+        <em class="p-4"><strong>"THIS DOCUMENT IS NOT VALID FOR CLAIM OF INPUT TAX"</strong><br /></em>
+        <span>Acknowledgement Certificate No:</span>
+        <span style="display: inline-block; width: 30%;"></span>
+        <span>Date Issued:</span>
+        <span style="display: inline-block; width: 15%;"></span><br />
+        Series from: CR0000000001 - CR9999999999
+        Date and Time Created:&nbsp;@Html.DisplayFor(model => model.CreatedDate)
     </p>
 </div>
 
 <br />
+<div class="text-start footer" style="margin-top:50px;">
+    <p style="line-height: 1;">
+        <em>
+            <strong>Software Name :</strong> Accounting Administration System (AAS)
+            <br />
+            <strong>Version :</strong> v1.0
+            <br />
+            <strong>Printed By :</strong> @UserManager.GetUserName(User).ToUpper()
+            <br />
+            <strong>Date & Time Printed :</strong> @DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
+        </em>
+    </p>
+</div>
+
+@if (!Model.IsPrint)
+{
+    <div class="text-end">
+        ORIGINAL COPY
+    </div>
+}
+else
+{
+    <div class="text-end">
+        REPRINT COPY
+    </div>
+}
+
+<br />
 @* <a asp-action="OfficialReceipt" class="btn btn-success" asp-route-id="@Model.Id" onclick="printPage()" id="printButton">Print</a> *@
-<a class="btn btn-success" onclick="printPage()" id="printButton">Print</a>
-<a asp-action="OfficialReceipt" class="btn" id="otherButton">Back</a>
+<a asp-action="PrintedCR" asp-route-id="@Model.Id" class="btn btn-success" onclick="printPage()" id="printButton">Print</a>
+<a asp-action="CollectionReceiptIndex" class="btn" id="otherButton">Back</a>
 
 @section Scripts{
     <script>

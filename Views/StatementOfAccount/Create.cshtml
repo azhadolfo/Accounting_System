@@ -1,0 +1,71 @@
+﻿@model Accounting_System.Models.StatementOfAccount
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Statement Of Account</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CustomerId" class="control-label"></label>
+                <select asp-for="CustomerId" class="form-control js-select2" asp-items="@Model.Customers">
+                    <option></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServicesId" class="control-label"></label>
+                <select asp-for="ServicesId" class="form-control js-select2" asp-items="@Model.Services">
+                    <option></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Period" class="control-label"></label>
+                <input asp-for="Period" class="form-control" />
+                <span asp-validation-for="Period" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccountName" class="control-label"></label>
+                <input asp-for="AccountName" class="form-control" />
+                <span asp-validation-for="AccountName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bank" class="control-label"></label>
+                <input asp-for="Bank" class="form-control" />
+                <span asp-validation-for="Bank" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankAccountNo" class="control-label"></label>
+                <input asp-for="BankAccountNo" class="form-control" />
+                <span asp-validation-for="BankAccountNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankBranch" class="control-label"></label>
+                <input asp-for="BankBranch" class="form-control" />
+                <span asp-validation-for="BankBranch" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

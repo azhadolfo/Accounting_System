@@ -270,7 +270,7 @@
     <p>
         <i>This is a system generated invoice, no signature required.</i>
     </p>
-</div><br />
+</div>
 @if (Model.CustomerType == "Exempt")
 {
    <div style="margin-top:20px;">
@@ -292,9 +292,13 @@ else if (Model.CustomerType == "Zero Rated")
 }
 <br />
 <div class="text-center w-100" style="margin-top:20px;">
-    <p style="line-height: 1;">
-        Acknowledgement Certificate No:<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>Date Issued:<u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> Series from: SI00000001 - SI99999999<br />
-        Date and Time Created:@Html.DisplayFor(model => model.CreatedDate)
+    <p @* style="line-height: 1;" *@>
+        <span>Acknowledgement Certificate No:</span>
+        <span style="display: inline-block; width: 30%;"></span>
+        <span>Date Issued:</span>
+        <span style="display: inline-block; width: 15%;"></span><br />
+        Series from: SI0000000001 - SI9999999999
+        Date and Time Created:&nbsp;@Html.DisplayFor(model => model.CreatedDate)
     </p>
 </div>
 <br />
