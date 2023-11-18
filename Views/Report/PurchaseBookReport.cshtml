@@ -1,0 +1,420 @@
+﻿@model IEnumerable<Accounting_System.Models.PurchaseJournalBook>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Purchase Journal Book";
+    var dateFrom = ViewBag.DateFrom;
+    var dateTo = ViewBag.DateTo;
+
+    // Convert the date strings to DateTime objects
+    DateTime dateFromFormatted;
+    if (DateTime.TryParse(dateFrom, out dateFromFormatted))
+    {
+        // Format the DateTime objects in the desired format
+        dateFrom = dateFromFormatted.ToString("MM/dd/yyyy");
+    }
+
+    DateTime dateToFormatted;
+    if (DateTime.TryParse(dateTo, out dateToFormatted))
+    {
+        // Format the DateTime objects in the desired format
+        dateTo = dateToFormatted.ToString("MM/dd/yyyy");
+    }
+    DateTime now = DateTime.Now;
+
+    decimal totalAmount = 0;
+    decimal totalVatableAmount = 0;
+    decimal totalDefAmount = 0;
+    decimal totalWthAmount = 0;
+    decimal totalNetPurchases = 0;
+
+    int numberOfRecords = 0;
+    decimal amountFieldControlTotal = 0;
+}
+
+<br />
+<div class="text-end">
+    <img src="~/img/Filpride.jpg" height="" width="130px" />
+</div>
+<div class="text-center">
+    <h2><u><b>&nbsp;FILPRIDE RESOURCES INC.&nbsp;</b></u></h2>
+    <p style="line-height: 1; margin-top:-7px;">
+        57 Westgate Offices, Sampson RO CBD, Subic Bay, Freeport Zone,<br />
+        Kalaklan Olongapo City, 2000 Zambales Philippines<br />
+        VAT Reg. TIN: 000-216-589-00000
+    </p>
+
+    <h3><span style="display: inline-block;"><b>PURCHASE BOOK</b></span></h3>
+
+
+</div>
+<div>
+    <pre id="resultPre">
+Accounting Books File Attributes/Layout Definition
+File Name: Purchase Journal Book Report
+File Type: PDF File
+Number of Records:              @numberOfRecords
+Amount Field Control Total:     @amountFieldControlTotal
+Period Covered:                 @dateFrom to @dateTo
+Extracted By:                   @UserManager.GetUserName(User).ToUpper()
+
+</pre>
+</div>
+
+<div class="table-responsive" style="margin-top:20px;">
+    <table class="table-hover w-100">
+        <thead>
+            <tr class="table-bordered">
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SupplierName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SupplierTin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SupplierAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FormmatedNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DocumentNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th class="text-end">
+                    Amount
+                </th>
+                <th class="text-end">
+                    Vat Amount
+                </th>
+                <th class="text-end">
+                    Def VAT Amount
+                </th>
+                <th class="text-end">
+                    @Html.DisplayNameFor(model => model.WhtAmount)
+                </th>
+                <th class="text-end">
+                    Net Purchases
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var order in Model)
+            {
+                <tr class="align-text-bottom">
+                    <td>
+                        @Html.DisplayFor(model => order.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => order.SupplierName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => order.SupplierTin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => order.SupplierAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => order.FormmatedNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => order.DocumentNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => order.Description)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(model => order.Amount)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(model => order.VatAmount)
+                    </td>
+                    <td class="text-end">
+                        0.00
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(model => order.WhtAmount)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(model => order.NetPurchases)
+                    </td>
+
+                </tr>
+
+                totalAmount += order.Amount;
+                totalVatableAmount += order.VatAmount;
+                totalDefAmount += order.Discount;
+                totalWthAmount += order.WhtAmount;
+                totalNetPurchases += order.NetPurchases;
+            }
+            <tr class="align-text-bottom" style="border-top: 2px solid black;">
+                @{
+                    var formattedTotalAmount = String.Format("{0:n}", totalAmount);
+                    var formattedTotalVatAmount = String.Format("{0:n}", totalVatableAmount);
+                    var formattedTotalDefAmount = String.Format("{0:n}", totalDefAmount);
+                    var formattedTotalWthAmount = String.Format("{0:n}", totalWthAmount);
+                    var formattedTotalNetPurchases = String.Format("{0:n}", totalNetPurchases);
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-center"><b>TOTAL:</b></td>
+                    // <td class="text-end">@totalQuantities</td>
+                    <td class="text-end">@formattedTotalAmount</td>
+                    <td class="text-end">@formattedTotalVatAmount</td>
+                    <td class="text-end">@formattedTotalDefAmount</td>
+                    <td class="text-end">@formattedTotalWthAmount</td>
+                    <td class="text-end"><div>@formattedTotalNetPurchases</div></td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="text-start" style="margin-top:10px;">
+    <p style="line-height: 1;">
+        <em>
+            <strong>Software Name :</strong> Accounting Administration System (AAS)
+            <br />
+            <strong>Version :</strong> v1.0
+            <br />
+            <strong>Printed By :</strong> @UserManager.GetUserName(User).ToUpper()
+            <br />
+            <strong>Date & Time Printed :</strong> @DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
+        </em>
+    </p>
+</div>
+
+<div>
+    <a class="btn btn-success" onclick="printPage()" id="printButton">Print</a>
+    <a asp-action="SalesBook" class="btn" id="otherButton">Back</a>
+</div>
+
+@section Scripts{
+    <script>
+        var originalFontSizes = [];
+        function printPage() {
+            var printButton = document.getElementById("printButton");
+            var otherButton = document.getElementById("otherButton");
+
+            // Hide the header and footer
+            document.querySelector("header").style.display = "none";
+            document.querySelector("footer").style.display = "none";
+
+            // Hide the buttons before printing
+            if (printButton) {
+                printButton.style.visibility = "hidden";
+            }
+            if (otherButton) {
+                otherButton.style.visibility = "hidden";
+            }
+
+            // Get all paragraph elements
+            var paragraphs = document.querySelectorAll("p");
+
+            // Store the original font sizes
+            for (var i = 0; i < paragraphs.length; i++) {
+                originalFontSizes[i] = paragraphs[i].style.fontSize;
+                // Set the font size of all paragraph elements to 12px for printing
+                paragraphs[i].style.fontSize = "12px";
+            }
+
+            // Get all table text elements
+            var mytable = document.querySelectorAll("table");
+
+            // Store the original font sizes
+            for (var i = 0; i < mytable.length; i++) {
+                originalFontSizes[i] = mytable[i].style.fontSize;
+                // Set the font size of all paragraph elements to 12px for printing
+                mytable[i].style.fontSize = "12px";
+            }
+
+            // Call the print function
+            window.print();
+
+            // Restore the font sizes
+            for (var i = 0; i < paragraphs.length; i++) {
+                paragraphs[i].style.fontSize = originalFontSizes[i];
+            }
+
+            // Restore the font sizes
+            for (var i = 0; i < mytable.length; i++) {
+                mytable[i].style.fontSize = originalFontSizes[i];
+            }
+
+            // Restore the buttons' visibility after printing (optional)
+            if (printButton) {
+                printButton.style.visibility = "visible";
+            }
+            if (otherButton) {
+                otherButton.style.visibility = "visible";
+            }
+
+            // Restore the header and footer's visibility after printing (optional)
+            document.querySelector("header").style.display = "";
+            document.querySelector("footer").style.display = "";
+        }
+    </script>
+    <script>
+        // Get the first row in the table body
+        var firstRow = document.querySelector('tbody tr:first-child');
+
+        // Get all cells in the first row
+        var cells = firstRow.querySelectorAll('td');
+
+        // Initialize total character count
+        var totalCharacters = 0;
+
+        // Get the pre tag element
+        var resultPre = document.getElementById('resultPre');
+
+        // Append the header for the fields
+        resultPre.textContent += 'Field Name          Description         From     To     Length      Example\n';
+
+        // Iterate through each cell in the first row
+        cells.forEach(function (cell, index) {
+            // Calculate the starting and ending character positions for each cell
+            var cellHtml = cell.innerHTML;
+
+            // Exclude spaces from both 'START' and 'END' counts
+            var startChar = totalCharacters + 1;
+            var endChar = startChar + cellHtml.replace(/\s/g, '').length - 1;
+
+            // Update the total character count
+            totalCharacters = endChar + 1; // Add 1 to include the space in the next cell
+
+            var content = cellHtml.trim();
+
+            // Append the result to the pre tag based on the row index
+            switch (index) {
+                case 0: // Transaction Date
+                    resultPre.textContent += padToLength('Date', 20) +
+                        padToLength('Date', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 1: // Serial No
+                    resultPre.textContent += padToLength('SupplierName', 20) +
+                        padToLength('Supplier Name', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 2: // Sold To
+                    resultPre.textContent += padToLength('SupplierTin', 20) +
+                        padToLength('Supplier TIN', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 3: // Tin#
+                    resultPre.textContent += padToLength('SupplierAddress', 20) +
+                        padToLength('Supplier Address', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 4: // Amount
+                    resultPre.textContent += padToLength('PONo', 20) +
+                        padToLength('PO No.', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 5: // Vat Amount
+                    resultPre.textContent += padToLength('DocumentNo', 20) +
+                        padToLength('Document No', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 6: // Vatable Sales
+                    resultPre.textContent += padToLength('Description', 20) +
+                        padToLength('Description', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 7: // VAT Exempt Sales
+                    resultPre.textContent += padToLength('Amount', 20) +
+                        padToLength('Amount', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 8: // Zero Rated
+                    resultPre.textContent += padToLength('VatAmount', 20) +
+                        padToLength('Vat Amount', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 9: // Zero Rated
+                    resultPre.textContent += padToLength('DefAmount', 20) +
+                        padToLength('Def VAT Amount', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 10: // Zero Rated
+                    resultPre.textContent += padToLength('WhtAmount', 20) +
+                        padToLength('WHT Amount', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 11: // Zero Rated
+                    resultPre.textContent += padToLength('NetPurchases', 20) +
+                        padToLength('Net Purchases', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+            }
+        });
+
+        // Function to pad a string to a specific length
+        function padToLength(str, length) {
+            return str + ' '.repeat(Math.max(0, length - str.length));
+        }
+    </script>
+
+    <script>
+        // Get all <tr> elements in the table body (excluding the header row)
+        var allTrElements = document.querySelectorAll('tbody tr');
+
+        // Get the pre tag element
+        var resultPre = document.getElementById('resultPre');
+
+        console.log("@formattedTotalAmount");
+        // Replace the placeholder in the HTML with the actual number of records
+        resultPre.innerHTML = resultPre.innerHTML.replace('@numberOfRecords', (allTrElements.length - 1));
+        resultPre.innerHTML = resultPre.innerHTML.replace('@amountFieldControlTotal', "@formattedTotalAmount");
+
+    </script>
+
+
+}

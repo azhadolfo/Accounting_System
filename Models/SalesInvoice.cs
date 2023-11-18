@@ -14,7 +14,7 @@ namespace Accounting_System.Models
         {
             get
             {
-                return SerialNo.ToString("D8"); // Formats with leading zeros, e.g., 0000021
+                return "SI" + SerialNo.ToString("D10"); 
             }
         }
 

@@ -270,11 +270,35 @@
     <p>
         <i>This is a system generated invoice, no signature required.</i>
     </p>
-</div><br />
+</div>
+@if (Model.CustomerType == "Exempt")
+{
+   <div style="margin-top:20px;">
+    <p>
+        <strong style="border:2px solid; padding:10px;">TAX EXEMPT</strong>
+        <br><br>
+        <em><strong>"THIS DOCUMENT IS NOT VALID FOR CLAIM OF INPUT TAX"</strong></em><br />
+    </p>
+    </div>
+}
+else if (Model.CustomerType == "Zero Rated")
+{
+    <div style="margin-top:20px;">
+    <p>
+        <strong style="border:2px solid; padding:10px;">ZERO RATED</strong>
+        <br><br>
+        <em><strong>"THIS DOCUMENT IS NOT VALID FOR CLAIM OF INPUT TAX"</strong></em><br />
+    </div>
+}
+<br />
 <div class="text-center w-100" style="margin-top:20px;">
-    <p style="line-height: 1;">
-        Acknowledgement Certificate No:<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>Date Issued:<u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> Series from: 00000001 - 99999999<br />
-        Date and Time Created:@Html.DisplayFor(model => model.CreatedDate)
+    <p @* style="line-height: 1;" *@>
+        <span>Acknowledgement Certificate No:</span>
+        <span style="display: inline-block; width: 30%;"></span>
+        <span>Date Issued:</span>
+        <span style="display: inline-block; width: 15%;"></span><br />
+        Series from: SI0000000001 - SI9999999999
+        Date and Time Created:&nbsp;@Html.DisplayFor(model => model.CreatedDate)
     </p>
 </div>
 <br />
