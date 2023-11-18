@@ -1,90 +1,93 @@
-﻿@model Accounting_System.Models.Customer
-@{
-    ViewData["Title"] = "Sales Order";
-}
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 
 <br />
 <div class="text-end">
     <img src="~/img/Filpride.jpg" height="" width="130px" />
 </div>
-<div>
-    <h2><b>FILPRIDE RESOURCES INC.</b></h2>
+<div class="text-center">
+    <h2><u><b>&nbsp;FILPRIDE RESOURCES INC.&nbsp;</b></u></h2>
     <p style="line-height: 1; margin-top:-7px;">
         57 Westgate Offices, Sampson RO CBD, Subic Bay, Freeport Zone,<br />
         Kalaklan Olongapo City, 2000 Zambales Philippines<br />
+        VAT Reg. TIN: 000-216-589-00000
     </p>
-    <h3 style="line-height:1px;"><b>CUSTOMER ORDER SLIP</b></h3>
+
+    <h3><span style="display: inline-block;"><b>Purchase Order</b></span></h3>
+    <div class="text-end" style="margin-top:-60px;">
+        <h6><b>PO No.&nbsp;PO0000000001</b></h6>
+    </div>
 
 </div>
 
 <div class="table-responsive" style="margin-top:50px;">
-    <table class="table-bordered w-100">
+    <table class="w-100">
         <tbody>
-            <tr>
-                <td class="w-25">Customer No.:</td>
-                <td class="w-25"></td>
-                <td class="w-25">COS No.:</td>
-                <td class="w-25"></td>
+            <tr style="padding-left:10px;">
+                <td class="w-75">Supplier: &nbsp;INSULAR OIL CORP</td>
+                <td class="w-25">November 09,&nbsp; 2023 &nbsp;</td>
             </tr>
-            <tr>
-                <td>Station Name:</td>
-                <td></td>
-                <td>Date:</td>
+            <tr style="padding-left:10px;">
+                <td>Address: &nbsp;Bagumbayan, Quezon City</td>
                 <td></td>
             </tr>
-            <tr>
-                <td>Terms:</td>
-                <td></td>
-                <td>Exp. Date:</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Credit Limit:</td>
-                <td></td>
-                <td>PO No.:</td>
+            <tr style="padding-left:10px;">
+                <td>TIN No.: &nbsp;001-235-846-000</td>
                 <td></td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div class="table-responsive" style="margin-top:30px;">
+<div class="table-responsive" style="margin-top:50px;">
     <table class="w-100">
+        <thead>
+            <tr style="padding-left:10px;">
+                <th class="w-25">Product Name</th>
+                <th class="w-25">Quantity</th>
+                <th class="w-25">Price</th>
+                <th class="w-25">Amount</th>
+            </tr>
+        </thead>
         <tbody>
             <tr>
-                <td class="w-25">Net AR Balance:</td>
-                <td class="w-25"></td>
-                <td class="w-25">Pending Order:</td>
-                <td class="w-25"></td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>-</td>
-                <td colspan="2">Note:</td>
-            </tr>
-            <tr>
-                <td>DMCM Reg:</td>
-                <td colspan="3">-</td>
-            </tr>
-            <tr>
-                <td>Net AR:</td>
-                <td colspan="3"></td>
-            </tr>
-            <tr>
-                <td>Add This Order:</td>
-                <td colspan="3"></td>
-            </tr>
-            <tr>
-                <td>Net Over/Under Line:</td>
-                <td colspan="3"></td>
+                <td class="w-25">BIODIESEL</td>
+                <td class="w-25">100.00</td>
+                <td class="w-25">19.00</td>
+                <td class="w-25">1,900.00</td>
             </tr>
         </tbody>
     </table>
 </div>
-<br />
+<br /><br /><br /><br /><br /><br /><br /><br />
+<div class="text-center w-100" style="margin-top:20px;">
+    <p @* style="line-height: 1;" *@>
+        <span>Acknowledgement Certificate No:</span>
+        <span style="display: inline-block; width: 30%;"></span>
+        <span>Date Issued:</span>
+        <span style="display: inline-block; width: 15%;"></span><br />
+        Series from: PO0000000001 - PO9999999999
+        Date and Time Created:&nbsp;11/09/2023 01:50:31 PM
+</div>
+
+<div class="text-start w-100 footer" style="margin-top:50px;">
+    <p style="line-height: 1;">
+        <em>
+            <strong>Software Name :</strong> Accounting Administration System (AAS)
+            <br />
+            <strong>Version :</strong> v1.0
+            <br />
+            <strong>Printed By :</strong> @UserManager.GetUserName(User).ToUpper()
+            <br />
+            <strong>Date & Time Printed :</strong> @DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
+        </em>
+    </p>
+</div>
 <div>
     <a class="btn btn-success" onclick="printPage()" id="printButton">Print</a>
-        <a asp-action="OrderSlip" class="btn" id="otherButton">Back</a>
+    <a class="btn" id="otherButton">Back</a>
 </div>
 
 @section Scripts{

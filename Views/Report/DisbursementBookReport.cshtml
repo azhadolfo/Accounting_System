@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Accounting_System.Models.CashReceiptBook>
+﻿@model IEnumerable<Accounting_System.Models.DisbursementBook>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @{
-    ViewData["Title"] = "Cash Receipt Book";
+    ViewData["Title"] = "Disbursement Book";
     var dateFrom = ViewBag.DateFrom;
     var dateTo = ViewBag.DateTo;
 
@@ -23,8 +23,8 @@
     }
     DateTime now = DateTime.Now;
 
-    decimal totalCreditAmount = 0;
     decimal totalDebitAmount = 0;
+    decimal totalCreditAmount = 0;
 
     int numberOfRecords = 0;
     decimal amountFieldControlTotal = 0;
@@ -42,14 +42,14 @@
         VAT Reg. TIN: 000-216-589-00000
     </p>
 
-    <h3><span style="display: inline-block;"><b>CASH RECEIPT BOOK</b></span></h3>
+    <h3><span style="display: inline-block;"><b>DISBURSEMENT BOOK</b></span></h3>
 
 
 </div>
 <div>
     <pre id="resultPre">
 Accounting Books File Attributes/Layout Definition
-File Name: Cash Receipt Book Report
+File Name: Disbursement Book Report
 File Type: PDF File
 Number of Records:              @numberOfRecords
 Amount Field Control Total:     @amountFieldControlTotal
@@ -67,10 +67,13 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.RefNo)
+                    @Html.DisplayNameFor(model => model.CVNo)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CustomerName)
+                    @Html.DisplayNameFor(model => model.Payee)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Particulars)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Bank)
@@ -79,10 +82,10 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                     @Html.DisplayNameFor(model => model.CheckNo)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.COA)
+                    @Html.DisplayNameFor(model => model.CheckDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Particulars)
+                    @Html.DisplayNameFor(model => model.ChartOfAccount)
                 </th>
                 <th class="text-end">
                     @Html.DisplayNameFor(model => model.Debit)
@@ -94,47 +97,51 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
         </thead>
         <tbody>
 
-            @foreach (var cashReceipt in Model)
+            @foreach (var disbursement in Model)
             {
                 <tr class="align-text-bottom">
                     <td>
-                        @Html.DisplayFor(model => cashReceipt.Date)
+                        @Html.DisplayFor(model => disbursement.Date)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => cashReceipt.RefNo)
+                        @Html.DisplayFor(model => disbursement.CVNo)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => cashReceipt.CustomerName)
+                        @Html.DisplayFor(model => disbursement.Payee)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => cashReceipt.Bank)
+                        @Html.DisplayFor(model => disbursement.Particulars)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => cashReceipt.CheckNo)
+                        @Html.DisplayFor(model => disbursement.Bank)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => cashReceipt.COA)
+                        @Html.DisplayFor(model => disbursement.CheckNo)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => cashReceipt.Particulars)
+                        @Html.DisplayFor(model => disbursement.CheckDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => disbursement.ChartOfAccount)
                     </td>
                     <td class="text-end">
-                        @Html.DisplayFor(model => cashReceipt.Debit)
+                        @Html.DisplayFor(model => disbursement.Debit)
                     </td>
                     <td class="text-end">
-                        @Html.DisplayFor(model => cashReceipt.Credit)
+                        @Html.DisplayFor(model => disbursement.Credit)
                     </td>
-                    
+
                 </tr>
 
-                totalCreditAmount += cashReceipt.Credit;
-                totalDebitAmount += cashReceipt.Debit;
+                totalDebitAmount += disbursement.Debit;
+                totalCreditAmount += disbursement.Credit;
             }
             <tr class="align-text-bottom" style="border-top: 2px solid black;">
                 @{
-                    var formattedTotalCreditAmount = String.Format("{0:n}", totalCreditAmount);
                     var formattedTotalDebitAmount = String.Format("{0:n}", totalDebitAmount);
+                    var formattedTotalCreditAmount = String.Format("{0:n}", totalCreditAmount);
 
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -142,15 +149,15 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                     <td></td>
                     <td></td>
                     <td class="text-center"><b>TOTAL:</b></td>
-                    <td class="text-end">@formattedTotalCreditAmount</td>
                     <td class="text-end"><div>@formattedTotalDebitAmount</div></td>
+                    <td class="text-end"><div>@formattedTotalCreditAmount</div></td>
                 }
             </tr>
         </tbody>
     </table>
 </div>
 
-<div class="text-start" style="margin-top:50px;">
+<div class="text-start" style="margin-top:30px;">
     <p style="line-height: 1;">
         <em>
             <strong>Software Name :</strong> Accounting Administration System (AAS)
@@ -163,6 +170,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
         </em>
     </p>
 </div>
+
 <div>
     <a class="btn btn-success" onclick="printPage()" id="printButton">Print</a>
     <a asp-action="SalesBook" class="btn" id="otherButton">Back</a>
@@ -266,24 +274,24 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
             // Append the result to the pre tag based on the row index
             switch (index) {
                 case 0: // Transaction Date
-                    resultPre.textContent += padToLength('ORDate', 20) +
-                        padToLength('OR Date', 20) +
+                    resultPre.textContent += padToLength('Date', 20) +
+                        padToLength('Date', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
                 case 1: // Serial No
-                    resultPre.textContent += padToLength('ORNo', 20) +
-                        padToLength('OR No.', 20) +
+                    resultPre.textContent += padToLength('CVNo', 20) +
+                        padToLength('CV No.', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
                 case 2: // Sold To
-                    resultPre.textContent += padToLength('CustomerName', 20) +
-                        padToLength('Customer Name', 20) +
+                    resultPre.textContent += padToLength('Payee', 20) +
+                        padToLength('Payee', 20) +
                         padToLength(startChar.toString(), 9) +
                         padToLength(endChar.toString(), 7) +
                         padToLength((endChar - startChar + 1).toString(), 12) +
@@ -298,22 +306,6 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         content + '\n';
                     break;
                 case 4: // Amount
-                    resultPre.textContent += padToLength('CheckNo', 20) +
-                        padToLength('Check No.', 20) +
-                        padToLength(startChar.toString(), 9) +
-                        padToLength(endChar.toString(), 7) +
-                        padToLength((endChar - startChar + 1).toString(), 12) +
-                        content + '\n';
-                    break;
-                case 5: // Vat Amount
-                    resultPre.textContent += padToLength('COA', 20) +
-                        padToLength('Chart Of Account', 20) +
-                        padToLength(startChar.toString(), 9) +
-                        padToLength(endChar.toString(), 7) +
-                        padToLength((endChar - startChar + 1).toString(), 12) +
-                        content + '\n';
-                    break;
-                case 6: // Vatable Sales
                     resultPre.textContent += padToLength('Particulars', 20) +
                         padToLength('Particulars', 20) +
                         padToLength(startChar.toString(), 9) +
@@ -321,7 +313,31 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
+                case 5: // Vat Amount
+                    resultPre.textContent += padToLength('CheckNo', 20) +
+                        padToLength('Check No', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 6: // Vatable Sales
+                    resultPre.textContent += padToLength('CheckDate', 20) +
+                        padToLength('Check Date', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
                 case 7: // VAT Exempt Sales
+                    resultPre.textContent += padToLength('ChartOfAccount', 20) +
+                        padToLength('Chart Of Account', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 8: // Zero Rated
                     resultPre.textContent += padToLength('Debit', 20) +
                         padToLength('Debit', 20) +
                         padToLength(startChar.toString(), 9) +
@@ -329,7 +345,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
-                case 8: // Zero Rated
+                case 9: // Zero Rated
                     resultPre.textContent += padToLength('Credit', 20) +
                         padToLength('Credit', 20) +
                         padToLength(startChar.toString(), 9) +

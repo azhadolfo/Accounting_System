@@ -3,6 +3,7 @@ using System;
 using Accounting_System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Accounting_System.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231116090928_create general book report")]
+    partial class creategeneralbookreport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,70 +263,6 @@ namespace Accounting_System.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("Accounting_System.Models.DisbursementBook", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("numeric");
-
-                    b.Property<string>("Bank")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("CVNo")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ChartOfAccount")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("CheckDate")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("CheckNo")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("Credit")
-                        .HasColumnType("numeric");
-
-                    b.Property<string>("Date")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateCleared")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("Debit")
-                        .HasColumnType("numeric");
-
-                    b.Property<string>("Particulars")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Payee")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DisbursementBooks");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.GeneralLedgerBook", b =>

@@ -52,7 +52,7 @@
                     <span class="underline" style="display: inline-block; width: 92%;">(₱ @Model.StatementOfAccount.Amount)</span><br />
 
                     <span><b>In partial/full payment for</b></span>
-                    <span class="underline" style="display: inline-block; width: 72%;">&nbsp;&nbsp;Full</span><br />
+                    <span class="underline" style="display: inline-block; width: 72%;">&nbsp;&nbsp;@Model.StatementOfAccount.FormmatedNumber</span><br />
 
                     <span><b>Reference Receipt No.</b></span>
                     <span class="underline" style="display: inline-block; width: 75%;">&nbsp;&nbsp;@Html.DisplayFor(model => model.ReferenceNo)</span>
@@ -73,11 +73,19 @@
                 <td class="w-50 text-center">Amount</td>
             </tr> *@
             <tr>
+                @{
+                    string concatenatedValue = "0.0" + Model.StatementOfAccount.Service.Percent.ToString();
+                    decimal vatableSales = Model.StatementOfAccount.Amount / (decimal)1.12;
+                    decimal totalSalesVatInclusive = Model.StatementOfAccount.Amount - vatableSales;
+                    decimal EWT = vatableSales * decimal.Parse(concatenatedValue);
+                    decimal totalAmountDue = Model.StatementOfAccount.Amount - EWT;
+
+                }
                 <td class="w-25" style="padding-left:10px;">VATables Sales</td>
                 <td class="w-25">
                     @if (Model.StatementOfAccount.Customer.CustomerType == "Vatable")
                     {
-                        <h6 style="height: 9px; padding-left:10px;">893.00</h6>
+                        <h6 style="height: 9px; padding-left:10px;">@Html.DisplayFor(model => vatableSales)</h6>
                     }
                 </td>
                 <td colspan="2" class="w-50" style="padding-left:10px;"></td>
@@ -90,8 +98,8 @@
                         <h6 style="height: 9px; padding-left:10px;">@Html.DisplayFor(model => model.Amount)</h6>
                     }
                 </td>
-                <td style="padding-left:10px;">Form of Payment:</td>
-                <td class="w-25" style="padding-left:10px;">@Html.DisplayFor(model => model.FormOfPayment)</td>
+                <td style="padding-left:10px;">SOA Date</td>
+                <td class="w-25" style="padding-left:10px;">@Model.StatementOfAccount.CreatedDate.ToString("yyyy-dd-MM")</td>
             </tr>
             <tr>
                 <td style="padding-left:10px;">Zero Rated Sales</td>
@@ -101,35 +109,36 @@
                         <p style="height: 9px; padding-left:10px;">@Html.DisplayFor(model => model.Amount)</p>
                     }
                 </td>
-                <td style="padding-left:10px;">Check no.</td>
-                <td style="padding-left:10px;">@Html.DisplayFor(model => model.CheckNo)</td>
+                <td style="padding-left:10px;">SOA #.</td>
+                <td style="padding-left:10px;">@Html.DisplayFor(model => model.StatementOfAccount.FormmatedNumber)</td>
             </tr>
             <tr>
                 <td style="padding-left:10px;">VAT Amount</td>
                 <td></td>
-                <td style="padding-left:10px;">Check Date</td>
-                <td style="padding-left:10px;">@Html.DisplayFor(model => model.CheckDate)</td>
+                <td style="padding-left:10px;">Amount</td>
+                <td style="padding-left:10px;">@Html.DisplayFor(model => model.StatementOfAccount.Amount)</td>
             </tr>
             <tr>
                 <td style="padding-left:10px;">Total Sales(VAT Inclusive)</td>
                 <td>
                     @if (Model.StatementOfAccount.Customer.CustomerType == "Vatable")
                     {
-                        <h6 style="height: 9px; padding-left:10px;">107.00</h6>
+                        <h6 style="height: 9px; padding-left:10px;">@Html.DisplayFor(model => totalSalesVatInclusive)</h6>
                     }
                 </td>
-                <td style="padding-left:10px;">AMOUNT</td>
-                <td style="padding-left:10px;">@Html.DisplayFor(model => model.Amount)</td>
+                
+                <td style="padding-left:10px;"></td>
+                <td style="padding-left:10px;"></td>
             </tr>
             <tr>
                 <td style="padding-left:10px;">Less: Withholding Tax</td>
-                <td></td>
+                <td style="padding-left:10px;">@Html.DisplayFor(model => EWT)</td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
                 <td style="padding-left:10px;">Total Amount Due</td>
-                <td style="padding-left:10px;">@Html.DisplayFor(model => model.Amount)</td>
+                <td style="padding-left:10px;">@Html.DisplayFor(model => totalAmountDue)</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -147,34 +156,28 @@
     <table class="table-bordered w-100">
         <tbody>
             <tr>
-                <td class="text-center" style="width:33%">SOA DATE</td>
-                <td class="text-center" style="width:33%">SOA #</td>
-                <td class="text-center" style="width:33%">AMOUNT</td>
+                <td class="text-center" style="width:25%">Form of Payment</td>
+                <td class="text-center" style="width:25%">Check Date</td>
+                <td class="text-center" style="width:25%">Check No.</td>
+                <td class="text-center" style="width:25%">Amount</td>
             </tr>
             <tr class="text-center">
-                <td style="width:33%">@Model.StatementOfAccount.CreatedDate.ToString("yyyy-dd-MM")</td>
-                <td style="width:33%">@Html.DisplayFor(model => model.StatementOfAccount.FormmatedNumber)</td>
-                <td style="width:33%">@Html.DisplayFor(model => model.StatementOfAccount.Amount)</td>
+                <td>@Html.DisplayFor(model => model.FormOfPayment)</td>
+                <td>@Html.DisplayFor(model => model.CheckDate)</td>
+                <td>@Html.DisplayFor(model => model.CheckNo)</td>
+                <td>@Html.DisplayFor(model => totalAmountDue)</td>
             </tr>
-            <tr>
-                <td style="width:33%">&nbsp;</td>
-                <td style="width:33%"></td>
-                <td style="width:33%"></td>
+            <tr class="text-center">
+                <td>&nbsp;EWT</td>
+                <td></td>
+                <td></td>
+                <td>@Html.DisplayFor(model => EWT)</td>
             </tr>
-            <tr>
-                <td style="width:33%">&nbsp;</td>
-                <td style="width:33%"></td>
-                <td style="width:33%"></td>
-            </tr>
-            <tr>
-                <td style="width:33%">&nbsp;</td>
-                <td style="width:33%"></td>
-                <td style="width:33%"></td>
-            </tr>
-            <tr>
-                <td style="width:33%">&nbsp;</td>
-                <td style="width:33%"></td>
-                <td style="width:33%"></td>
+            <tr class="text-center">
+                <td>&nbsp;TOTAL</td>
+                <td></td>
+                <td></td>
+                <td>@Html.DisplayFor(model => model.StatementOfAccount.Amount)</td>
             </tr>
         </tbody>
     </table>
