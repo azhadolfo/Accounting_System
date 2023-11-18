@@ -3,6 +3,7 @@ using System;
 using Accounting_System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Accounting_System.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231117060130_update the disbursement book")]
+    partial class updatethedisbursementbook
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -564,7 +567,7 @@ namespace Accounting_System.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Accounting_System.Models.PurchaseJournalBook", b =>
+            modelBuilder.Entity("Accounting_System.Models.PurchaseOrder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -637,7 +640,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PurchaseJournalBooks");
+                    b.ToTable("PurchaseOrders");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.SalesInvoice", b =>

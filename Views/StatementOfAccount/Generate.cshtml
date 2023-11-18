@@ -47,7 +47,7 @@
                     &nbsp; <span id="soaDate">@Model.CreatedDate.ToShortDateString()</span>
                     <br />
                     <b>Terms:</b>&nbsp;<span id="terms">@Html.DisplayFor(model => model.Customer.Terms)</span>&nbsp;<br />
-                    <b>Due Date:</b>&nbsp; <span id="dueDate">11/30/2023</span><br />
+                    <b>Due Date:</b>&nbsp; <span id="dueDate">11/16/2023</span><br />
                 </td>
             </tr>
         </tbody>
@@ -88,7 +88,7 @@
     var formattedLessEwtTax = String.Format("{0:n}", lessEwtTax);
 
     <p style="line-height: 1; margin-top:20px;">
-        Creditable Withholding Tax with the amount of <b>@formattedLessEwtTax</b> is computed for this invoice.<br />
+        Creditable Withholding Tax with the amount of <b>@formattedLessEwtTax</b> is computed for this statement of account.<br />
         Please attach BIR Form 2307 to your payment if you deducted Expanded Withholding Tax.
     </p>
 
