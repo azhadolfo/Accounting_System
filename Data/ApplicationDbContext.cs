@@ -31,5 +31,6 @@ namespace Accounting_System.Data
         public DbSet<InventoryBook> InventoryBooks { get; set; }
         public DbSet<GeneralLedgerBook> GeneralLedgerBooks { get; set; }
         public DbSet<DisbursementBook> DisbursementBooks { get; set; }
+        public DbSet<JournalBook> JournalBooks { get; set; }
     }
 }
