@@ -178,6 +178,33 @@ namespace Accounting_System.Controllers
             return View(model);
         }
 
+        public IActionResult JournalBook()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> JournalBookReport(ViewModelBook model)
+        {
+            ViewBag.DateFrom = model.DateFrom;
+            ViewBag.DateTo = model.DateTo;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var journalBooks = await _reportRepo.GetJournalBookAsync(model.DateFrom, model.DateTo);
+
+                    return View(journalBooks);
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                    return RedirectToAction(nameof(JournalBook));
+                }
+            }
+
+            return View(model);
+        }
+
         public IActionResult AuditTrail()
         {
             return View();

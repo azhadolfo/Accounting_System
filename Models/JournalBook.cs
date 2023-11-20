@@ -7,6 +7,8 @@ namespace Accounting_System.Models
         public string Date { get; set; }
         public string Reference { get; set; }
 
+        public string Description { get; set; }
+
         [Display(Name = "Account Title")]
         public string AccountTitle { get; set; }
 

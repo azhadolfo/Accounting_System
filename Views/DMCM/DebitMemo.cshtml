@@ -20,7 +20,7 @@
 
     <h3><span style="display: inline-block;"><b>DEBIT MEMO</b></span></h3>
     <div class="text-end" style="margin-top:-60px;">
-        <h6><b>@* No. *@&nbsp;</b></h6>
+        <h6><b>No.&nbsp; DMCM0000000001</b></h6>
     </div>
 
 </div>
@@ -45,7 +45,7 @@
 
                 <td class="w-25 text-nowrap">
 
-                    <b>DM/CM #: 0000000001</b>
+                    <b>Date :</b> 11/17/2023
                     &nbsp; <span id="invoiceDate"></span>
                     <br />
                     <b>@* Terms: *@</b>&nbsp;<span id="terms"></span>&nbsp;<br />
@@ -75,7 +75,7 @@
                 <td>11/16/2023</td>
                 <td>BIODIESEL</td>
                 <td>Price Adjusment from 20.00 to 20.50</td>
-                <td>1,025.00</td>
+                <td>25.00</td>
             </tr>
 
         </tbody>
@@ -95,7 +95,7 @@
                             <tbody class="text-nowrap">
                                 <tr>
                                     <td class="w-50"><p style="height: 9px; margin-left:8%;"><b>Vatable Sales: </b></p></td>
-                                    <td class="w-50 text-end">892.86</td>
+                                    <td class="w-50 text-end">22.32</td>
 
                                 </tr>
                                 <tr>
@@ -111,11 +111,11 @@
                                 <tr>
                                     <td><p style="height: 9px; margin-left:8%;"><b>VAT Amount: </b></p></td>
 
-                                    <td class="text-end">107.14</td>
+                                    <td class="text-end">2.68</td>
                                 </tr>
                                 <tr>
                                     <td><p style="height: 9px; margin-left:8%;"><b>TOTAL SALES: </b></p></td>
-                                    <td class="text-end">1,000.00</td>
+                                    <td class="text-end">25.00</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -140,20 +140,35 @@
         <span>Acknowledgement Certificate No:</span>
         <span style="display: inline-block; width: 30%;"></span>
         <span>Date Issued:</span>
+        <span style="display: inline-block; width: 15%;"></span>
         <span style="display: inline-block; width: 15%;"></span><br />
-        Series from: SI0000000001 - SI9999999999
-        Date and Time Created:&nbsp;
+        Series from: DMCM0000000001 - DMCM9999999999
+        Date and Time Created:&nbsp; 11/17/2023 01:23:08 PM
     </p>
 </div>
 <br />
 
-<div class="text-end">
-    ORIGINAL COPY
+<div class="text-start w-100 footer" style="margin-top:50px;">
+    <p style="line-height: 1;">
+        <em>
+            <strong>Software Name :</strong> Accounting Administration System (AAS)
+            <br />
+            <strong>Version :</strong> v1.0
+            <br />
+            <strong>Printed By :</strong> @UserManager.GetUserName(User).ToUpper()
+            <br />
+            <strong>Date & Time Printed :</strong> @DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
+        </em>
+    </p>
 </div>
 
 @* <div class="text-end">
-    REPRINT COPY
+    ORIGINAL COPY
 </div> *@
+
+<div class="text-end">
+    REPRINT COPY
+</div>
 
 <div>
     <a class="btn btn-success" onclick="printPage()" id="printButton">Print</a>

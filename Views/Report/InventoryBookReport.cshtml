@@ -51,7 +51,7 @@
     <pre id="resultPre">
 Accounting Books File Attributes/Layout Definition
 File Name: Inventory Book Report
-File Type: PDF File
+File Type: Text File
 Number of Records:              @numberOfRecords
 Amount Field Control Total:     @amountFieldControlTotal
 Period Covered:                 @dateFrom to @dateTo
@@ -263,6 +263,14 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         content + '\n';
                     break;
                 case 1: // Serial No
+                    resultPre.textContent += padToLength('ProductCode', 20) +
+                        padToLength('Product Code', 20) +
+                        padToLength(startChar.toString(), 9) +
+                        padToLength(endChar.toString(), 7) +
+                        padToLength((endChar - startChar + 1).toString(), 12) +
+                        content + '\n';
+                    break;
+                case 2: // Serial No
                     resultPre.textContent += padToLength('ProductName', 20) +
                         padToLength('Product Name', 20) +
                         padToLength(startChar.toString(), 9) +
@@ -270,7 +278,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
-                case 2: // Sold To
+                case 3: // Sold To
                     resultPre.textContent += padToLength('Unit', 20) +
                         padToLength('Unit', 20) +
                         padToLength(startChar.toString(), 9) +
@@ -278,7 +286,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
-                case 3: // Tin#
+                case 4: // Tin#
                     resultPre.textContent += padToLength('Quantity', 20) +
                         padToLength('Quantity', 20) +
                         padToLength(startChar.toString(), 9) +
@@ -286,7 +294,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
-                case 4: // Amount
+                case 5: // Amount
                     resultPre.textContent += padToLength('Price', 20) +
                         padToLength('Price Per Unit', 20) +
                         padToLength(startChar.toString(), 9) +
@@ -294,7 +302,7 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
                         padToLength((endChar - startChar + 1).toString(), 12) +
                         content + '\n';
                     break;
-                case 5: // Vat Amount
+                case 6: // Vat Amount
                     resultPre.textContent += padToLength('Amount', 20) +
                         padToLength('Amount', 20) +
                         padToLength(startChar.toString(), 9) +

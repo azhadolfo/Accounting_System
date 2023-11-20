@@ -50,7 +50,7 @@
     <pre id="resultPre">
 Accounting Books File Attributes/Layout Definition
 File Name: Audit Trail Report
-File Type: PDF File
+File Type: Text File
 Number of Records:              @numberOfRecords
 Amount Field Control Total:     N/A
 Period Covered:                 @dateFrom to @dateTo
@@ -297,7 +297,9 @@ Extracted By:                   @UserManager.GetUserName(User).ToUpper()
 
         // console.log("");
         // Replace the placeholder in the HTML with the actual number of records
-        resultPre.innerHTML = resultPre.innerHTML.replace('@numberOfRecords', (allTrElements.length - 1));
+        resultPre.innerHTML = resultPre.innerHTML.replace('@numberOfRecords', (allTrElements.length));
+
+        console.log(allTrElements.length-1)
         // resultPre.innerHTML = resultPre.innerHTML.replace('@amountFieldControlTotal', "");
 
     </script>
