@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Accounting_System.Data;
 using Accounting_System.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Accounting_System.Controllers
 {
@@ -14,9 +15,12 @@ namespace Accounting_System.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductController(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public ProductController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Products
@@ -60,6 +64,8 @@ namespace Accounting_System.Controllers
         {
             if (ModelState.IsValid)
             {
+                product.CreatedBy = _userManager.GetUserName(this.User).ToUpper();
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
