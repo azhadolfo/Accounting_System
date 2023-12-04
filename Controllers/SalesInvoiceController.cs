@@ -319,12 +319,11 @@ namespace Accounting_System.Controllers
 
                     #endregion --Sales Book Recording
 
-                    #region --General Ledger Book Recording
+                    var ledgers = new List<GeneralLedgerBook>();
 
-                    var ledgers = new GeneralLedgerBook[]
-                    {
-                    #region --AR-Trade Receivable
+                    // ... (previous code remains unchanged)
 
+                    ledgers.Add(
                         new GeneralLedgerBook
                         {
                             Date = model.TransactionDate.ToShortDateString(),
@@ -335,125 +334,118 @@ namespace Accounting_System.Controllers
                             Credit = 0,
                             CreatedBy = model.CreatedBy,
                             CreatedDate = model.CreatedDate
-                        },
-
-                    #endregion --AR-Trade Receivable
-
-                    #region --DEFERRED CREDITABLE WITHOLDING TAX
-
-                        new GeneralLedgerBook
-                        {
-                            Date = model.TransactionDate.ToShortDateString(),
-                            Reference = model.SINo,
-                            Description = model.ProductName,
-                            AccountTitle = "1010202 Deferred Creditable Witholding Tax",
-                            Debit = model.WithHoldingTaxAmount, //withholding tax
-                            Credit = 0,
-                            CreatedBy = model.CreatedBy,
-                            CreatedDate = model.CreatedDate
-                        },
-
-                    #endregion --DEFERRED CREDITABLE WITHOLDING TAX
-
-                    #region --DEFERRED CREDITABLE WITHOLDING VAT
-
-                        new GeneralLedgerBook
-                        {
-                            Date = model.TransactionDate.ToShortDateString(),
-                            Reference = model.SINo,
-                            Description = model.ProductName,
-                            AccountTitle = "1010203 Deferred Creditable Witholding Vat",
-                            Debit = model.WithHoldingVatAmount, //withholding vat
-                            Credit = 0,
-                            CreatedBy = model.CreatedBy,
-                            CreatedDate = model.CreatedDate
-                        },
-
-                    #endregion --DEFERRED CREDITABLE WITHOLDING VAT
-
-                    model.ProductName == "Biodiesel" ?
-
-                    #region --SALES - BIODIESEL
-
-                        new GeneralLedgerBook
-                        {
-                            Date = model.TransactionDate.ToShortDateString(),
-                            Reference = model.SINo,
-                            Description = model.ProductName,
-                            AccountTitle = "4010101 Sales - Biodiesel",
-                            Debit = 0,
-                            Credit = model.VatableSales > 0
-                                    ? model.VatableSales
-                                    : (model.ZeroRated + model.VatExempt) - model.Discount,
-                            CreatedBy = model.CreatedBy,
-                            CreatedDate = model.CreatedDate
                         }
+                    );
 
-                    #endregion --SALES - BIODIESEL
+                    if (model.WithHoldingTaxAmount > 0)
+                    {
+                        ledgers.Add(
+                            new GeneralLedgerBook
+                            {
+                                Date = model.TransactionDate.ToShortDateString(),
+                                Reference = model.SINo,
+                                Description = model.ProductName,
+                                AccountTitle = "1010202 Deferred Creditable Witholding Tax",
+                                Debit = model.WithHoldingTaxAmount,
+                                Credit = 0,
+                                CreatedBy = model.CreatedBy,
+                                CreatedDate = model.CreatedDate
+                            }
+                        );
+                    }
+                    if (model.WithHoldingVatAmount > 0)
+                    {
+                        ledgers.Add(
+                            new GeneralLedgerBook
+                            {
+                                Date = model.TransactionDate.ToShortDateString(),
+                                Reference = model.SINo,
+                                Description = model.ProductName,
+                                AccountTitle = "1010203 Deferred Creditable Witholding Vat",
+                                Debit = model.WithHoldingVatAmount,
+                                Credit = 0,
+                                CreatedBy = model.CreatedBy,
+                                CreatedDate = model.CreatedDate
+                            }
+                        );
+                    }
+                    if (model.ProductName == "Biodiesel")
+                    {
+                        ledgers.Add(
+                            new GeneralLedgerBook
+                            {
+                                Date = model.TransactionDate.ToShortDateString(),
+                                Reference = model.SINo,
+                                Description = model.ProductName,
+                                AccountTitle = "4010101 Sales - Biodiesel",
+                                Debit = 0,
+                                Credit = model.VatableSales > 0
+                                            ? model.VatableSales
+                                            : (model.ZeroRated + model.VatExempt) - model.Discount,
+                                CreatedBy = model.CreatedBy,
+                                CreatedDate = model.CreatedDate
+                            }
+                        );
+                    }
+                    else if (model.ProductName == "Econogas")
+                    {
+                        ledgers.Add(
+                            new GeneralLedgerBook
+                            {
+                                Date = model.TransactionDate.ToShortDateString(),
+                                Reference = model.SINo,
+                                Description = model.ProductName,
+                                AccountTitle = "4010102 Sales - Econogas",
+                                Debit = 0,
+                                Credit = model.VatableSales > 0
+                                            ? model.VatableSales
+                                            : (model.ZeroRated + model.VatExempt) - model.Discount,
+                                CreatedBy = model.CreatedBy,
+                                CreatedDate = model.CreatedDate
+                            }
+                        );
+                    }
+                    else if (model.ProductName == "Envirogas")
+                    {
+                        ledgers.Add(
+                            new GeneralLedgerBook
+                            {
+                                Date = model.TransactionDate.ToShortDateString(),
+                                Reference = model.SINo,
+                                Description = model.ProductName,
+                                AccountTitle = "4010103 Sales - Envirogas",
+                                Debit = 0,
+                                Credit = model.VatableSales > 0
+                                            ? model.VatableSales
+                                            : (model.ZeroRated + model.VatExempt) - model.Discount,
+                                CreatedBy = model.CreatedBy,
+                                CreatedDate = model.CreatedDate
+                            }
+                        );
+                    }
 
-                    :
-                    model.ProductName == "Econogas" ?
+                    if (model.VatAmount > 0)
+                    {
+                        ledgers.Add(
+                            new GeneralLedgerBook
+                            {
+                                Date = model.TransactionDate.ToShortDateString(),
+                                Reference = model.SINo,
+                                Description = model.ProductName,
+                                AccountTitle = "2010301 Vat Output",
+                                Debit = 0,
+                                Credit = model.VatAmount,
+                                CreatedBy = model.CreatedBy,
+                                CreatedDate = model.CreatedDate
+                            }
+                        );
+                    }
 
-                    #region --SALES - ECONOGAS
-
-                        new GeneralLedgerBook
-                        {
-                            Date = model.TransactionDate.ToShortDateString(),
-                            Reference = model.SINo,
-                            Description = model.ProductName,
-                            AccountTitle = "4010102 Sales - Econogas",
-                            Debit = 0,
-                            Credit = model.VatableSales > 0
-                                    ? model.VatableSales
-                                    : (model.ZeroRated + model.VatExempt) - model.Discount,
-                            CreatedBy = model.CreatedBy,
-                            CreatedDate = model.CreatedDate
-                        }
-
-                    #endregion --SALES - ECONOGAS
-
-                    :
-
-                    #region --SALES - Envirogas
-
-                        new GeneralLedgerBook
-                        {
-                            Date = model.TransactionDate.ToShortDateString(),
-                            Reference = model.SINo,
-                            Description = model.ProductName,
-                            AccountTitle = "4010103 Sales - Envirogas",
-                            Debit = 0,
-                            Credit = model.VatableSales > 0
-                                    ? model.VatableSales
-                                    : (model.ZeroRated + model.VatExempt) - model.Discount,
-                            CreatedBy = model.CreatedBy,
-                            CreatedDate = model.CreatedDate
-                        },
-
-                    #endregion --SALES - Envirogas
-
-                    #region --VAT OUTPUT
-
-                        new GeneralLedgerBook
-                        {
-                            Date = model.TransactionDate.ToShortDateString(),
-                            Reference = model.SINo,
-                            Description = model.ProductName,
-                            AccountTitle = "2010301 Vat Output",
-                            Debit = 0,
-                            Credit = model.VatAmount,
-                            CreatedBy = model.CreatedBy,
-                            CreatedDate = model.CreatedDate
-                        }
-
-                    #endregion --VAT OUTPUT
-                    };
                     _dbContext.GeneralLedgerBooks.AddRange(ledgers);
-
-                    #endregion --General Ledger Book Recording
 
                     await _dbContext.SaveChangesAsync();
                     TempData["success"] = "Sales Invoice has been Posted.";
+
                 }
                 else
                 {

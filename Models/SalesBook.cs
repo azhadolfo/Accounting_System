@@ -36,7 +36,7 @@ namespace Accounting_System.Models
         public decimal VatExemptSales { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Zero Rated")]
+        [Display(Name = "Zero-Rated Sales")]
         public decimal ZeroRated { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
