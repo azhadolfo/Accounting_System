@@ -1,9 +1,10 @@
 ﻿@using System.ComponentModel.DataAnnotations;
-@model Accounting_System.Models.CheckVoucherHeader
+@model Accounting_System.Models.CheckVoucherVM
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var modelCVDetails = new CheckVoucherDetail();
 }
 <partial name="_Notification">
 <h1>Create</h1>
@@ -15,48 +16,48 @@
             <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Date" class="control-label"></label>
-                    <input asp-for="Date" type="Date" class="form-control" />
-                    <span asp-validation-for="Date" class="text-danger"></span>
+                    <label asp-for="Header.Date" class="control-label"></label>
+                    <input asp-for="Header.Date" type="Date" class="form-control" />
+                    <span asp-validation-for="Header.Date" class="text-danger"></span>
                 </div>
             <div class="form-group">
                 <label class="control-label">RR NO.</label>
-                    <select asp-for="RRId" asp-items="@Model.RR" class="form-select js-select2">
+                    <select asp-for="Header.RRId" asp-items="@Model.Header.RR" class="form-select js-select2">
                     <option></option>
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" type="text" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
+                    <label asp-for="Header.Amount" class="control-label"></label>
+                    <input asp-for="Header.Amount" type="text" class="form-control" />
+                    <span asp-validation-for="Header.Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Bank" class="control-label"></label>
-                <input asp-for="Bank" type="text" class="form-control" />
-                <span asp-validation-for="Bank" class="text-danger"></span>
+                <label asp-for="Header.Bank" class="control-label"></label>
+                <input asp-for="Header.Bank" type="text" class="form-control" />
+                <span asp-validation-for="Header.Bank" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CheckNo" class="control-label"></label>
-                <input asp-for="CheckNo" type="number" class="form-control" />
-                <span asp-validation-for="CheckNo" class="text-danger"></span>
+                <label asp-for="Header.CheckNo" class="control-label"></label>
+                <input asp-for="Header.CheckNo" type="number" class="form-control" />
+                <span asp-validation-for="Header.CheckNo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Particulars" class="control-label"></label>
-                <input asp-for="Particulars" type="text" class="form-control" />
-                <span asp-validation-for="Particulars" class="text-danger"></span>
+                <label asp-for="Header.Particulars" class="control-label"></label>
+                <input asp-for="Header.Particulars" type="text" class="form-control" />
+                <span asp-validation-for="Header.Particulars" class="text-danger"></span>
             </div>
 
             <br />
             <div class="form-group">
                 <label class="control-label">Account No.</label>
-                    <select class="form-select js-select2">
+                    <select asp-for="Details.COAId" asp-items="@Model.Details.COA" class="form-select js-select2">
                     <option></option>
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" type="text" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
+                <label asp-for="Details.Amount" class="control-label"></label>
+                <input asp-for="Details.Amount" type="text" class="form-control" />
+                <span asp-validation-for="Details.Amount" class="text-danger"></span>
             </div>
             <br />
 
@@ -67,34 +68,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CVNo)
+                <a asp-action="Create">+ Add</a>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SeriesNumber)
+            <th class="w-25">
+                DEBIT
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReceivingReport)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RRNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AmountInWords)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Particulars)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bank)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CheckNo)
+            <th class="w-25">
+                CREDIT
             </th>
         </tr>
     </thead>

@@ -31,8 +31,13 @@ namespace Accounting_System.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var viewModel = new CheckVoucherHeader();
-            viewModel.RR = _dbContext.ReceivingReports
+            var viewModel = new CheckVoucherVM
+            {
+                Header = new CheckVoucherHeader(),
+                Details = new CheckVoucherDetail()
+            };
+
+            viewModel.Header.RR = _dbContext.ReceivingReports
                 .Select(s => new SelectListItem
                 {
                     Value = s.Id.ToString(),
@@ -40,16 +45,31 @@ namespace Accounting_System.Controllers
                 })
                 .ToList();
 
+            viewModel.Details.COA = _dbContext.ChartOfAccounts
+                .Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Number + " " + s.Name
+                })
+                .ToList();
+
             return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CheckVoucherHeader model)
+        public async Task<IActionResult> Create(CheckVoucherHeader model, CheckVoucherDetail modelCVDetails)
         {
             model.RR = _dbContext.ReceivingReports
                 .Select(s => new SelectListItem
                 {
                     Value = s.Id.ToString(),
                     Text = s.RRNo
+                })
+                .ToList();
+            modelCVDetails.COA = _dbContext.ChartOfAccounts
+                .Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Number
                 })
                 .ToList();
 
