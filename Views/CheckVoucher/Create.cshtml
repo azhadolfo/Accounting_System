@@ -11,8 +11,8 @@
 <h4>Check Voucher</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
         <form asp-action="Create">
+            <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Date" class="control-label"></label>
@@ -48,11 +48,100 @@
 
             <br />
             <div class="form-group">
+                <label class="control-label">Account No.</label>
+                    <select class="form-select js-select2">
+                    <option></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" type="text" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <br />
+
+</div>
+
+            @* Table *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CVNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeriesNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivingReport)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RRNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmountInWords)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Particulars)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckNo)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@* @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CVNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SeriesNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivingReport.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RRNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AmountInWords)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Particulars)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckNo)
+            </td>
+        </tr>
+} *@
+    </tbody>
+</table>
+
+            <br />
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
-    </div>
 </div>
 
 
