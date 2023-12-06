@@ -29,6 +29,7 @@ namespace Accounting_System.Data
         public DbSet<ReceivingReport> ReceivingReports { get; set; }
         public DbSet<CreditMemo> CreditMemos { get; set; }
         public DbSet<CheckVoucherHeader> CheckVoucherHeaders { get; set; }
+        public DbSet<CheckVoucherDetail> CheckVoucherDetails { get; set; }
 
         // Book Context
         public DbSet<CashReceiptBook> CashReceiptBooks { get; set; }
