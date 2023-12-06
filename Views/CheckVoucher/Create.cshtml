@@ -1,0 +1,70 @@
+﻿@using System.ComponentModel.DataAnnotations;
+@model Accounting_System.Models.CheckVoucherHeader
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<partial name="_Notification">
+<h1>Create</h1>
+
+<h4>Check Voucher</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label"></label>
+                    <input asp-for="Date" type="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+            <div class="form-group">
+                <label class="control-label">RR NO.</label>
+                    <select asp-for="RRId" asp-items="@Model.RR" class="form-select js-select2">
+                    <option></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" type="text" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bank" class="control-label"></label>
+                <input asp-for="Bank" type="text" class="form-control" />
+                <span asp-validation-for="Bank" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckNo" class="control-label"></label>
+                <input asp-for="CheckNo" type="number" class="form-control" />
+                <span asp-validation-for="CheckNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Particulars" class="control-label"></label>
+                <input asp-for="Particulars" type="text" class="form-control" />
+                <span asp-validation-for="Particulars" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Get the current date in the format "YYYY-MM-DD" (required for the date input)
+        var myDate = new Date().toISOString().slice(0, 10);
+
+        // Set the default value of the input field
+        document.getElementById("Date").value = myDate;
+    </script>
+}
