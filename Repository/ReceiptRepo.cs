@@ -107,7 +107,8 @@ namespace Accounting_System.Repository
         {
             var collectionReceipt = await _dbContext
                 .CollectionReceipts
-                .Include(s => s.SalesInvoice)
+                .Include(cr => cr.SalesInvoice)
+                .ThenInclude(s => s.Customer)
                 .FirstOrDefaultAsync(collectionReceipt => collectionReceipt.Id == id);
 
             if (collectionReceipt != null)
@@ -124,9 +125,9 @@ namespace Accounting_System.Repository
         {
             var officialReceipt = await _dbContext
                 .OfficialReceipts
-                .Include(s => s.StatementOfAccount)
+                .Include(or => or.StatementOfAccount)
                 .ThenInclude(soa => soa.Customer)
-                .Include(s => s.StatementOfAccount)
+                .Include(or => or.StatementOfAccount)
                 .ThenInclude(soa => soa.Service)
                 .FirstOrDefaultAsync(collectionReceipt => collectionReceipt.Id == id);
 
