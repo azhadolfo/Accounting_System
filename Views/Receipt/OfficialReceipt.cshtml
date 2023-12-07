@@ -51,8 +51,25 @@
 
                     @{
                         decimal convertToWords = Model.Amount;
-                        int integerPart = Convert.ToInt32(Math.Floor(convertToWords));
-                        string words = integerPart.ToWords() + " pesos only";
+
+                        // Separate the integer and decimal parts
+                        int integerPart = (int)Math.Floor(convertToWords);
+                        decimal decimalPart = convertToWords - integerPart;
+
+                        // Convert the integer part to words
+                        string integerWords = integerPart.ToWords();
+
+                        // Convert the decimal part to words
+                        string decimalWords = "";
+                        if (decimalPart > 0)
+                        {
+                            int decimalPlaces = BitConverter.GetBytes(decimal.GetBits(decimalPart)[3])[2];
+                            int decimalIntegerPart = (int)Math.Floor(decimalPart * (decimal)Math.Pow(10, decimalPlaces));
+                            decimalWords = $" and {decimalIntegerPart.ToWords()} centavos";
+                        }
+
+                        // Combine the integer and decimal parts
+                        string words = integerWords + decimalWords + " pesos only";
 
                         // Capitalize the first letter of each word
                         words = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words.ToLower());
