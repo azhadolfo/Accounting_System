@@ -55,37 +55,36 @@ namespace Accounting_System.Controllers
 
             return View(viewModel);
         }
-        [HttpPost]
-        public async Task<IActionResult> Create(CheckVoucherHeader model, CheckVoucherDetail modelCVDetails)
-        {
-            model.RR = _dbContext.ReceivingReports
-                .Select(s => new SelectListItem
-                {
-                    Value = s.Id.ToString(),
-                    Text = s.RRNo
-                })
-                .ToList();
-            modelCVDetails.COA = _dbContext.ChartOfAccounts
-                .Select(s => new SelectListItem
-                {
-                    Value = s.Id.ToString(),
-                    Text = s.Number
-                })
-                .ToList();
 
+        [HttpPost]
+        public async Task<IActionResult> Create(CheckVoucherVM model)
+        {
             if (ModelState.IsValid)
             {
-                var existingReceivingReport = _dbContext.ReceivingReports
-                                               .FirstOrDefault(si => si.Id == model.RRId);
+                var generateCVNo = await _checkVoucherRepo.GenerateCVNo();
+                model.Header.SeriesNumber = await _checkVoucherRepo.GetLastSeriesNumberCV();
+                model.Header.CVNo = generateCVNo;
+                model.Header.CreatedBy = _userManager.GetUserName(this.User);
 
-                    var generateCVNo = await _checkVoucherRepo.GenerateCVNo();
-                    model.SeriesNumber = await _checkVoucherRepo.GetLastSeriesNumberCV();
-                    model.CVNo = generateCVNo;
-                    model.CreatedBy = _userManager.GetUserName(this.User);
-                    _dbContext.Add(model);
-                    await _dbContext.SaveChangesAsync();
-                    TempData["success"] = "Check Voucher created successfully";
-                    return RedirectToAction("Index");
+                var headerEntity = new CheckVoucherHeader
+                {
+                    CVNo = model.Header.CVNo,
+                    CreatedBy = model.Header.CreatedBy,
+                    // Map other properties...
+                };
+
+                var detailsEntity = new CheckVoucherDetail
+                {
+                    COA = model.Details.COA,
+                    // Map other properties...
+                };
+
+                _dbContext.Add(headerEntity);  // Add CheckVoucherHeader to the context
+                _dbContext.Add(detailsEntity); // Add CheckVoucherDetails to the context
+
+                await _dbContext.SaveChangesAsync();
+                TempData["success"] = "Check Voucher created successfully";
+                return RedirectToAction("Index");
             }
             else
             {
@@ -93,5 +92,43 @@ namespace Accounting_System.Controllers
                 return View(model);
             }
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Create(CheckVoucherVM model)
+        //{
+        //    model.Header.RR = _dbContext.ReceivingReports
+        //        .Select(s => new SelectListItem
+        //        {
+        //            Value = s.Id.ToString(),
+        //            Text = s.RRNo
+        //        })
+        //        .ToList();
+
+        //    model.Details.COA = _dbContext.ChartOfAccounts
+        //        .Select(s => new SelectListItem
+        //        {
+        //            Value = s.Id.ToString(),
+        //            Text = s.Number + " " + s.Name
+        //        })
+        //        .ToList();
+
+        //    //if (ModelState.IsValid)
+        //    //{
+        //            var generateCVNo = await _checkVoucherRepo.GenerateCVNo();
+        //            model.Header.SeriesNumber = await _checkVoucherRepo.GetLastSeriesNumberCV();
+        //            model.Header.CVNo = generateCVNo;
+        //            model.Header.CreatedBy = _userManager.GetUserName(this.User);
+
+        //            _dbContext.Add(model);
+        //            await _dbContext.SaveChangesAsync();
+        //            TempData["success"] = "Check Voucher created successfully";
+        //            return RedirectToAction("Index");
+        //    //}
+        //    //else
+        //    //{
+        //    //    TempData["error"] = "The information you submitted is not valid!";
+        //    //    return View(model);
+        //    //}
+        //}
     }
 }
