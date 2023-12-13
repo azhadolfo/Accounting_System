@@ -7,7 +7,7 @@ namespace Accounting_System.Models
     public class StatementOfAccount : BaseEntity
     {
         public string? SOANo { get; set; }
-        public int SeriesNumber { get; set; }
+        public long SeriesNumber { get; set; }
 
         [Required]
         [Display(Name = "Customer")]

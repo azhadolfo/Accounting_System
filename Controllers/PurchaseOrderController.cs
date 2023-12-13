@@ -49,23 +49,47 @@ namespace Accounting_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PurchaseOrder model)
         {
+            model.Suppliers = await _dbContext.Suppliers
+                .Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
+                })
+                .ToListAsync();
             if (ModelState.IsValid)
             {
                 var generatedPO = await _purchaseOrderRepo.GeneratePONo();
-                model.SeriesNumber = await _purchaseOrderRepo.GetLastSeriesNumber();
+                long getLastNumber = await _purchaseOrderRepo.GetLastSeriesNumber();
+
+                model.SeriesNumber = getLastNumber;
                 model.PONo = generatedPO;
                 model.CreatedBy = _userManager.GetUserName(this.User);
-
                 model.Amount = model.Quantity * model.Price;
+                model.SupplierNo = await _purchaseOrderRepo.GetSupplierNoAsync(model.SupplierId);
+
+                if (getLastNumber > 9999999999)
+                {
+                    TempData["error"] = "You reach the maximum Series Number";
+                    return View(model);
+                }
+
+                if (getLastNumber >= 9999999899)
+                {
+                    TempData["warning"] = "Purchase Order created successfully, Warning 100 series number remaining";
+                }else
+                {
+                    TempData["success"] = "Purchase Order created successfully";
+                }
 
                 _dbContext.Add(model);
                 await _dbContext.SaveChangesAsync();
-                TempData["success"] = "Purchase Order created successfully";
                 return RedirectToAction("Index");
             }
-
-            ModelState.AddModelError("", "The information you submitted is not valid!");
-            return View(model);
+            else
+            {
+                ModelState.AddModelError("", "The information you submitted is not valid!");
+                return View(model);
+            }
         }
 
         [HttpGet]

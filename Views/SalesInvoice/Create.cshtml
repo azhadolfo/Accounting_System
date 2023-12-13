@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-
+<partial name="_Notification">
 <h1>Create</h1>
 
 <h4>SalesInvoice</h4>
@@ -48,7 +48,7 @@
                 <input asp-for="Terms" id="terms" class="form-control" readonly />
                 <span asp-validation-for="Terms" class="text-danger"></span>
 
-                <input type="hidden" asp-for="WithHoldingTax" id="withHoldingTax" class="form-control" />
+                @* <input type="hidden" asp-for="WithHoldingTax" id="withHoldingTax" class="form-control" /> *@
        </div>
 
             @*   column 2 *@
@@ -75,7 +75,7 @@
 
 
                 <label asp-for="Discount" class="control-label"></label>
-                <input asp-for="Discount" class="form-control" />
+                <input asp-for="Discount" class="form-control" id="discountInput"/>
                 <span asp-validation-for="Discount" class="text-danger"></span>
        </div>
 
@@ -227,7 +227,7 @@
                 }
             }
 
-            $("#unitPriceInput, #quantityInput").on('input', function () {
+            $("#unitPriceInput, #quantityInput, #discountInput").on('input', function () {
                 formatInputValue($(this));
             });
         });

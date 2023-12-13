@@ -13,7 +13,7 @@ namespace Accounting_System.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<int> GetLastSeriesNumber()
+        public async Task<long> GetLastSeriesNumber()
         {
             var lastInvoice = await _dbContext
                 .ReceivingReports
@@ -47,6 +47,21 @@ namespace Accounting_System.Repository
             else
             {
                 return $"RR{1.ToString("D10")}";
+            }
+        }
+
+        public async Task<string> GetPONoAsync(int id)
+        {
+            if (id != 0)
+            {
+                var po = await _dbContext
+                                .PurchaseOrders
+                                .FirstOrDefaultAsync(po => po.Id == id);
+                return po.PONo;
+            }
+            else
+            {
+                throw new ArgumentException("No record found in supplier.");
             }
         }
     }

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<partial name="_Notification">
 <h1>Edit</h1>
 
 <h4>SalesInvoice</h4>
@@ -71,11 +71,9 @@
                         <input asp-for="Quantity" class="form-control" />
                         <span asp-validation-for="Quantity" class="text-danger"></span>
 
-
-
-                        <label asp-for="CustomerId" class="control-label"></label>
-                        <input asp-for="CustomerId" class="form-control" readonly />
-                        <span asp-validation-for="CustomerId" class="text-danger"></span>
+                        <label asp-for="Discount" class="control-label"></label>
+                        <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
                     </div>
 
                     @*   column 3 *@

@@ -12,7 +12,7 @@ namespace Accounting_System.Models
         [ForeignKey("CustomerId")]
         public Customer? Customer { get; set; }
 
-        public int SeriesNumber { get; set; }
+        public long SeriesNumber { get; set; }
 
         [Required]
         [Display(Name = "Customer No")]
@@ -20,8 +20,6 @@ namespace Accounting_System.Models
 
         [Display(Name = "Customer Type")]
         public string CustomerType { get; set; }
-
-        public bool WithHoldingTax { get; set; }
 
         [NotMapped]
         public List<SelectListItem>? Customers { get; set; }
@@ -31,6 +29,8 @@ namespace Accounting_System.Models
 
         [NotMapped]
         public List<SelectListItem>? COSNo { get; set; }
+
+        public int CustomerNo { get; set; }
 
         [Display(Name = "Sold To")]
         public string SoldTo { get; set; }
@@ -99,9 +99,27 @@ namespace Accounting_System.Models
         public DateTime TransactionDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
-        public decimal? Discount { get; set; }
+        public decimal Discount { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
-        public decimal? NetDiscount { get; set; }
+        public decimal NetDiscount { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal VatExempt { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal ZeroRated { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal WithHoldingVatAmount { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal WithHoldingTaxAmount { get; set; }
+
+        public decimal AmountPaid { get; set; }
+
+        public decimal Balance { get; set; }
+
+        public bool IsPaid { get; set; }
     }
 }

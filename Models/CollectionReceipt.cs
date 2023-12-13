@@ -12,7 +12,7 @@ namespace Accounting_System.Models
         public SalesInvoice? SalesInvoice { get; set; }
 
         public string? CRNo { get; set; }
-        public int SeriesNumber { get; set; }
+        public long SeriesNumber { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -26,7 +26,7 @@ namespace Accounting_System.Models
         public DateTime CheckDate { get; set; }
 
         [Display(Name = "Check No")]
-        public int CheckNo { get; set; }
+        public string CheckNo { get; set; }
 
         public string Bank { get; set; }
 

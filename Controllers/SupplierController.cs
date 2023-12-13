@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Accounting_System.Data;
 using Accounting_System.Models;
 using Microsoft.AspNetCore.Identity;
+using Accounting_System.Repository;
 
 namespace Accounting_System.Controllers
 {
@@ -17,10 +18,13 @@ namespace Accounting_System.Controllers
 
         private readonly UserManager<IdentityUser> _userManager;
 
-        public SupplierController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        private readonly SupplierRepo _supplierRepo;
+
+        public SupplierController(ApplicationDbContext context, UserManager<IdentityUser> userManager, SupplierRepo supplierRepo)
         {
             _context = context;
             _userManager = userManager;
+            _supplierRepo = supplierRepo;
         }
 
         // GET: Supplier
@@ -65,6 +69,7 @@ namespace Accounting_System.Controllers
             if (ModelState.IsValid)
             {
                 supplier.CreatedBy = _userManager.GetUserName(this.User).ToString();
+                supplier.Number = await _supplierRepo.GetLastNumber();
 
                 _context.Add(supplier);
                 await _context.SaveChangesAsync();

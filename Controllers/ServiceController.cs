@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Accounting_System.Data;
 using Accounting_System.Models;
 using Microsoft.AspNetCore.Identity;
+using Accounting_System.Repository;
 
 namespace Accounting_System.Controllers
 {
@@ -17,10 +18,13 @@ namespace Accounting_System.Controllers
 
         private readonly UserManager<IdentityUser> _userManager;
 
-        public ServiceController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        private readonly ServiceRepo _serviceRepo;
+
+        public ServiceController(ApplicationDbContext context, UserManager<IdentityUser> userManager, ServiceRepo serviceRepo)
         {
             _context = context;
             _userManager = userManager;
+            _serviceRepo = serviceRepo;
         }
 
         // GET: Service
@@ -65,7 +69,7 @@ namespace Accounting_System.Controllers
             if (ModelState.IsValid)
             {
                 services.CreatedBy = _userManager.GetUserName(this.User).ToUpper();
-
+                services.Number = await _serviceRepo.GetLastNumber();
                 _context.Add(services);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

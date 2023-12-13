@@ -9,7 +9,7 @@ namespace Accounting_System.Models
         [Display(Name = "CM No")]
         public string? CMNo { get; set; }
 
-        public int SeriesNumber { get; set; }
+        public long SeriesNumber { get; set; }
         public DateTime Date { get; set; }
 
         [Display(Name = "SI No")]
@@ -21,6 +21,9 @@ namespace Accounting_System.Models
         [NotMapped]
         public List<SelectListItem>? Invoices { get; set; }
 
+        [Display(Name = "SI No")]
+        public string? SINo { get; set; }
+
         [Display(Name = "SOA No")]
         public int? SOAId { get; set; }
 
@@ -29,6 +32,9 @@ namespace Accounting_System.Models
 
         [NotMapped]
         public List<SelectListItem>? Soa { get; set; }
+
+        [Display(Name = "SOA No")]
+        public string? SOANo { get; set; }
 
         public string Description { get; set; }
 

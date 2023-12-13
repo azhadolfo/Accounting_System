@@ -58,7 +58,7 @@
                 <td class="text-center" style="width:12.5%">GAIN/LOSS</td>
             </tr>
             <tr>
-                <td class="text-center p-lg-4">@Html.DisplayFor(model => model.PurchaseOrder.PONo)</td>
+                <td class="text-center p-lg-4">@Html.DisplayFor(model => model.PONo)</td>
                 <td class="text-center p-lg-4"></td>
                 <td class="text-center p-lg-4">@Html.DisplayFor(model => model.TruckOrVessels)</td>
                 <td class="text-center p-lg-4">@Html.DisplayFor(model => model.PurchaseOrder.ProductName)</td>
@@ -102,9 +102,9 @@
     <p @* style="line-height: 1;" *@>
         <em><strong>"THIS DOCUMENT IS NOT VALID FOR CLAIM OF INPUT TAX"</strong></em><br />
         <span>Acknowledgement Certificate No:</span>
-        <span style="display: inline-block; width: 30%;"></span>
-        <span>Date Issued:</span>
-        <span style="display: inline-block; width: 15%;"></span><br />
+        <span style="display: inline-block;">AC_124_112023_000090</span>
+        <span>&nbsp;&nbsp;Date Issued:</span>
+        <span style="display: inline-block;">November 28, 2023</span><br />
         Series: RR0000000001 - RR9999999999
         Date and Time Created:&nbsp; @Html.DisplayFor(model => model.CreatedDate)
     </p>

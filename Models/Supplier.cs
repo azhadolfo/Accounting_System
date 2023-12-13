@@ -4,6 +4,9 @@ namespace Accounting_System.Models
 {
     public class Supplier : BaseEntity
     {
+        [Display(Name = "Supplier No")]
+        public int Number { get; set; }
+
         public string Name { get; set; }
 
         public string Address { get; set; }

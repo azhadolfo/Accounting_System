@@ -21,32 +21,32 @@ namespace Accounting_System.Controllers
             return View();
         }
 
-        //public async Task<IActionResult> SalesBookReport(ViewModelBook model)
-        //{
-        //    ViewBag.DateFrom = model.DateFrom;
-        //    ViewBag.DateTo = model.DateTo;
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            var salesBook = await _reportRepo.GetSalesBooksAsync(model.DateFrom, model.DateTo);
-        //            var lastRecord = salesBook.LastOrDefault();
-        //            if (lastRecord != null)
-        //            {
-        //                ViewBag.LastRecord = lastRecord.CreatedDate;
-        //            }
+        public async Task<IActionResult> SalesBookReport(ViewModelBook model)
+        {
+            ViewBag.DateFrom = model.DateFrom;
+            ViewBag.DateTo = model.DateTo;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var salesBook = await _reportRepo.GetSalesBooksAsync(model.DateFrom, model.DateTo);
+                    var lastRecord = salesBook.LastOrDefault();
+                    if (lastRecord != null)
+                    {
+                        ViewBag.LastRecord = lastRecord.CreatedDate;
+                    }
 
-        //            return View(salesBook);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            TempData["error"] = ex.Message;
-        //            return RedirectToAction(nameof(SalesBook));
-        //        }
-        //    }
+                    return View(salesBook);
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                    return RedirectToAction(nameof(SalesBook));
+                }
+            }
 
-        //    return View(model);
-        //}
+            return View(model);
+        }
 
         public IActionResult CashReceiptBook()
         {

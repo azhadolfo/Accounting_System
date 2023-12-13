@@ -8,6 +8,7 @@
     decimal EWT = Model.SalesInvoice.VatableSales * (decimal)0.01;
     decimal amount = Model.Amount - EWT;
     decimal total = EWT + amount;
+    var formattedToPeso = String.Format("{0:N2}", amount);
 }
 <br />
 <div class="text-end">
@@ -46,29 +47,38 @@
                 <td style="padding-left:10px;">TIN: &nbsp;@Html.DisplayFor(model => model.SalesInvoice.TinNo)</td>
                 <td style="padding-left:10px;">Buss. Style: &nbsp;@Html.DisplayFor(model => model.SalesInvoice.BusinessStyle)</td>
             </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td></td>
-            </tr>
             @{
                 decimal convertToWords = Model.Amount;
-                int integerPart = Convert.ToInt32(Math.Floor(convertToWords));
-                string words = integerPart.ToWords() + " pesos only";
+
+                // Separate the integer and decimal parts
+                int integerPart = (int)Math.Floor(convertToWords);
+                decimal decimalPart = convertToWords - integerPart;
+
+                // Convert the integer part to words
+                string integerWords = integerPart.ToWords();
+
+                // Convert the decimal part to words
+                string decimalWords = "";
+                if (decimalPart > 0)
+                {
+                    int decimalPlaces = BitConverter.GetBytes(decimal.GetBits(decimalPart)[3])[2];
+                    int decimalIntegerPart = (int)Math.Floor(decimalPart * (decimal)Math.Pow(10, decimalPlaces));
+                    decimalWords = $" and {decimalIntegerPart.ToWords()} centavos";
+                }
+
+                // Combine the integer and decimal parts
+                string words = integerWords + decimalWords + " pesos only";
+
 
                 // Capitalize the first letter of each word
                 words = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words.ToLower());
             }
             <tr>
-                <td style="padding-left:10px;">The sum of Pesos: @words</td>
-                <td></td>
+                <td colspan="2" style="padding-left:10px;">The sum of Pesos:<br /> @words</td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td style="padding-left:10px;">(₱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  @Html.DisplayFor(model => model.SalesInvoice.Amount))</td>
+                <td style="padding-left:10px;">(₱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  @Html.DisplayFor(model => model.Amount))</td>
             </tr>
             <tr>
                 <td colspan="2" style="padding-left:10px;">IN FULL/PARTIAL payment of: @Html.DisplayFor(model => model.SalesInvoice.SINo)</td>
@@ -93,7 +103,7 @@
             <tr class="text-center">
                 <td style="width:33%">@Model.SalesInvoice.TransactionDate.ToShortDateString()</td>
                 <td style="width:33%">@Html.DisplayFor(model => model.SalesInvoice.SINo)</td>
-                <td style="width:33%">@Html.DisplayFor(model => model.SalesInvoice.Amount)</td>
+                <td style="width:33%">@Html.DisplayFor(model => model.Amount)</td>
             </tr>
             <tr>
                 <td style="width:33%">&nbsp;</td>
@@ -141,9 +151,9 @@
                 <td class="text-center"></td>
                 <td class="text-center"></td>
                 <td class="text-center"></td>
-                    @if (Model.SalesInvoice.WithHoldingTax)
+                    @if (Model.SalesInvoice.Customer.WithHoldingTax)
                     {
-                        <td class="text-center">@Html.DisplayFor(model => amount)</td>
+                        <td class="text-center">@formattedToPeso</td>
                     }
                     else
                     {
@@ -170,9 +180,9 @@
                 <td class="text-center">@Html.DisplayFor(model => model.CheckNo)</td>
                 <td class="text-center">@Html.DisplayFor(model => model.Bank)</td>
                 <td class="text-center">@Html.DisplayFor(model => model.Branch)</td>
-                    @if (Model.SalesInvoice.WithHoldingTax)
+                    @if (Model.SalesInvoice.Customer.WithHoldingTax)
                     {
-                        <td class="text-center">@Html.DisplayFor(model => amount)</td>
+                        <td class="text-center">@formattedToPeso</td>
                     }
                     else
                     {
@@ -199,9 +209,9 @@
                 <td class="text-center">@Html.DisplayFor(model => model.CheckNo)</td>
                 <td class="text-center">@Html.DisplayFor(model => model.Bank)</td>
                 <td class="text-center">@Html.DisplayFor(model => model.Branch)</td>
-                    @if (Model.SalesInvoice.WithHoldingTax)
+                    @if (Model.SalesInvoice.Customer.WithHoldingTax)
                     {
-                        <td class="text-center">@Html.DisplayFor(model => amount)</td>
+                        <td class="text-center">@formattedToPeso</td>
                     }
                     else{
                         <td class="text-center">@Model.Amount</td>
@@ -225,20 +235,42 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                @if (Model.SalesInvoice.WithHoldingTax) {
-                    <td class="text-center">@Html.DisplayFor(model => EWT)</td>
+                @if (Model.SalesInvoice.Customer.WithHoldingTax) {
+                    var formattedToPesoTax = String.Format("{0:N2}", EWT);
+
+                    <td class="text-center">@formattedToPesoTax</td>
                 }
                 else{
                     <td></td>
                     }
                 </tr>
             <tr>
+                <td style="padding-left:20px;">WVAT</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                @if (Model.SalesInvoice.Customer.WithHoldingTax)
+                {
+                    var formattedToPesoTax = String.Format("{0:N2}", EWT);
+
+                    <td class="text-center"></td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>
+            <tr>
                 <td style="padding-left:20px;">TOTAL</td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="text-center">@Html.DisplayFor(model => total)</td>
+                @{
+                    var formattedToPesoTotal = String.Format("{0:N2}", total);
+                }
+                <td class="text-center">@formattedToPesoTotal</td>
             </tr>
         </tbody>
     </table>
@@ -248,16 +280,16 @@
     <p @* style="line-height: 1;" *@>
         <em class="p-4"><strong>"THIS DOCUMENT IS NOT VALID FOR CLAIM OF INPUT TAX"</strong><br /></em>
         <span>Acknowledgement Certificate No:</span>
-        <span style="display: inline-block; width: 30%;"></span>
-        <span>Date Issued:</span>
-        <span style="display: inline-block; width: 15%;"></span><br />
+        <span style="display: inline-block;">AC_124_112023_000090</span>
+        <span>&nbsp;&nbsp;Date Issued:</span>
+        <span style="display: inline-block;">November 28, 2023</span><br />
         Series: CR0000000001 - CR9999999999
         Date and Time Created:&nbsp;@Html.DisplayFor(model => model.CreatedDate)
     </p>
 </div>
 
 <br />
-<div class="text-start footer" style="margin-top:50px;">
+<div class="text-start footer" style="margin-top:20px;">
     <p style="line-height: 1;">
         <em>
             <strong>Software Name :</strong> Accounting Administration System (AAS)

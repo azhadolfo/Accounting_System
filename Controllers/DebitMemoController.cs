@@ -61,7 +61,9 @@ namespace Accounting_System.Controllers
             if (ModelState.IsValid)
             {
                 var generateDMNo = await _debitMemoRepo.GenerateDMNo();
-                model.SeriesNumber = await _debitMemoRepo.GetLastSeriesNumber();
+                long getLastNumber = await _debitMemoRepo.GetLastSeriesNumber();
+
+                model.SeriesNumber = getLastNumber;
                 model.DMNo = generateDMNo;
 
                 if (model.Source == "Sales Invoice")
@@ -105,7 +107,21 @@ namespace Accounting_System.Controllers
                 model.CreatedBy = _userManager.GetUserName(this.User);
                 _dbContext.Add(model);
                 await _dbContext.SaveChangesAsync();
-                TempData["success"] = "Debit Memo created successfully";
+
+                if (getLastNumber > 9999999999)
+                {
+                    TempData["error"] = "You reach the maximum Series Number";
+                    return View(model);
+                }
+
+                if (getLastNumber >= 9999999899)
+                {
+                    TempData["warning"] = "Debit Memo created successfully, Warning 100 series number remaining";
+                }
+                else
+                {
+                    TempData["success"] = "Debit Memo created successfully";
+                }
                 return RedirectToAction("Index");
             }
             else

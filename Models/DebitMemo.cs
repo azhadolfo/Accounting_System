@@ -25,7 +25,7 @@ namespace Accounting_System.Models
         public List<SelectListItem>? StatementOfAccounts { get; set; }
 
         public string? DMNo { get; set; }
-        public int SeriesNumber { get; set; }
+        public long SeriesNumber { get; set; }
         public DateTime Date { get; set; }
 
         [Display(Name = "Debit Amount")]

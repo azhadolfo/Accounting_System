@@ -22,7 +22,7 @@ namespace Accounting_System.Repository
                 .ToListAsync();
         }
 
-        public async Task<int> GetLastSeriesNumber()
+        public async Task<long> GetLastSeriesNumber()
         {
             var lastInvoice = await _dbContext
                 .PurchaseOrders
@@ -37,7 +37,7 @@ namespace Accounting_System.Repository
             else
             {
                 // If there are no existing records, you can start with a default value like 1
-                return 1;
+                return 1L;
             }
         }
 
@@ -56,6 +56,21 @@ namespace Accounting_System.Repository
             else
             {
                 return $"PO{1.ToString("D10")}";
+            }
+        }
+
+        public async Task<int> GetSupplierNoAsync(int id)
+        {
+            if (id != 0)
+            {
+                var supplier = await _dbContext
+                                .Suppliers
+                                .FirstOrDefaultAsync(s => s.Id == id);
+                return supplier.Number;
+            }
+            else
+            {
+                throw new ArgumentException("No record found in supplier.");
             }
         }
     }

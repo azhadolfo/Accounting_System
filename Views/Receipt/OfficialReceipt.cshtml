@@ -4,6 +4,10 @@
 @inject UserManager<IdentityUser> UserManager
 @using Humanizer
 
+@{
+    var formattedToPeso = String.Format("{0:N2}", Model.StatementOfAccount.Amount);
+}
+
 <br />
 <div class="text-end">
     <img src="~/img/Filpride.jpg" height="" width="130px" />
@@ -47,8 +51,25 @@
 
                     @{
                         decimal convertToWords = Model.Amount;
-                        int integerPart = Convert.ToInt32(Math.Floor(convertToWords));
-                        string words = integerPart.ToWords() + " pesos only";
+
+                        // Separate the integer and decimal parts
+                        int integerPart = (int)Math.Floor(convertToWords);
+                        decimal decimalPart = convertToWords - integerPart;
+
+                        // Convert the integer part to words
+                        string integerWords = integerPart.ToWords();
+
+                        // Convert the decimal part to words
+                        string decimalWords = "";
+                        if (decimalPart > 0)
+                        {
+                            int decimalPlaces = BitConverter.GetBytes(decimal.GetBits(decimalPart)[3])[2];
+                            int decimalIntegerPart = (int)Math.Floor(decimalPart * (decimal)Math.Pow(10, decimalPlaces));
+                            decimalWords = $" and {decimalIntegerPart.ToWords()} centavos";
+                        }
+
+                        // Combine the integer and decimal parts
+                        string words = integerWords + decimalWords + " pesos only";
 
                         // Capitalize the first letter of each word
                         words = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words.ToLower());
@@ -57,7 +78,7 @@
                     <span class="underline" style="display: inline-block; width: 87%;">&nbsp;&nbsp;@words</span><br />
 
                     <span><b>pesos</b></span>
-                    <span class="underline" style="display: inline-block; width: 92%;">(₱ @Model.StatementOfAccount.Amount)</span><br />
+                    <span class="underline" style="display: inline-block; width: 92%;">(₱ &nbsp;&nbsp;@formattedToPeso)</span><br />
 
                     <span><b>In partial/full payment for</b></span>
                     <span class="underline" style="display: inline-block; width: 72%;">&nbsp;&nbsp;@Model.StatementOfAccount.SOANo</span><br />
@@ -103,7 +124,7 @@
                 <td>
                     @if (Model.StatementOfAccount.Customer.CustomerType == "Exempt")
                     {
-                        <h6 style="height: 9px; padding-right:10px;" class="text-center">@Html.DisplayFor(model => model.StatementOfAccount.Amount)</h6>
+                        <h6 style="height: 9px; padding-right:10px;" class="text-center">@formattedToPeso</h6>
                     }
                 </td>
                 <td style="padding-left:10px;">SOA Date</td>
@@ -114,7 +135,7 @@
                 <td>
                     @if (Model.StatementOfAccount.Customer.CustomerType == "Zero Rated")
                     {
-                        <p style="height: 9px; padding-right:10px;" class="text-center">@Html.DisplayFor(model => model.StatementOfAccount.Amount)</p>
+                        <p style="height: 9px; padding-right:10px;" class="text-center">@formattedToPeso</p>
                     }
                 </td>
                 <td style="padding-left:10px;">SOA #.</td>
@@ -126,7 +147,7 @@
                     <h6 style="height: 9px; padding-right:10px;" class="text-center">@Html.DisplayFor(model => totalSalesVatInclusive)</h6>
                 </td>
                 <td style="padding-left:10px;">Amount</td>
-                <td style="padding-left:10px;">@Html.DisplayFor(model => model.StatementOfAccount.Amount)</td>
+                <td style="padding-left:10px;">@formattedToPeso</td>
             </tr>
             <tr>
                 <td style="padding-left:10px;">Discount</td>
@@ -139,7 +160,7 @@
                 <td>
                     @if (Model.StatementOfAccount.Customer.CustomerType == "Vatable")
                     {
-                        <h6 style="height: 9px; padding-right:10px;" class="text-center">@Html.DisplayFor(model => model.StatementOfAccount.Amount)</h6>
+                        <h6 style="height: 9px; padding-right:10px;" class="text-center">@formattedToPeso</h6>
                     }
                 </td>
                 
@@ -231,9 +252,9 @@
 <div class="text-center w-100" style="margin-top:20px;">
     <p @* style="line-height: 1;" *@>
         <span>Acknowledgement Certificate No:</span>
-        <span style="display: inline-block; width: 30%;"></span>
-        <span>Date Issued:</span>
-        <span style="display: inline-block; width: 15%;"></span><br />
+        <span style="display: inline-block;">AC_124_112023_000090</span>
+        <span>&nbsp;&nbsp;Date Issued:</span>
+        <span style="display: inline-block;">November 28, 2023</span><br />
         Series: OR0000000001 - OR9999999999
         Date and Time Created:&nbsp;@Html.DisplayFor(model => model.CreatedDate)
     </p>

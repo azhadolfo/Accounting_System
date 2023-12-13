@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Accounting_System.Models.SalesInvoice>
+﻿@model IEnumerable<Accounting_System.Models.SalesBook>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -66,14 +66,14 @@ Extracted By:                       @UserManager.GetUserName(User).ToUpper()
         <thead>
             <tr class="table-bordered">
                 <th>
-                    Tran. Date
+                    @Html.DisplayNameFor(model => model.TransactionDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.SINo)
+                    @Html.DisplayNameFor(model => model.SerialNo)
                 </th>
                 <th>
-                    Customer Name
-                </th>
+                    @Html.DisplayNameFor(model => model.SoldTo)
+                </th> 
                 <th>
                     @Html.DisplayNameFor(model => model.TinNo)
                 </th>
@@ -81,7 +81,7 @@ Extracted By:                       @UserManager.GetUserName(User).ToUpper()
                     @Html.DisplayNameFor(model => model.Address)
                 </th>
                 <th>
-                    Description
+                    @Html.DisplayNameFor(model => model.Description)
                 </th>
                 <th class="text-end">
                     @Html.DisplayNameFor(model => model.Amount)
@@ -93,16 +93,16 @@ Extracted By:                       @UserManager.GetUserName(User).ToUpper()
                     @Html.DisplayNameFor(model => model.VatableSales)
                 </th>
                 <th class="text-end">
-                    VAT Exempt Sales
+                    @Html.DisplayNameFor(model => model.VatExemptSales)
                 </th>
                 <th class="text-end">
-                    <div>Zero Rated</div>
+                    @Html.DisplayNameFor(model => model.ZeroRated)
                 </th>
                 <th class="text-end">
-                    <div>Discount</div>
+                    @Html.DisplayNameFor(model => model.Discount)
                 </th>
                 <th class="text-end">
-                    <div>Net Sales</div>
+                    @Html.DisplayNameFor(model => model.NetSales)
                 </th>
             </tr>
         </thead>
@@ -115,7 +115,7 @@ Extracted By:                       @UserManager.GetUserName(User).ToUpper()
                         @Html.DisplayFor(model => invoice.TransactionDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => invoice.SINo)
+                        @Html.DisplayFor(model => invoice.SerialNo)
                     </td>
                     <td>
                         @Html.DisplayFor(model => invoice.SoldTo)
@@ -127,7 +127,7 @@ Extracted By:                       @UserManager.GetUserName(User).ToUpper()
                         @Html.DisplayFor(model => invoice.Address)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => invoice.ProductName)
+                        @Html.DisplayFor(model => invoice.Description)
                     </td>
                     <td class="text-end">
                         @Html.DisplayFor(model => invoice.Amount)
@@ -138,64 +138,28 @@ Extracted By:                       @UserManager.GetUserName(User).ToUpper()
                     <td class="text-end">
                         @Html.DisplayFor(model => invoice.VatableSales)
                     </td>
-                    @if (invoice.CustomerType == "Exempt")
-                    {
-                        <td class="text-end">
-                            @Html.DisplayFor(model => invoice.Amount)
-                            @{
-                                totalExempted += invoice.Amount;
-                            }
-                        </td>
-                    }
-                    else
-                    {
-                        <td class="text-end">
-                            0.00
-                        </td>
-                    }
-                    @if (invoice.CustomerType == "Zero Rated")
-                    {
-                        <td class="text-end">
-                            <div>
-                                @Html.DisplayFor(model => invoice.Amount)
-                            @{
-                                totalZeroRated += invoice.Amount;
-                            }
-                            </div>
-                        </td>
-                    }
-                    else
-                    {
-                        <td class="text-end">
-                             0.00
-                        </td>
-                    }
                     <td class="text-end">
-                        0.00
+                        @Html.DisplayFor(model => invoice.VatExemptSales)
                     </td>
-                    @if(invoice.CustomerType == "Vatable")
-                    {
-                        <td class="text-end">
-                            @Html.DisplayFor(model => invoice.VatableSales)
-                        </td>
-                    }
-                    else
-                    {
-                        <td class="text-end">
-                            @Html.DisplayFor(model => invoice.Amount)
-                        </td>
-                    }
-                    @*   <td>
-                        @Html.DisplayFor(model => invoice.Remarks)
-                    </td> *@
+                    <td class="text-end">
+                        @Html.DisplayFor(model => invoice.ZeroRated)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(model => invoice.Discount)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(model => invoice.NetSales)
+                    </td>
+                   
                 </tr>
 
                 totalAmount += invoice.Amount;
-               @*  totalQuantity += invoice.Quantity; *@
                 totalVatableSales += invoice.VatableSales;
                 totalVatableAmount += invoice.VatAmount;
-                @* totalDiscount += invoice.Discount; *@
-                totalNetSales += invoice.VatableSales;
+                totalExempted += invoice.VatExemptSales;
+                totalZeroRated += invoice.ZeroRated;
+                totalDiscount += invoice.Discount;
+                totalNetSales += invoice.NetSales;
             }
             <tr class="align-text-bottom" style="border-top: 2px solid black;">
                 @{
@@ -221,7 +185,7 @@ Extracted By:                       @UserManager.GetUserName(User).ToUpper()
                 <td class="text-end">@formattedTotalExempted</td>
                 <td class="text-end"><div>@formattedTotalZeroRated</div></td>
                 <td class="text-end"><div>@formattedTotalDiscount</div></td>
-                <td class="text-end"><div>1,205.18</div></td>
+                <td class="text-end"><div>@formattedTotalNetSales</div></td>
                 }
             </tr>
         </tbody>

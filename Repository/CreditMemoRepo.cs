@@ -12,7 +12,7 @@ namespace Accounting_System.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<int> GetLastSeriesNumber()
+        public async Task<long> GetLastSeriesNumber()
         {
             var lastInvoice = await _dbContext
                 .CreditMemos
@@ -46,6 +46,37 @@ namespace Accounting_System.Repository
             else
             {
                 return $"CM{1.ToString("D10")}";
+            }
+        }
+
+
+        public async Task<string> GetSINoAsync(int? id)
+        {
+            if (id != 0)
+            {
+                var si = await _dbContext
+                                .SalesInvoices
+                                .FirstOrDefaultAsync(po => po.Id == id);
+                return si.SINo;
+            }
+            else
+            {
+                throw new ArgumentException("No record found in supplier.");
+            }
+        }
+
+        public async Task<string> GetSOANoAsync(int? id)
+        {
+            if (id != 0)
+            {
+                var soa = await _dbContext
+                                .StatementOfAccounts
+                                .FirstOrDefaultAsync(po => po.Id == id);
+                return soa.SOANo;
+            }
+            else
+            {
+                throw new ArgumentException("No record found in supplier.");
             }
         }
     }

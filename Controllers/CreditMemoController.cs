@@ -62,13 +62,15 @@ namespace Accounting_System.Controllers
             if (ModelState.IsValid)
             {
                 var generatedCM = await _creditMemoRepo.GenerateCMNo();
-                model.SeriesNumber = await _creditMemoRepo.GetLastSeriesNumber();
+                long getLastNumber = await _creditMemoRepo.GetLastSeriesNumber();
+                model.SeriesNumber = getLastNumber;
                 model.CMNo = generatedCM;
                 model.CreatedBy = _userManager.GetUserName(this.User);
 
                 if (model.Source == "Sales Invoice")
                 {
                     model.SOAId = null;
+                    model.SINo = await _creditMemoRepo.GetSINoAsync(model.SIId);
 
                     var existingSalesInvoice = _dbContext.SalesInvoices
                                                .FirstOrDefault(si => si.Id == model.SIId);
@@ -87,6 +89,7 @@ namespace Accounting_System.Controllers
                 else if (model.Source == "Statement Of Account")
                 {
                     model.SIId = null;
+                    model.SOANo = await _creditMemoRepo.GetSOANoAsync(model.SOAId);
 
                     var existingSoa = _dbContext.StatementOfAccounts
                         .Include(soa => soa.Customer)
@@ -104,9 +107,24 @@ namespace Accounting_System.Controllers
                     model.TotalSales = model.CreditAmount;
                 }
 
+
+                if (getLastNumber > 9999999999)
+                {
+                    TempData["error"] = "You reach the maximum Series Number";
+                    return View(model);
+                }
+
+                if (getLastNumber >= 9999999899)
+                {
+                    TempData["warning"] = "Credit Memo created successfully, Warning 100 series number remaining";
+                }
+                else
+                {
+                    TempData["success"] = "Credit Memo created successfully";
+                }
+
                 _dbContext.Add(model);
                 await _dbContext.SaveChangesAsync();
-                TempData["success"] = "Credit Memo created successfully";
                 return RedirectToAction("Index");
             }
 

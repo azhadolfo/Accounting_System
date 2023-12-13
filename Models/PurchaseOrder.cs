@@ -9,7 +9,7 @@ namespace Accounting_System.Models
         [Display(Name = "PO No")]
         public string? PONo { get; set; }
 
-        public int SeriesNumber { get; set; }
+        public long SeriesNumber { get; set; }
         public DateTime Date { get; set; }
 
         [Display(Name = "Supplier Name")]
@@ -20,6 +20,8 @@ namespace Accounting_System.Models
 
         [NotMapped]
         public List<SelectListItem>? Suppliers { get; set; }
+
+        public int SupplierNo { get; set; }
 
         [Display(Name = "Product Name")]
         public string ProductName { get; set; }

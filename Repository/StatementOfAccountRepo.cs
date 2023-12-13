@@ -42,7 +42,7 @@ namespace Accounting_System.Repository
         //    }
         //}
 
-        public async Task<int> GetLastSeriesNumber()
+        public async Task<long> GetLastSeriesNumber()
         {
             var lastInvoice = await _dbContext
                 .StatementOfAccounts

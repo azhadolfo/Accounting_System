@@ -5,7 +5,7 @@ namespace Accounting_System.Models
     public class SalesBook : BaseEntity
     {
         [Display(Name = "Tran. Date")]
-        public DateTime TransactionDate { get; set; }
+        public string TransactionDate { get; set; }
 
         [Display(Name = "Serial Number")]
         public string SerialNo { get; set; }
@@ -36,7 +36,7 @@ namespace Accounting_System.Models
         public decimal VatExemptSales { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Zero Rated")]
+        [Display(Name = "Zero-Rated Sales")]
         public decimal ZeroRated { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]

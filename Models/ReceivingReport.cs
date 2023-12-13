@@ -9,7 +9,7 @@ namespace Accounting_System.Models
         [Display(Name = "RR No")]
         public string? RRNo { get; set; }
 
-        public int SeriesNumber { get; set; }
+        public long SeriesNumber { get; set; }
         public DateTime Date { get; set; }
 
         [Display(Name = "PO No")]
@@ -20,6 +20,9 @@ namespace Accounting_System.Models
 
         [NotMapped]
         public List<SelectListItem>? PurchaseOrders { get; set; }
+
+        [Display(Name = "PO No")]
+        public string? PONo { get; set; }
 
         [Display(Name = "Truck/Vessels")]
         public string TruckOrVessels { get; set; }
