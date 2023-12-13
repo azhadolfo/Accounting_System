@@ -29,6 +29,7 @@ namespace Accounting_System.Models
         public string Terms { get; set; }
 
         [Required]
+        [Display(Name = "Customer Type")]
         public string CustomerType { get; set; }
 
         [Required]

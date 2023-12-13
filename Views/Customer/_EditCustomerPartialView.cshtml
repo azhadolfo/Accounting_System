@@ -1,0 +1,83 @@
+﻿@model Accounting_System.Models.Customer
+
+<div class="modal fade" id="EditCustomer-@Model.Id" data-bs-backdrop="static" aria-labelledby="EditCustomerLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditCustomerLabel">Edit Customer</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <input type="hidden" asp-for="Id" />
+                        <label asp-for="Name" class="control-label"></label>
+                        <input type="text" asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TinNo" class="control-label"></label>
+                        <input asp-for="TinNo" class="form-control" />
+                        <span asp-validation-for="TinNo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BusinessStyle" class="control-label"></label>
+                        <input asp-for="BusinessStyle" class="form-control" />
+                        <span asp-validation-for="BusinessStyle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Terms" class="control-label"></label>
+                        <select asp-for="Terms" class="form-select">
+                            <option value="@Model.Terms" selected disabled></option>
+                            <option value="COD">COD</option>
+                            <option value="7D">7D</option>
+                            <option value="15D">15D</option>
+                            <option value="30D">30D</option>
+                            <option value="M15">M15</option>
+                            <option value="M30">M30</option>
+                        </select>
+                        <span asp-validation-for="Terms" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CustomerType" class="control-label"></label>
+                        <select asp-for="CustomerType" class="form-select">
+                            <option value="@Model.CustomerType" selected disabled></option>
+                            <option value="Vatable">VATable</option>
+                            <option value="Zero Rated">Zero Rated</option>
+                            <option value="Exempt">Exempt</option>
+                        </select>
+                        <span asp-validation-for="CustomerType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="WithHoldingVat" /> @Html.DisplayNameFor(model => model.WithHoldingVat)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="WithHoldingTax" /> @Html.DisplayNameFor(model => model.WithHoldingTax)
+                        </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

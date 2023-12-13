@@ -61,9 +61,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerType)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-light">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-light">Details</a>
+            <td class="align-items-center">
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#EditCustomer-@item.Id" data-bs-url="@Url.Action($"Edit/{item.Id}")">
+                    Edit
+                </button>
+                @await Html.PartialAsync("_EditCustomerPartialView",item)
             </td>
         </tr>
 }
