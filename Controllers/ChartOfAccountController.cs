@@ -119,9 +119,6 @@ namespace Accounting_System.Controllers
 
                 _dbContext.Add(chartOfAccount);
                 await _dbContext.SaveChangesAsync();
-
-                int id = chartOfAccount.Id;
-
                 return RedirectToAction(nameof(Index));
             }
             return View(chartOfAccount);
@@ -233,3 +230,4 @@ namespace Accounting_System.Controllers
         }
     }
 }
+

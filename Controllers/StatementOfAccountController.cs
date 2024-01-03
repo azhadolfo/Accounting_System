@@ -71,7 +71,23 @@ namespace Accounting_System.Controllers
                 .ToListAsync();
             if (ModelState.IsValid)
             {
-                long getLastNumber = await _statementOfAccountRepo.GetLastSeriesNumber();
+                var getLastNumber = await _statementOfAccountRepo.GetLastSeriesNumber();
+                
+                if (getLastNumber > 9999999999)
+                {
+                    TempData["error"] = "You reach the maximum Series Number";
+                    return View(model);
+                }
+                var totalRemainingSeries = 9999999999 - getLastNumber;
+                if (getLastNumber >= 9999999899)
+                {
+                    TempData["warning"] = $"Statement of Account created successfully, Warning {totalRemainingSeries} series number remaining";
+                }
+                else
+                {
+                    TempData["success"] = "Statement of Account created successfully";
+                }
+
                 model.SeriesNumber = getLastNumber;
 
                 model.SOANo = await _statementOfAccountRepo.GenerateSOANo();
@@ -79,21 +95,6 @@ namespace Accounting_System.Controllers
                 model.CreatedBy = _userManager.GetUserName(this.User);
 
                 _dbContext.Add(model);
-
-                if (getLastNumber > 9999999999)
-                {
-                    TempData["error"] = "You reach the maximum Series Number";
-                    return View(model);
-                }
-
-                if (getLastNumber >= 9999999899)
-                {
-                    TempData["warning"] = "Statement of Account created successfully, Warning 100 series number remaining";
-                }
-                else
-                {
-                    TempData["success"] = "Statement of Account created successfully";
-                }
 
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction("Index");

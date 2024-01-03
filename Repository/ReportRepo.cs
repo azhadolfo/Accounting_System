@@ -166,6 +166,7 @@ namespace Accounting_System.Repository
             var auditTrail = _dbContext
              .AuditTrails
              .AsEnumerable()
+             .Where(d => d.Date >= fromDate && d.Date <= toDate)
              .OrderBy(d => d.Date)
              .ToList();
 

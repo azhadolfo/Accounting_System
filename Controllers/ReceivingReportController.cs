@@ -63,8 +63,25 @@ namespace Accounting_System.Controllers
                 .ToListAsync();
             if (ModelState.IsValid)
             {
+                var getLastNumber = await _receivingReportRepo.GetLastSeriesNumber();
+
+                if (getLastNumber > 9999999999)
+                {
+                    TempData["error"] = "You reach the maximum Series Number";
+                    return View(model);
+                }
+                var totalRemainingSeries = 9999999999 - getLastNumber;
+                if (getLastNumber >= 9999999899)
+                {
+                    TempData["warning"] = $"Receiving Report created successfully, Warning {totalRemainingSeries} series number remaining";
+                }
+                else
+                {
+                    TempData["success"] = "Receiving Report created successfully";
+                }
+
                 var generatedRR = await _receivingReportRepo.GenerateRRNo();
-                long getLastNumber = await _receivingReportRepo.GetLastSeriesNumber();
+               
                 model.SeriesNumber = getLastNumber;
                 model.RRNo = generatedRR;
                 model.CreatedBy = _userManager.GetUserName(this.User);
@@ -90,20 +107,6 @@ namespace Accounting_System.Controllers
                     po.ReceivedDate = DateTime.Now;
                 }
 
-                if (getLastNumber > 9999999999)
-                {
-                    TempData["error"] = "You reach the maximum Series Number";
-                    return View(model);
-                }
-                var totalRemainingSeries = 9999999999 - getLastNumber;
-                if (getLastNumber >= 9999999899)
-                {
-                    TempData["warning"] = $"Receiving Report created successfully, Warning {totalRemainingSeries} series number remaining";
-                }
-                else
-                {
-                    TempData["success"] = "Receiving Report created successfully";
-                }
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

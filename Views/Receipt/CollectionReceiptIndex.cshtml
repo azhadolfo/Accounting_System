@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var model = new CollectionReceipt();
 }
 <partial name="_Notification">
 <h1>Collection Receipt</h1>
@@ -20,19 +21,13 @@
                 @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FormOfPayment)
+                @Html.DisplayNameFor(model => model.SINo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CheckDate)
+                @Html.DisplayNameFor(model => model.Customers)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CheckNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bank)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Branch)
+                @Html.DisplayNameFor(model => model.ReferenceNo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Total)
@@ -51,19 +46,13 @@
                     @item.Date.ToShortDateString()
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FormOfPayment)
+                    @Html.DisplayFor(modelItem => item.SINo)
                 </td>
                 <td>
-                    @item.CheckDate.ToShortDateString()
+                    @Html.DisplayFor(modelItem => item.SalesInvoice.Customer.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CheckNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Bank)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Branch)
+                    @Html.DisplayFor(modelItem => item.ReferenceNo)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Total)

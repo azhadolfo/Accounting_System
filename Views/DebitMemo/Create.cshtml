@@ -36,15 +36,17 @@
             </div>
             <div class="form-group" id="siList" style="display: none;">
                 <label asp-for="SalesInvoiceId" class="control-label"></label>
-                <select asp-for="SalesInvoiceId" asp-items="@Model.SalesInvoices" class="form-control js-select2">
+                <select asp-for="SalesInvoiceId" asp-items="@Model.SalesInvoices" class="form-control js-select2" style="width:100%" required>
                     <option></option>
                 </select>
+                    <span asp-validation-for="SalesInvoiceId" class="text-danger"></span>
             </div>
             <div class="form-group" id="soaList" style="display: none;">
                 <label asp-for="SOAId" class="control-label"></label>
-                <select asp-for="SOAId" asp-items="@Model.StatementOfAccounts" class="form-control js-select2">
+                    <select asp-for="SOAId" asp-items="@Model.StatementOfAccounts" class="form-control js-select2" style="width:100%" required>
                     <option></option>
                 </select>
+                    <span asp-validation-for="SOAId" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -57,6 +59,12 @@
                 <input asp-for="Description" type="text" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Remarks" id="floatingInput" type="text" class="form-control" placeholder="Optional"/>
+                <label for="floatingInput" class="control-label">Remarks</label>
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+
 
             <br />
             <div class="form-group">

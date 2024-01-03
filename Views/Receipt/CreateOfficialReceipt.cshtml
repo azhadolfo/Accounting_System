@@ -54,6 +54,11 @@
                 <input asp-for="Amount" type="text" id="DeliveryDate" class="form-control" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Remarks" id="floatingInput" type="text" class="form-control" placeholder="Optional"/>
+                <label for="floatingInput" class="control-label">Remarks</label>
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
 
             <br />
             <div class="form-group">

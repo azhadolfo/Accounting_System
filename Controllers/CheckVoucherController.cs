@@ -78,19 +78,7 @@ namespace Accounting_System.Controllers
 
             if (ModelState.IsValid)
             {
-                //CV Header Entry
-                var generateCVNo = await _checkVoucherRepo.GenerateCVNo();
-                long getLastNumber = await _checkVoucherRepo.GetLastSeriesNumberCV();
-                model.Header.SeriesNumber = getLastNumber;
-                model.Header.CVNo = generateCVNo;
-                model.Header.CreatedBy = _userManager.GetUserName(this.User);
-
-                //CV Details Entry
-                model.Details.CreatedBy = _userManager.GetUserName(this.User);
-
-
-                _dbContext.Add(model.Header);  // Add CheckVoucherHeader to the context
-                _dbContext.Add(model.Details); // Add CheckVoucherDetails to the context
+                var getLastNumber = await _checkVoucherRepo.GetLastSeriesNumberCV();
 
                 if (getLastNumber > 9999999999)
                 {
@@ -107,6 +95,20 @@ namespace Accounting_System.Controllers
                 {
                     TempData["success"] = "Check Voucher created successfully";
                 }
+
+                //CV Header Entry
+                var generateCVNo = await _checkVoucherRepo.GenerateCVNo();
+                
+                model.Header.SeriesNumber = getLastNumber;
+                model.Header.CVNo = generateCVNo;
+                model.Header.CreatedBy = _userManager.GetUserName(this.User);
+
+                //CV Details Entry
+                model.Details.CreatedBy = _userManager.GetUserName(this.User);
+
+
+                _dbContext.Add(model.Header);  // Add CheckVoucherHeader to the context
+                _dbContext.Add(model.Details); // Add CheckVoucherDetails to the context
 
                 await _dbContext.SaveChangesAsync();  // await the SaveChangesAsync method
                 return RedirectToAction("Index");
@@ -222,28 +224,8 @@ namespace Accounting_System.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingHeaderModel = await _dbContext.CheckVoucherHeaders.FindAsync(model.Header.Id);
-                var existingDetailsModel = await _dbContext.CheckVoucherDetails.FindAsync(model.Details.Id);
-
-                if (existingHeaderModel == null)
-                {
-                    return NotFound();
-                }
-                if (existingDetailsModel == null)
-                {
-                    return NotFound();
-                }
-
-                //CV Header Entry
-                var generateCVNo = await _checkVoucherRepo.GenerateCVNo();
-                long getLastNumber = await _checkVoucherRepo.GetLastSeriesNumberCV();
-                existingHeaderModel.SeriesNumber = model.Header.SeriesNumber;
-                existingHeaderModel.CVNo = model.Header.CVNo;
-                existingHeaderModel.CreatedBy = model.Header.CreatedBy;
-
-                //CV Details Entry
-                existingDetailsModel.CreatedBy = model.Details.CreatedBy;
-
+                var getLastNumber = await _checkVoucherRepo.GetLastSeriesNumberCV(); 
+                
                 if (getLastNumber > 9999999999)
                 {
                     TempData["error"] = "You reached the maximum Series Number";
@@ -259,6 +241,28 @@ namespace Accounting_System.Controllers
                 {
                     TempData["success"] = "Check Voucher created successfully";
                 }
+
+                var existingHeaderModel = await _dbContext.CheckVoucherHeaders.FindAsync(model.Header.Id);
+                var existingDetailsModel = await _dbContext.CheckVoucherDetails.FindAsync(model.Details.Id);
+
+                if (existingHeaderModel == null)
+                {
+                    return NotFound();
+                }
+                if (existingDetailsModel == null)
+                {
+                    return NotFound();
+                }
+
+                //CV Header Entry
+                var generateCVNo = await _checkVoucherRepo.GenerateCVNo();
+                
+                existingHeaderModel.SeriesNumber = model.Header.SeriesNumber;
+                existingHeaderModel.CVNo = model.Header.CVNo;
+                existingHeaderModel.CreatedBy = model.Header.CreatedBy;
+
+                //CV Details Entry
+                existingDetailsModel.CreatedBy = model.Details.CreatedBy;
 
                 await _dbContext.SaveChangesAsync();  // await the SaveChangesAsync method
                 return RedirectToAction("Index");

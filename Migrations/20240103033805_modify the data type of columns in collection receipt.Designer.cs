@@ -3,6 +3,7 @@ using System;
 using Accounting_System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Accounting_System.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240103033805_modify the data type of columns in collection receipt")]
+    partial class modifythedatatypeofcolumnsincollectionreceipt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1204,7 +1207,7 @@ namespace Accounting_System.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
@@ -1217,7 +1220,7 @@ namespace Accounting_System.Migrations
 
                     b.Property<string>("BusinessStyle")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("text");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
@@ -1233,7 +1236,7 @@ namespace Accounting_System.Migrations
 
                     b.Property<string>("CustomerType")
                         .IsRequired()
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("numeric");
@@ -1258,52 +1261,52 @@ namespace Accounting_System.Migrations
 
                     b.Property<string>("OtherRefNo")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PoNo")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProductNo")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProductUnit")
                         .IsRequired()
-                        .HasColumnType("varchar(5)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("numeric");
 
                     b.Property<string>("Remarks")
                         .IsRequired()
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("SINo")
-                        .HasColumnType("varchar(12)");
+                        .HasColumnType("text");
 
                     b.Property<long>("SeriesNumber")
                         .HasColumnType("bigint");
 
                     b.Property<string>("SoldTo")
                         .IsRequired()
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Terms")
                         .IsRequired()
-                        .HasColumnType("varchar(5)");
+                        .HasColumnType("text");
 
                     b.Property<string>("TinNo")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("timestamp with time zone");

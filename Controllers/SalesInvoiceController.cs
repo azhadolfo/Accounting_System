@@ -84,10 +84,26 @@ namespace Accounting_System.Controllers
                 .ToListAsync();
             if (ModelState.IsValid)
             {
+                var getLastNumber = await _salesInvoiceRepo.GetLastSeriesNumber();
+
+                if (getLastNumber > 9999999999)
+                {
+                    TempData["error"] = "You reach the maximum Series Number";
+                    return View(sales);
+                }
+                var totalRemainingSeries = 9999999999 - getLastNumber;
+                if (getLastNumber >= 9999999899)
+                {
+                    TempData["warning"] = $"Sales Invoice created successfully, Warning {totalRemainingSeries} series number remaining";
+                }
+                else
+                {
+                    TempData["success"] = "Sales Invoice created successfully";
+                }
+
                 var generateCRNo = await _salesInvoiceRepo.GenerateSINo();
                 var existingCustomers = _dbContext.Customers
                                                .FirstOrDefault(si => si.Id == sales.CustomerId);
-                long getLastNumber = await _salesInvoiceRepo.GetLastSeriesNumber();
 
                 sales.CustomerNo = existingCustomers.Number;
                 sales.SeriesNumber = getLastNumber;
@@ -155,20 +171,6 @@ namespace Accounting_System.Controllers
 
                 #endregion --Audit Trail Recording
 
-                if (getLastNumber > 9999999999)
-                {
-                    TempData["error"] = "You reach the maximum Series Number";
-                    return View(sales);
-                }
-
-                if (getLastNumber >= 9999999899)
-                {
-                    TempData["warning"] = "Sales Invoice created successfully, Warning 100 series number remaining";
-                }
-                else
-                {
-                    TempData["success"] = "Sales Invoice created successfully";
-                }
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

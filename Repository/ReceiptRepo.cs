@@ -91,6 +91,8 @@ namespace Accounting_System.Repository
         {
             return await _dbContext
                 .CollectionReceipts
+                .Include(cr => cr.SalesInvoice)
+                .ThenInclude(s => s.Customer)
                 .OrderByDescending(c => c.Id)
                 .ToListAsync();
         }
@@ -153,9 +155,15 @@ namespace Accounting_System.Repository
                 si.AmountPaid += total;
                 si.Balance = si.NetDiscount - si.AmountPaid;
 
-                if (si.Balance == 0)
+                if (si.Balance == 0 && si.AmountPaid == si.NetDiscount)
                 {
                     si.IsPaid = true;
+                    si.Status = "Paid";
+                }
+                else if (si.AmountPaid > si.NetDiscount)
+                {
+                    si.IsPaid = true;
+                    si.Status = "OverPaid";
                 }
 
                 return await _dbContext.SaveChangesAsync();

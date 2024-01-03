@@ -60,8 +60,24 @@ namespace Accounting_System.Controllers
         {
             if (ModelState.IsValid)
             {
+                var getLastNumber = await _debitMemoRepo.GetLastSeriesNumber();
+
+                if (getLastNumber > 9999999999)
+                {
+                    TempData["error"] = "You reach the maximum Series Number";
+                    return View(model);
+                }
+                var totalRemainingSeries = 9999999999 - getLastNumber;
+                if (getLastNumber >= 9999999899)
+                {
+                    TempData["warning"] = $"Debit Memo created successfully, Warning {totalRemainingSeries} series number remaining";
+                }
+                else
+                {
+                    TempData["success"] = "Debit Memo created successfully";
+                }
+
                 var generateDMNo = await _debitMemoRepo.GenerateDMNo();
-                long getLastNumber = await _debitMemoRepo.GetLastSeriesNumber();
 
                 model.SeriesNumber = getLastNumber;
                 model.DMNo = generateDMNo;
@@ -108,20 +124,6 @@ namespace Accounting_System.Controllers
                 _dbContext.Add(model);
                 await _dbContext.SaveChangesAsync();
 
-                if (getLastNumber > 9999999999)
-                {
-                    TempData["error"] = "You reach the maximum Series Number";
-                    return View(model);
-                }
-
-                if (getLastNumber >= 9999999899)
-                {
-                    TempData["warning"] = "Debit Memo created successfully, Warning 100 series number remaining";
-                }
-                else
-                {
-                    TempData["success"] = "Debit Memo created successfully";
-                }
                 return RedirectToAction("Index");
             }
             else

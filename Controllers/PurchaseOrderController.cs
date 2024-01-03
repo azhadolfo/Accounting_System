@@ -58,14 +58,7 @@ namespace Accounting_System.Controllers
                 .ToListAsync();
             if (ModelState.IsValid)
             {
-                var generatedPO = await _purchaseOrderRepo.GeneratePONo();
-                long getLastNumber = await _purchaseOrderRepo.GetLastSeriesNumber();
-
-                model.SeriesNumber = getLastNumber;
-                model.PONo = generatedPO;
-                model.CreatedBy = _userManager.GetUserName(this.User);
-                model.Amount = model.Quantity * model.Price;
-                model.SupplierNo = await _purchaseOrderRepo.GetSupplierNoAsync(model.SupplierId);
+                var getLastNumber = await _purchaseOrderRepo.GetLastSeriesNumber();
 
                 if (getLastNumber > 9999999999)
                 {
@@ -76,10 +69,20 @@ namespace Accounting_System.Controllers
                 if (getLastNumber >= 9999999899)
                 {
                     TempData["warning"] = $"Purchase Order created successfully, Warning {totalRemainingSeries} series number remaining";
-                }else
+                }
+                else
                 {
                     TempData["success"] = "Purchase Order created successfully";
                 }
+
+                var generatedPO = await _purchaseOrderRepo.GeneratePONo();
+                
+
+                model.SeriesNumber = getLastNumber;
+                model.PONo = generatedPO;
+                model.CreatedBy = _userManager.GetUserName(this.User);
+                model.Amount = model.Quantity * model.Price;
+                model.SupplierNo = await _purchaseOrderRepo.GetSupplierNoAsync(model.SupplierId);
 
                 _dbContext.Add(model);
                 await _dbContext.SaveChangesAsync();

@@ -31,5 +31,7 @@ namespace Accounting_System.Models
 
         [NotMapped]
         public List<SelectListItem>? SOANo { get; set; }
+
+        public string? Remarks { get; set; }
     }
 }

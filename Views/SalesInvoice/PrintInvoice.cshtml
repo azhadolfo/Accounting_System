@@ -3,16 +3,7 @@
 @{
     ViewData["Title"] = "Sales Invoice";
 }
-@{
-    // //2307 withholding Tax
-    // var lessEwtTax = Model.VatableSales * (decimal)0.01;
-    // var formattedLessEwtTax = String.Format("{0:N2}", lessEwtTax);
 
-    // //2306 withholding Vat
-    // var lessEwtVat = Model.VatableSales * (decimal)0.05;
-    // var formattedLessEwtVat = String.Format("{0:N2}", lessEwtVat);
-
-}
 <br />
 <div class="text-end">
     <img src="~/img/Filpride.jpg" height="" width="130px"/>
@@ -88,11 +79,6 @@
     </table>
 </div>
 @{
-        // lessEwtTax = Model.Amount * (decimal)0.01;
-        // var lessEwtTaxInAmount = String.Format("{0:N2}", lessEwtTax);
-        // lessEwtVat = Model.Amount * (decimal)0.05;
-        // var lessEwtVatInAmount = String.Format("{0:N2}", lessEwtVat);
-
         if (Model.Customer.CustomerType == "Vatable")
         {
         if (Model.Customer.WithHoldingTax && !Model.Customer.WithHoldingVat)
@@ -267,52 +253,6 @@
                                         }
                                     </td>
                                 </tr>
-                                @* <tr>
-                                    <td><p style="height: 9px; margin-left:8%;"><b>Less EWT: </b></p></td>
-                                    @if(Model.WithHoldingTax){
-
-                                        lessEwtTax = amount * (decimal)0.01;
-                                        var lessEwtTaxInAmount = String.Format("{0:n}", lessEwtTax);
-
-                                        if(Model.CustomerType == "Vatable")
-                                        {
-                                            <td class="text-end"><p style="height: 9px;">@formattedLessEwtTax</p></td>
-                                        }
-                                        else
-                                        {
-                                            <td class="text-end"><p style="height: 9px;">@lessEwtTaxInAmount</p></td>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <td class="text-end"><p style="height: 9px;">0.00</p></td>
-                                    }
-                                </tr> *@
-                               @*  <tr>
-                                    <td><p style="height: 9px; margin-left:8%;"><b>NET AMOUNT DUE: </b></p></td>
-                                    @if(Model.WithHoldingTax){
-
-                                        lessEwtTax = amount * (decimal)0.01;
-                                        var netAmount = amount - lessEwtTax;
-                                        var formattedNetAmount = String.Format("{0:n}", netAmount);
-
-                                        if (Model.CustomerType == "Vatable")
-                                        {
-                                            <td class="text-end"><p style="height: 9px;">@formattedNetAmountDue</p></td>
-                                        }
-                                        else
-                                        {
-                                            <td class="text-end"><p style="height: 9px;">@formattedNetAmount</p></td>
-                                        }
-
-                                        
-                                    }
-                                    else
-                                    {
-                                        <td class="text-end"><p style="height: 9px;">@formattedAmount</p></td>
-                                    }
-                                </tr> *@
-
                             </tbody>
                         </table>
                     </div>
@@ -355,7 +295,7 @@ else if (Model.CustomerType == "Zero Rated")
 }
 <br />
 <div class="text-center w-100" style="margin-top:20px;">
-    <p @* style="line-height: 1;" *@>
+    <p>
         <span>Acknowledgement Certificate No:</span>
         <span style="display: inline-block;">AC_124_112023_000090</span>
         <span>&nbsp;&nbsp;Date Issued:</span>

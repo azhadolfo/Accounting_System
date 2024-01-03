@@ -36,15 +36,17 @@
             </div>
             <div class="form-group" id="siList" style="display:none;">
                 <label asp-for="SIId" class="control-label"></label>
-                <select asp-for="SIId" class ="form-control js-select2" asp-items="@Model.Invoices">
+                <select asp-for="SIId" class ="form-control js-select2" asp-items="@Model.Invoices" required>
                     <option></option>
                 </select>
+                    <span asp-validation-for="SIId" class="text-danger"></span>
             </div>
             <div class="form-group" id="soaList" style="display:none;">
                 <label asp-for="SOAId" class="control-label"></label>
-                <select asp-for="SOAId" class="form-control js-select2" asp-items="@Model.Soa">
+                <select asp-for="SOAId" class="form-control js-select2" asp-items="@Model.Soa" required>
                     <option></option>
                 </select>
+                    <span asp-validation-for="SOAId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -56,6 +58,12 @@
                 <input asp-for="AdjustedPrice" class="form-control" />
                 <span asp-validation-for="AdjustedPrice" class="text-danger"></span>
             </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Remarks" id="floatingInput" type="text" class="form-control" placeholder="Optional"/>
+                <label for="floatingInput" class="control-label">Remarks</label>
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

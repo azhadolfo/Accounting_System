@@ -97,10 +97,6 @@
             <tr>
                 <td colspan="4">In settlement of the following</td>
             </tr>
-@*             <tr>
-                <td class="w-50 text-center">Particulars</td>
-                <td class="w-50 text-center">Amount</td>
-            </tr> *@
             <tr>
                 @{
                     string concatenatedValue = "0.0" + Model.StatementOfAccount.Service.Percent.ToString();
@@ -241,16 +237,8 @@
     </table>
 </div>
 
-@* <div class="w-100 text-end">
-    <span>By:</span>
-    <span class="underline" style="display: inline-block; width: 30%;"></span><br />
-    <h6 style="margin-right:15px;">Authorized Representative</h6>
-    <p style="line-height:1px;">Accreditation No. ___</p>
-    <p style="line-height:1px;">Accreditation Date:___* Valid up to:___</p>
-</div> *@
-
 <div class="text-center w-100" style="margin-top:20px;">
-    <p @* style="line-height: 1;" *@>
+    <p>
         <span>Acknowledgement Certificate No:</span>
         <span style="display: inline-block;">AC_124_112023_000090</span>
         <span>&nbsp;&nbsp;Date Issued:</span>

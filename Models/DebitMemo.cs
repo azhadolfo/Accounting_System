@@ -51,5 +51,7 @@ namespace Accounting_System.Models
         public decimal AdjustedPrice { get; set; }
 
         public string Source { get; set; }
+
+        public string? Remarks { get; set; }
     }
 }
