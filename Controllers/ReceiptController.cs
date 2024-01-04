@@ -121,7 +121,12 @@ namespace Accounting_System.Controllers
                 #endregion --Validating the series
 
                 #region --Saving default value
-
+                var computeTotalInModelIfZero = model.CashAmount + model.CheckAmount + model.ManagerCheckAmount + model.EWT + model.WVAT;
+                if (computeTotalInModelIfZero == 0)
+                {
+                    TempData["error"] = "Please input atleast one type form of payment";
+                    return View(model);
+                }
                 var existingSalesInvoice = _dbContext.SalesInvoices
                                                .FirstOrDefault(si => si.Id == model.SalesInvoiceId);
                 var generateCRNo = await _receiptRepo.GenerateCRNo();
@@ -130,7 +135,7 @@ namespace Accounting_System.Controllers
                 model.SINo = existingSalesInvoice.SINo;
                 model.CRNo = generateCRNo;
                 model.CreatedBy = _userManager.GetUserName(this.User);
-                model.Total = model.CashAmount + model.CheckAmount + model.ManagerCheckAmount + model.EWT + model.WVAT;
+                model.Total = computeTotalInModelIfZero;
 
                 decimal offsetAmount = 0;
 
