@@ -31,7 +31,7 @@ namespace Accounting_System.Controllers
         public async Task<IActionResult> Index()
         {
             return _dbContext.ChartOfAccounts != null ?
-                        View(await _dbContext.ChartOfAccounts.ToListAsync()) :
+                        View(await _dbContext.ChartOfAccounts.OrderBy(coa => coa.Number).ToListAsync()) :
                         Problem("Entity set 'ApplicationDbContext.ChartOfAccounts'  is null.");
         }
 
@@ -230,4 +230,3 @@ namespace Accounting_System.Controllers
         }
     }
 }
-

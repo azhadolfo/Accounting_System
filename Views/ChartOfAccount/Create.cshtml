@@ -49,14 +49,13 @@
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
+                <div class="text-center mb-3">
+                    <button type="submit" class="btn btn-primary w-50">CREATE</button>
+                </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
+                    <a class="btn btn-secondary w-50" asp-action="Index">BACK</a>
                 </div>
             </form>
-
-            <div class="text-center mt-4">
-                <a asp-action="Index">Back to Account List</a>
-            </div>
         </div>
     </div>
 </div>
@@ -146,7 +145,7 @@
                     type: "GET",
                     data: { number: third },
                     success: function (data) {
-                        console.log(data);
+                        console.log(data.term);
                         if (Array.isArray(data) && data.length > 0) {
                             $("#fourthLevelDiv").show();
                             $("#fourthLevel").empty();
