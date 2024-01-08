@@ -15,5 +15,28 @@ namespace Accounting_System.Models
 
         [Display(Name = "Created Date")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        public bool IsPrinted { get; set; }
+
+        public bool IsCanceled { get; set; }
+
+        public bool IsVoided { get; set; }
+
+        public bool IsPosted { get; set; }
+
+        [Column(TypeName = "varchar(50)")]
+        public string? CanceledBy { get; set; }
+
+        public DateTime? CanceledDate { get; set; }
+
+        [Column(TypeName = "varchar(50)")]
+        public string? VoidedBy { get; set; }
+
+        public DateTime? VoidedDate { get; set; }
+
+        [Column(TypeName = "varchar(50)")]
+        public string? PostedBy { get; set; }
+
+        public DateTime? PostedDate { get; set; }
     }
 }

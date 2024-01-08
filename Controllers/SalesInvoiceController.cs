@@ -582,7 +582,7 @@ namespace Accounting_System.Controllers
                 }
                 else
                 {
-                    model.IsVoid = true;
+                    model.IsVoided = true;
                     await _dbContext.SaveChangesAsync();
                     TempData["success"] = "Sales Invoice has been Voided.";
                 }

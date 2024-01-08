@@ -61,8 +61,6 @@ namespace Accounting_System.Models
         [Required]
         public string Source { get; set; }
 
-        public bool IsPrinted { get; set; }
-
         public string? Remarks { get; set; }
     }
 }

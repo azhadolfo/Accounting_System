@@ -62,11 +62,11 @@
                             {
                                 <a asp-action="Edit" asp-route-id="@invoice.Id" class="btn btn-light">Edit</a>
                             }
-                            if (invoice.IsPosted == true && invoice.IsVoid != true)
+                            if (invoice.IsPosted == true && invoice.IsVoided != true)
                             {
                                 <a asp-action="PrintInvoice" asp-route-id="@invoice.Id" class="btn btn-light">Print Invoice</a>
                             }
-                            else if (invoice.IsVoid == true)
+                            else if (invoice.IsVoided == true)
                             {
                                 <span class="badge rounded-pill bg-danger w-50">VOIDED</span>
                             }
@@ -74,12 +74,12 @@
                             {
                                     <a class="btn btn-light" onclick="confirmPost(@invoice.Id)">Post</a>
                             }
-                            if (invoice.IsVoid != true)
+                            if (invoice.IsVoided != true)
                             {
                                 <a class="btn btn-light" onclick="confirmVoid(@invoice.Id)">Void</a>
                             }
                             }else{
-                            if(invoice.IsVoid == true){
+                            if(invoice.IsVoided == true){
                                 <span class="badge rounded-pill bg-danger ">VOIDED</span>
                             }else{
                                     <span class="badge rounded-pill bg-warning ">VALID</span>

@@ -62,23 +62,23 @@
                 <td>
                         @if (item.CreatedBy == UserManager.GetUserName(User))
                         {
-                            if (!item.IsPosted && !item.IsVoid)
+                            if (!item.IsPosted && !item.IsVoided)
                             {
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-light">Edit</a>
                                 <a class="btn btn-light" onclick="confirmPost(@item.Id)">Post</a>
                             }
-                            if (item.IsPosted && !item.IsVoid)
+                            if (item.IsPosted && !item.IsVoided)
                                 {
                                 <a asp-action="CollectionReceipt" asp-route-id="@item.Id" class="btn btn-light">Print</a>
                             }
-                            if (!item.IsVoid)
+                            if (!item.IsVoided)
                             {
                                 <a class="btn btn-light" onclick="confirmVoid(@item.Id)">Void</a>
                             }
-                            
+
                         }
-                        
-                        @if (item.IsVoid)
+
+                        @if (item.IsVoided)
                         {
                         <span class="badge rounded-pill bg-danger ">VOIDED</span>
                         }

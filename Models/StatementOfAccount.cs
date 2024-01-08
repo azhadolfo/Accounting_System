@@ -40,7 +40,5 @@ namespace Accounting_System.Models
 
         [Column(TypeName = "numeric(18,2)")]
         public decimal Total { get; set; }
-
-        public bool IsPrinted { get; set; }
     }
 }

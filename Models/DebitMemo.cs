@@ -44,8 +44,6 @@ namespace Accounting_System.Models
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal TotalSales { get; set; }
 
-        public bool IsPrinted { get; set; }
-
         [Display(Name = "Adjusted Price")]
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal AdjustedPrice { get; set; }

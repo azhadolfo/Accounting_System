@@ -50,9 +50,5 @@ namespace Accounting_System.Models
         public bool IsPaid { get; set; }
 
         public DateTime PaidDate { get; set; }
-
-        public bool IsPrinted { get; set; }
-
-        public bool IsPosted { get; set; }
     }
 }

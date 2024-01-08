@@ -590,7 +590,7 @@ namespace Accounting_System.Controllers
             }
             var existingModel = await _dbContext.CollectionReceipts.FindAsync(id);
 
-            if ( existingModel == null)
+            if (existingModel == null)
             {
                 return NotFound();
             }
@@ -660,6 +660,7 @@ namespace Accounting_System.Controllers
                 #endregion --Validating the series
 
                 #region --Saving default value
+                
                 var computeTotalInModelIfZero = model.CashAmount + model.CheckAmount + model.ManagerCheckAmount + model.EWT + model.WVAT;
                 if (computeTotalInModelIfZero == 0)
                 {
@@ -725,9 +726,9 @@ namespace Accounting_System.Controllers
 
             if (model != null)
             {
-                if (!model.IsVoid)
+                if (!model.IsVoided)
                 {
-                    model.IsVoid = true;
+                    model.IsVoided = true;
                     await _dbContext.SaveChangesAsync();
                     TempData["success"] = "Collection Receipt has been Voided.";
                 }
@@ -736,7 +737,5 @@ namespace Accounting_System.Controllers
 
             return NotFound();
         }
-
-
     }
 }
