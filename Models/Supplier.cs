@@ -1,9 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Accounting_System.Models
 {
-    public class Supplier : BaseEntity
+    public class Supplier
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         [Display(Name = "Supplier No")]
         public int Number { get; set; }
 
@@ -25,5 +30,12 @@ namespace Accounting_System.Models
 
         [Display(Name = "Withholding Vat")]
         public bool WithholdingVat { get; set; }
+
+        [Display(Name = "Created By")]
+        [Column(TypeName = "varchar(50)")]
+        public string? CreatedBy { get; set; }
+
+        [Display(Name = "Created Date")]
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }

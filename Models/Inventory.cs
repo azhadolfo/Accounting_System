@@ -3,8 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Accounting_System.Models
 {
-    public class Inventory : BaseEntity
+    public class Inventory
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         public int ProductId { get; set; }
 
         [ForeignKey("ProductId")]
@@ -20,5 +24,12 @@ namespace Accounting_System.Models
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal QuantityBalance { get; set; }
+
+        [Display(Name = "Created By")]
+        [Column(TypeName = "varchar(50)")]
+        public string? CreatedBy { get; set; }
+
+        [Display(Name = "Created Date")]
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }

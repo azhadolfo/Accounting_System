@@ -1,10 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Accounting_System.Models
 {
-    public class Customer : BaseEntity
+    public class Customer
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         [Display(Name = "Customer No")]
         public int Number { get; set; }
 
@@ -39,5 +44,12 @@ namespace Accounting_System.Models
         [Required]
         [Display(Name = "Creditable Withholding Tax 2307")]
         public bool WithHoldingTax { get; set; }
+
+        [Display(Name = "Created By")]
+        [Column(TypeName = "varchar(50)")]
+        public string? CreatedBy { get; set; }
+
+        [Display(Name = "Created Date")]
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }
