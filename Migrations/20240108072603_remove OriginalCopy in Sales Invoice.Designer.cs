@@ -3,6 +3,7 @@ using System;
 using Accounting_System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Accounting_System.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240108072603_remove OriginalCopy in Sales Invoice")]
+    partial class removeOriginalCopyinSalesInvoice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +52,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuditTrails", (string)null);
+                    b.ToTable("AuditTrails");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.CashReceiptBook", b =>
@@ -130,7 +133,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CashReceiptBooks", (string)null);
+                    b.ToTable("CashReceiptBooks");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.ChartOfAccount", b =>
@@ -201,7 +204,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ChartOfAccounts", (string)null);
+                    b.ToTable("ChartOfAccounts");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.CheckVoucherDetail", b =>
@@ -274,7 +277,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("COAId");
 
-                    b.ToTable("CheckVoucherDetails", (string)null);
+                    b.ToTable("CheckVoucherDetails");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.CheckVoucherHeader", b =>
@@ -358,7 +361,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("RRId");
 
-                    b.ToTable("CheckVoucherHeaders", (string)null);
+                    b.ToTable("CheckVoucherHeaders");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.CollectionReceipt", b =>
@@ -476,7 +479,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("SalesInvoiceId");
 
-                    b.ToTable("CollectionReceipts", (string)null);
+                    b.ToTable("CollectionReceipts");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.CreditMemo", b =>
@@ -576,7 +579,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("SOAId");
 
-                    b.ToTable("CreditMemos", (string)null);
+                    b.ToTable("CreditMemos");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.Customer", b =>
@@ -658,7 +661,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.DebitMemo", b =>
@@ -752,7 +755,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("SalesInvoiceId");
 
-                    b.ToTable("DebitMemos", (string)null);
+                    b.ToTable("DebitMemos");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.DisbursementBook", b =>
@@ -846,7 +849,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DisbursementBooks", (string)null);
+                    b.ToTable("DisbursementBooks");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.GeneralLedgerBook", b =>
@@ -917,7 +920,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GeneralLedgerBooks", (string)null);
+                    b.ToTable("GeneralLedgerBooks");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.Inventory", b =>
@@ -984,7 +987,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Inventories", (string)null);
+                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.InventoryBook", b =>
@@ -1058,7 +1061,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InventoryBooks", (string)null);
+                    b.ToTable("InventoryBooks");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.JournalBook", b =>
@@ -1129,7 +1132,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JournalBooks", (string)null);
+                    b.ToTable("JournalBooks");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.Ledger", b =>
@@ -1196,7 +1199,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ledgers", (string)null);
+                    b.ToTable("Ledgers");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.OfficialReceipt", b =>
@@ -1279,7 +1282,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("SOAId");
 
-                    b.ToTable("OfficialReceipts", (string)null);
+                    b.ToTable("OfficialReceipts");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.Offsetting", b =>
@@ -1339,7 +1342,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Offsettings", (string)null);
+                    b.ToTable("Offsettings");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.Product", b =>
@@ -1400,7 +1403,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.PurchaseJournalBook", b =>
@@ -1506,7 +1509,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PurchaseJournalBooks", (string)null);
+                    b.ToTable("PurchaseJournalBooks");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.PurchaseOrder", b =>
@@ -1601,7 +1604,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("PurchaseOrders", (string)null);
+                    b.ToTable("PurchaseOrders");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.ReceivingReport", b =>
@@ -1697,7 +1700,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("POId");
 
-                    b.ToTable("ReceivingReports", (string)null);
+                    b.ToTable("ReceivingReports");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.SalesBook", b =>
@@ -1791,7 +1794,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SalesBooks", (string)null);
+                    b.ToTable("SalesBooks");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.SalesInvoice", b =>
@@ -1954,7 +1957,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("SalesInvoices", (string)null);
+                    b.ToTable("SalesInvoices");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.SalesOrder", b =>
@@ -2053,7 +2056,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SalesOrders", (string)null);
+                    b.ToTable("SalesOrders");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.Services", b =>
@@ -2120,7 +2123,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.StatementOfAccount", b =>
@@ -2196,7 +2199,7 @@ namespace Accounting_System.Migrations
 
                     b.HasIndex("ServicesId");
 
-                    b.ToTable("StatementOfAccounts", (string)null);
+                    b.ToTable("StatementOfAccounts");
                 });
 
             modelBuilder.Entity("Accounting_System.Models.Supplier", b =>
@@ -2274,7 +2277,7 @@ namespace Accounting_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Suppliers", (string)null);
+                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

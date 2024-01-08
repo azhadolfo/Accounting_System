@@ -348,9 +348,9 @@ namespace Accounting_System.Controllers
         public async Task<IActionResult> PrintedInvoice(int id)
         {
             var sales = await _salesInvoiceRepo.FindSalesInvoice(id);
-            if (sales != null && sales.OriginalCopy)
+            if (sales != null && sales.IsPrinted)
             {
-                sales.OriginalCopy = false;
+                sales.IsPrinted = false;
 
                 #region --Audit Trail Recording
 

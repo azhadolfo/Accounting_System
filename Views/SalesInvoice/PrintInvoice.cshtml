@@ -129,7 +129,7 @@
             </p>
         }
         }
-  }  
+  }
 <div style="margin-top:20px;">
     <table class="w-100">
         <tbody>
@@ -192,7 +192,7 @@
                                 </tr>
                                 <tr>
                                     <td><p style="height: 9px; margin-left:8%;"><b>Zero-Rated Sales: </b></p></td>
-                                    
+
                                     <td class="text-end">
                                         @if (Model.CustomerType == "Zero Rated")
                                         {
@@ -202,7 +202,7 @@
                                 </tr>
                                 <tr>
                                     <td><p style="height: 9px; margin-left:8%;"><b>VAT-Exempt Sales: </b></p></td>
-                                    
+
                                     <td class="text-end">
                                         @if (Model.CustomerType == "Exempt")
                                         {
@@ -212,7 +212,7 @@
                                 </tr>
                                 <tr>
                                     <td><p style="height: 9px; margin-left:8%;"><b>VAT Amount: </b></p></td>
-                                    
+
                                     <td class="text-end">
                                         @if (Model.CustomerType == "Vatable")
                                         {
@@ -306,7 +306,7 @@ else if (Model.CustomerType == "Zero Rated")
 </div>
 <br />
 
-    @if (Model.OriginalCopy == true)
+@if (Model.IsPrinted == true)
     {
     <div class="text-end">
     ORIGINAL COPY
